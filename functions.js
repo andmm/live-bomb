@@ -17,25 +17,10 @@ var scheduleCounter;
 var checkLive = function(){
 	var checkLiveDone = $.Deferred();
 
-	$.getJSON(chat_url,function(chat){
-		
-		var checkChatTitle = chat.query.results.title.length;
-		if (checkChatTitle > 10) {
-			gbLive = true;
-				var titleName = chat.query.results.title.replace(/[<>]/,'').replace('- Giant Bomb','');
-				storage.set({
-					'islive': true,
-					'title': titleName,
-					'counter':false
-				});
-				getShowImage();	
-				console.log('checkLive()');
-				checkLiveDone.resolve();
-		} else {
-			$.getJSON (gb_url, function(data){	
-		var checkForResults = data.query.results; 
+		$.getJSON (gb_url, function(data){	
+			var checkForResults = data.query.results; 
 		if (checkForResults == null) {
-			gbLive = false; 
+			gbLive = false; 	
 			console.log('checkLive()');
 			storage.set({
 				'islive':false,
@@ -67,9 +52,7 @@ var checkLive = function(){
 						
 					}
 				} 
-			});
-		} 
-	});
+			}); 
 	return checkLiveDone.promise();
 };
 
@@ -200,7 +183,10 @@ var getShowImageDone = $.Deferred();
 				var promoUrlFull = data.query.results.div.style;
 				var promoUrl = promoUrlFull.substring(22).replace(')','');
 				$('#lb-status-live').css('background-image','url('+promoUrl+')');
-				storage.set('image',''+promoUrl+'');
+				storage.set({
+					'image':promoUrl,
+					'compare': promoUrl
+				});
 			 	getShowImageDone.resolve();			
 			} else if (data.query.results.div.style == undefined) {
 				$.getJSON(premiumImage_url,function(data){

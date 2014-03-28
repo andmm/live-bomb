@@ -8,7 +8,7 @@
 			'theme': 'dark',
 			'notification-sound': true,
 			'sound':'rapman',
-			'schedule-bagde': false,
+			'schedule-bagde': true,
 			'show-schedule': true
 		});
 		scheduleCounter = 0;
@@ -122,7 +122,7 @@ chrome.notifications.onClosed.addListener(function(notify){
 });
 
 
-setInterval(scheduleRoutine, 1800000);
+setInterval(scheduleRoutine, 600000);
 
 setInterval(liveRoutine, storage.get('timer'));
 
