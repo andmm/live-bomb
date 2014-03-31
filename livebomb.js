@@ -177,11 +177,13 @@ $(function(){
 
 	} else {
 		
+		chrome.browserAction.setBadgeText({text:"LIVE"});
 		getShowImage();
 		statusOnline.show();
 		statusOffline.hide();
 		$('.fa-dot-circle-o').css("color", 'red').addClass("animated swing");
 		$("#show-name").html(storage.get('title'));
+
 	}
 
 	//Interface refresh for live video event

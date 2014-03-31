@@ -74,18 +74,22 @@ var getSchedule = function(){
 					var imgUrl = value.style.substring(21).replace(')','');	
 					var eventName = value.div.h4.content.replace(/[<>]/,'');
 					var eventTypeFull = value.div.p.content.length;
+					
+					switch(eventTypeFull)
+					{
 					//Live Show
-					if (eventTypeFull == 34) {
+						case 34:
 						var eventType = '<i class="fa fa-dot-circle-o fa-lg circle-schedule"></i> Live Show on ';
 						var yqlDate = value.div.p.content.substring(13);
+						break;
 						
 					//Video
-					} else if (eventTypeFull == 30) { 
+						case 30: 
 						var eventType = '<i class="fa fa-play-circle fa-lg circle-schedule"></i> Video on ';
 						var yqlDate = value.div.p.content.substring(9);
-
-					//Article
-					} else if (eventTypeFull == 32) {
+						break;
+					//Article/Podcast
+						default: 
 						var scheduleText = value.div.p.content;
 						var t = scheduleText.substring(0,7);
 						if (t == "Article") {
@@ -96,10 +100,10 @@ var getSchedule = function(){
 						var yqlDate = value.div.p.content.substring(11);	
 					}
 						var m = ['0','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-						var dateString = ''+yqlDate.substring(8,12)+''+'-0'+m.indexOf(''+yqlDate.substring(0,3)+'')+'-'+''+yqlDate.substring(4,6)+''+' '+
+						var dateString = ''+yqlDate.substring(8,12)+''+'/0'+m.indexOf(''+yqlDate.substring(0,3)+'')+'/'+''+yqlDate.substring(4,6)+''+' '+
 						''+yqlDate.substring(13,18)+' '+''+yqlDate.substring(19)+''+' EDT';
-						var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 						var dt = new Date(''+dateString+'');
+						var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 						var eventDate = months[dt.getMonth()]+' '+dt.getDate()+', '+dt.getFullYear()+' '+dt.toLocaleTimeString().replace(/:\d{2}\s/,' ');
 						output +=  '<li style="background-image: url('+ imgUrl +')" class="animated fadeInDownBig"><h4>' + eventName + 
 						'</h4> <p class="lb-schedule-p">'+eventType+ eventDate+'</p></li>';
@@ -114,16 +118,21 @@ var getSchedule = function(){
 				var imgUrl = data.query.results.dl.dd.style.substring(21).replace(')','');
 				var eventName =  data.query.results.dl.dd.div.h4.content.replace(/[<>]/,'');
 				var eventTypeFull = data.query.results.dl.dd.div.p.content.length;
+				switch(eventTypeFull)
+				{
 				//Live show
-					if (eventTypeFull == 34 ) {
+					case 34:  
 						var eventType = '<i class="fa fa-dot-circle-o fa-lg circle-schedule"></i> Live Show on ';	
 						var yqlDate = data.query.results.dl.dd.div.p.content.substring(13);
+						console.log(yqlDate);
+						break;
 				//Video
-					} else if (eventTypeFull == 30) { 
+					case 30: 
 						var eventType = '<i class="fa fa-play-circle fa-lg"></i> Video on ';
 						var yqlDate = data.query.results.dl.dd.div.p.content.substring(9);		
-				//Article
-					} else if (eventTypeFull == 32) {
+						break;
+				//Article/Podcast
+					default:
 						var scheduleText = data.query.results.dl.dd.div.p.content;
 						var t = scheduleText.substring(0,7);
 						if (t == "Article") {
@@ -134,13 +143,13 @@ var getSchedule = function(){
 					var yqlDate = data.query.results.dl.dd.div.p.content.substring(11);	
 				}
 				var m = ['0','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-				var dateString = ''+yqlDate.substring(8,12)+''+'-0'+m.indexOf(''+yqlDate.substring(0,3)+'')+'-'+''+yqlDate.substring(4,6)+''+' '+
+				var dateString = ''+yqlDate.substring(8,12)+''+'/0'+m.indexOf(''+yqlDate.substring(0,3)+'')+'/'+''+yqlDate.substring(4,6)+''+' '+
 				''+yqlDate.substring(13,18)+' '+''+yqlDate.substring(19)+''+' EDT';
-				var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 				var dt = new Date(''+dateString+'');
+				var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 				var eventDate = months[dt.getMonth()]+' '+dt.getDate()+', '+dt.getFullYear()+' '+dt.toLocaleTimeString().replace(/:\d{2}\s/,' ');
 				var output =  '<ul><li style="background-image: url('+ imgUrl +')" class="animated fadeInDownBig"><h4>' + eventName + 
-				'</h4> <p class="lb-schedule-p">'+eventType+ eventDate+'</p></li></ul>' ;
+				'</h4> <p class="lb-schedule-p">'+eventType+ eventDate+'</p></li></ul>';
 				scheduleCounter = 1;
 				$('#lb-schedule-items').html(output);
 				getScheduleDone.resolve();
@@ -154,13 +163,13 @@ var getSchedule = function(){
 			$('#lb-schedule-items').html('<h5 id="no-schedule" class="animated slideInDown">There are no items on the schedule or something went wrong. Try refreshing</h5>');
 			scheduleCounter = 0;
 			getScheduleDone.resolve();
-
 	} 
 
 	});
 
 	return getScheduleDone.promise();
 };	
+
 
 
 var getShowImage = function(){
@@ -183,10 +192,6 @@ var getShowImageDone = $.Deferred();
 				var promoUrlFull = data.query.results.div.style;
 				var promoUrl = promoUrlFull.substring(22).replace(')','');
 				$('#lb-status-live').css('background-image','url('+promoUrl+')');
-				storage.set({
-					'image':promoUrl,
-					'compare': promoUrl
-				});
 			 	getShowImageDone.resolve();			
 			} else if (data.query.results.div.style == undefined) {
 				$.getJSON(premiumImage_url,function(data){
@@ -194,7 +199,6 @@ var getShowImageDone = $.Deferred();
 					var premiumImage = promoImages[0].style;
 					var premiumImageUrl = premiumImage.substring(22).replace(')','');
 					$('#lb-status-live').css('background-image','url('+premiumImageUrl+')');
-					storage.set('image',''+premiumImageUrl+'');
 					getShowImageDone.resolve();	
 					});	
 				}
@@ -216,7 +220,7 @@ var getShowImageDone = $.Deferred();
 };	
 
 
-//var getShowImageOld = function(){
+//var getShowImageNew = function(){
 //
 //var getShowImageDone = $.Deferred();
 //		

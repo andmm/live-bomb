@@ -7,7 +7,7 @@
 			'timer': 300000, 
 			'theme': 'dark',
 			'notification-sound': true,
-			'sound':'rapman',
+			'sound':'dropbomb',
 			'schedule-bagde': true,
 			'show-schedule': true
 		});
@@ -29,7 +29,7 @@ $.ionSound({
 		"dropbomb"
 	],
 	path: "/sounds/",
-	multiPlay: false
+	multiPlay: true
 });
  
 //GA 
@@ -110,7 +110,7 @@ scheduleRoutine();
 
 //Click on notification
 chrome.notifications.onClicked.addListener(function(notify){
-	$.ionSound.kill(''+storage.get('sound')+'');
+	$.ionSound.stop(''+storage.get('sound')+'');
 	chrome.tabs.create({
 		url: 'http://www.giantbomb.com/chat'
 	});
@@ -118,7 +118,7 @@ chrome.notifications.onClicked.addListener(function(notify){
 
 //Close notifications
 chrome.notifications.onClosed.addListener(function(notify){
-	$.ionSound.kill(''+storage.get('sound')+'');
+	$.ionSound.stop(''+storage.get('sound')+'');
 });
 
 
