@@ -9,12 +9,16 @@ var buttonRefreshSchedule = $('#lb-refresh-schedule');
 var sendMessage;
 var scheduleCounter;
 
+var parseHtml = function(data){
+	return '<body>' + data.query.results.resources.content.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') + '</body>';
+}
+
 //Check for live video
 var checkLive = function(){
 	var checkLiveDone = $.Deferred();
 
 	$.getJSON (gb_url, function(data){
-		var parsedHtml = '<body>' + data.query.results.resources.content.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') + '</body>';
+		var parsedHtml = parseHtml(data);
 		var parsedElem = $(parsedHtml).find('.header-promo.live.show');
 
 		if (parsedElem.length == 0) {
@@ -66,7 +70,7 @@ var getSchedule = function(){
 
 		if (data.query.count > 0) {
 
-			var parsedHtml = '<body>' + data.query.results.resources.content.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') + '</body>';
+			var parsedHtml = parseHtml(data);
 			var parsedElem = $(parsedHtml).find('dl.promo-upcoming').children('dd');
 
 			if (parsedElem.length > 0) {
@@ -142,7 +146,7 @@ var getShowImage = function(){
 					$.getJSON(gbPromo_url, function(data){
 
 						if (data.query.count > 0) {
-							var parsedHtml = '<body>' + data.query.results.resources.content.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') + '</body>';
+							var parsedHtml = parseHtml(data);
 							var parsedElem = $(parsedHtml).find('.kubrick-promo-video');
 
 							if ($(parsedElem).css('background-image') != '') {
