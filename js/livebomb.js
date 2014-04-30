@@ -15,6 +15,10 @@ $(function(){
 		});
 	}
 
+	//Fix popup styling for Mac users
+	if (navigator.appVersion.indexOf("Mac")!=-1) {
+		$('body').css('border','1.5px solid');
+	}	
 
 	//Update settings value
 	if (storage.get('preferences') == 'user-preference') {
@@ -27,7 +31,7 @@ $(function(){
 			$('input:radio[name=sound]').iCheck('check');
 		}
 
-		if (storage.get('schedule-bagde') == true ) {
+		if (storage.get('schedule-bagde')) {
 			$('input:radio[id=schedule-bagde]').iCheck('check');
 		} 
 
@@ -37,11 +41,6 @@ $(function(){
 
 		$('input:radio[value='+storage.get('sound')+']').iCheck('check');
 	};
-
-	if (storage.isSet('installation') == false){
-		storage.set('installation','true');
-		ga('send','event','extension','installed');
-	}
 
 	if (storage.isSet('islive') == false){
 		storage.set('islive',false);
@@ -77,7 +76,7 @@ $(function(){
 	if ( storage.get('theme') == 'light') {
 		buttonDarkTheme.removeClass('active');
 		buttonLightTheme.addClass('active').css('cursor','default');
-		$('#theme').attr('href','livebomb-light.css');
+		$('#theme').attr('href','css/livebomb-light.css');
 		$('.control').removeClass('btn-inverse');
 		ga('send','event','theme','light');
 	} else {
@@ -195,6 +194,18 @@ $(function(){
 				$("#show-name").html(storage.get('title'));
 			});	
 		}	
+
+		if (pageSchedule.is(':visible')) {
+			pageSchedule.fadeOut(300,function(){
+				pageStatus.fadeIn(300);
+				statusOffline.hide();
+				statusOnline.show();
+				buttonSchedule.toggleClass('active');
+				buttonLive.toggleClass('active');
+				$('.fa-dot-circle-o').css("color", 'red').addClass("animated swing");
+				$("#show-name").html(storage.get('title'));
+			});
+		}
 	});
 
 	//Refresh for offline video
@@ -256,7 +267,6 @@ $(function(){
 
 	//Schedule click
 	buttonSchedule.click(function() {
-		ga('send','event','button','click','schedule');
 		if (pageAbout.is(':visible')) {
 		pageAbout.hide();
 		}
@@ -304,6 +314,7 @@ $(function(){
 			};
 		});
 	});	
+
 
 	//Schedule refresh
 	buttonRefreshSchedule.click(function(){
@@ -380,7 +391,7 @@ $(function(){
 	buttonLightTheme.click(function(){
 		ga('send','event','button','click','light-theme');
 		storage.set('theme','light');
-		$('#theme').attr('href','livebomb-light.css');
+		$('#theme').attr('href','css/livebomb-light.css');
 		buttonRefresh.css('color','#2b2b2b');
 		buttonRefreshSchedule.css('color','#2b2b2b');
 		$(".slimScrollBar").css('background-color','#2b2b2b');
@@ -392,7 +403,7 @@ $(function(){
 	buttonDarkTheme.click(function(){
 		ga('send','event','button','click','dark-theme');
 		storage.set('theme','dark');
-		$('#theme').attr('href','livebomb-dark.css');
+		$('#theme').attr('href','css/livebomb-dark.css');
 		$('.control').addClass('btn-inverse');
 		buttonRefresh.css('color','#fff');
 		buttonRefreshSchedule.css('color','#fff');
@@ -400,21 +411,6 @@ $(function(){
 		buttonDarkTheme.css('cursor','default');
 		buttonLightTheme.css('cursor','pointer');
 	});
-
-
-	//Click on live video event
-	$('#live-link').click(function(){
-		ga('send','event','button','click','live-video');
-	});
-	
-	$('#donation-link').click(function(){
-		ga('send','event','button','click','donation');
-	});
-
-	$('#lb-author').click(function(){
-		ga('send','event','button','click','my-page');
-	});
-
 
 	//Test Sounds
 	$('#lb-play-rapman').click(function(){
