@@ -1,7 +1,7 @@
 //Live check query variables.
 //Variables
 
-var gb_url = "https://query.yahooapis.com/v1/public/yql?q=select%20content%20from%20data.headers%20where%20url%3D%22http%3A%2F%2Fwww.giantbomb.com%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+var gb_url = "http://www.giantbomb.com/";
 var gbLive;
 var storage = $.localStorage;
 var scheduleLoadingIcon = $('#lb-schedule-loading');
@@ -10,14 +10,14 @@ var sendMessage;
 var scheduleCounter;
 
 var parseHtml = function(data){
-	return '<body>' + data.query.results.resources.content.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') + '</body>';
+	return '<body>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') + '</body>';
 }
 
 //Check for live video
 var checkLive = function(){
 	var checkLiveDone = $.Deferred();
 
-	$.getJSON (gb_url, function(data){
+	$.get(gb_url, function(data){
 		var parsedHtml = parseHtml(data);
 		var parsedElem = $(parsedHtml).find('.header-promo.live.show');
 
@@ -64,11 +64,11 @@ var getSchedule = function(){
 
 	var getScheduleDone = $.Deferred();
 
-	$.getJSON (gb_url, function(data){
+	$.get(gb_url, function(data){
 
 		scheduleCounter = 0;
 
-		if (data.query.count > 0) {
+		if (data.length > 0) {
 
 			var parsedHtml = parseHtml(data);
 			var parsedElem = $(parsedHtml).find('dl.promo-upcoming').children('dd');
@@ -135,7 +135,7 @@ var getShowImage = function(){
 
 	if (storage.isSet('image') == false) {
 
-		$.getJSON(gb_url,function(liveshow){
+		$.get(gb_url,function(liveshow){
 
 			var liveShowElem = null;
 			if ( liveshow.query.count > 0 ) {
