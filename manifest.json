@@ -3,7 +3,7 @@
 
 	"name": "Live Bomb!",
 	"description": "This extension notifies you when GiantBomb is live and you can also check the site schedule.",
-	"version":  "1.2.3",
+	"version":  "1.2.4", 
 	"permissions": [
 		"http://www.giantbomb.com/",
 		"background",
@@ -20,15 +20,18 @@
 	 "short_name": "Livebomb",
 
 	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; img-src *; object-src 'self'",
-
-
-	"background": {
-    "scripts": ["jquery-2.1.0.min.js","jquery.storageapi.min.js","ion.sound.min.js","ga.js","functions.js","background.js"],
+	
+	
+	"background": {	
+    "scripts": ["js/lib/jquery-2.1.0.min.js","js/lib/jquery.storageapi.min.js","js/lib/ion.sound.min.js","js/lib/ga.js","js/functions.js","js/background.js"],
     "persistent": true
   },
 
 	"browser_action": {
-		"default_icon": "images/giantbomb.png",
+		"default_icon": {
+        "19": "images/giantbomb.png",
+        "38": "images/76.png"
+    	}, 
 		"default_popup": "popup.html",
 		"default_title": "Live Bomb!"
 		}

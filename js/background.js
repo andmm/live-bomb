@@ -84,7 +84,7 @@ var scheduleRoutine = function(){
 			$(this).fadeOut(300);
 		});
 
-		if ( storage.get('schedule-bagde') == true && gbLive != true && scheduleCounter > 0) {
+		if ( storage.get('schedule-bagde') == true && gbLive == false && scheduleCounter > 0) {
 			chrome.browserAction.setBadgeText({text:''+scheduleCounter+''});
 		}
 		

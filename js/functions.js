@@ -23,7 +23,7 @@ var checkLive = function(){
 
 		if (parsedElem.length == 0) {
 			gbLive = false;
-			console.log('checkLive()');
+			console.log('No text on frontpage, no live video');
 			storage.set({
 				'islive':false,
 				'counter':false
@@ -31,7 +31,26 @@ var checkLive = function(){
 			checkLiveDone.resolve();
 		} else {
 			var liveLink = $(parsedElem).find('p a');
+			if (checkForTimer == undefined) {
+				gbLive = true;
+				var titleName = data.query.results.span.p.a.content.replace(/[<>]/,'');
+				storage.set({
+					'islive': true,
+					'title': titleName,
+					'counter':false
+				});
+				getShowImage();
+				console.log('Video is live and link is ok');
+				checkLiveDone.resolve();
+			   	} else {
+			   		//Scraping the frontpage for live video promo-header
+			   	$.getJSON(premiumImage_url,function(liveshow){
+			   			var liveVideo = liveshow.query.results.div.div[3].div.div.div.div[0];
 			if (liveLink.length > 0) {
+			   			var test = liveVideo.h4.a.content;
+			   			var compare = "Live on Giant Bomb!";
+
+			   			if (test === compare){
 				gbLive = true;
 				var titleName = $(liveLink).text().replace(/[<>]/,'');
 				storage.set({
@@ -40,8 +59,18 @@ var checkLive = function(){
 					'counter':false
 				});
 				getShowImage();
-				console.log('checkLive()');
+							console.log('Video is live but link is disabled');
+							checkLiveDone.resolve();
+			   				} else {
+			   				gbLive = false; 
+							storage.set({
+								'islive': false,
+								'counter':true,
+								'upcoming': checkForTimer
+							});
+							console.log('Text is there but video is no longer live or something broke on this end');
 				checkLiveDone.resolve();
+			  		 		}
 			} else {
 				gbLive = false;
 				storage.set({
@@ -49,9 +78,10 @@ var checkLive = function(){
 					'counter':true,
 					'upcoming': checkForTimer
 				});
-				console.log('checkLive()');
+						console.log('Counter is up but no live video');
 				checkLiveDone.resolve();
-
+			  				}
+			  		 	});		
 			}
 		}
 	});
@@ -67,6 +97,7 @@ var getSchedule = function(){
 	$.get(gb_url, function(data){
 
 		scheduleCounter = 0;
+		console.log(data);
 
 		if (data.length > 0) {
 
@@ -76,7 +107,12 @@ var getSchedule = function(){
 			if (parsedElem.length > 0) {
 				var output = "<ul>";
 				$.each(parsedElem, function(index, value){
+					var imgCheck = value.style;
+					if (imgCheck != undefined){
 					var imgUrl = $(value).css('background-image').replace('url(','').replace(')','');
+					} else {
+					var imgUrl = "images/premium-background.png";
+					}
 					var eventName = $(value).find('h4').text().replace(/[<>]/,'');
 					var eventInfo = $(value).find('p').text();
 
