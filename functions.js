@@ -136,33 +136,34 @@ var getShowImage = function(){
 	if (storage.isSet('image') == false) {
 
 		$.getJSON(gb_url,function(liveshow){
-			if ( liveshow.query.count < 1 ) {
+
+			var liveShowElem = null;
+			if ( liveshow.query.count > 0 ) {
+				var parsedHtml = parseHtml(liveshow);
+				var liveShowElem = $(parsedHtml).find('.header-promo.live.show');
+			}
+
+			if ( liveShowElem != null && liveShowElem.length > 0 ) {
 				$('#lb-status-live').css('background-image','url(/images/premium-background.png)');
 				getShowImageDone.resolve();
 			} else {
-				var checkForVideo = liveshow.query.results.span.p.content;
 
-				if (checkForVideo == undefined) {
-					$.getJSON(gbPromo_url, function(data){
+				var checkForVideo = $(liveShowElem).find('span p');
 
-						if (data.query.count > 0) {
-							var parsedHtml = parseHtml(data);
-							var parsedElem = $(parsedHtml).find('.kubrick-promo-video');
+				if (checkForVideo.length == 0) {
+					var parsedElem = $(parsedHtml).find('.kubrick-promo-video');
 
-							if ($(parsedElem).css('background-image') != '') {
-								var backgroundImage = $(parsedElem).css('background-image');
-								$('#lb-status-live').css('background-image',backgroundImage);
-								getShowImageDone.resolve();
-							} else {
-								parsedElem = $(parsedHtml).find('#wrapper section.promo-strip div ul li').eq(0);
-								var backgroundImage = $(parsedElem).css('background-image');
-								$('#lb-status-live').css('background-image',backgroundImage);
-								getShowImageDone.resolve();
-							}
-						}
-					});
+					if ($(parsedElem).css('background-image') != '') {
+						var backgroundImage = $(parsedElem).css('background-image');
+						$('#lb-status-live').css('background-image',backgroundImage);
+						getShowImageDone.resolve();
+					} else {
+						parsedElem = $(parsedHtml).find('#wrapper section.promo-strip div ul li').eq(0);
+						var backgroundImage = $(parsedElem).css('background-image');
+						$('#lb-status-live').css('background-image',backgroundImage);
+						getShowImageDone.resolve();
+					}
 				} else {
-
 					$('#lb-status-live').css('background-image','url(/images/premium-background.png)');
 					getShowImageDone.resolve();
 				}
