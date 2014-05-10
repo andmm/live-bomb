@@ -67,10 +67,7 @@ li {
 	text-shadow:1px 0px 3px #333333
 	-webkit-box-shadow: inset 0px 0px 140px 23px rgba(0,0,0,1);
 	box-shadow: inset 0px 0px 140px 3px rgba(0,0,0,0.75);
-	
-
-	
-
+	border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 li h4 {
@@ -335,22 +332,16 @@ outline: none;
 
 #lb-refresh-schedule {
 	font-size: 15px;
-	margin-left: 2px;
 	color: #fff;
-	margin-top: -5px;
 	cursor: pointer;
+	margin-right: 10px;
 }
 
-#schedule-title {
+#schedule-header-image {
 
-	margin-right: 10px;
-	text-align: left;
-	margin-left: 5px;
-	color: #9e9e9e;	
-	margin-bottom:10px;
-	overflow-x:hidden;
-
-
+	width: 80%;
+	height: 40px;
+	margin: 2px 0px -2px 20px;
 }
 
 #lb-schedule-items {
@@ -476,6 +467,10 @@ label {
 
 #lb-play-rapman {
 	margin-left: 155px;
+}
+
+#lb-play-bman {
+	margin-left: 83.05px;
 }
 
 #no-schedule {

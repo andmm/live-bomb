@@ -5,15 +5,16 @@ $(function(){
 	if (storage.isSet('preferences') == false) {
 		storage.set({
 			'preferences':'default',
-			'notification': $('input:radio[name=notification]:checked').val(),
+			'notification': true,
 			'timer': 300000, 
 			'theme': 'dark',
-			'notification-sound': $('input:radio[name=sound]:checked').val(),
-			'sound':$('input:radio[name=sound-select]:checked').val(),
-			'schedule-bagde': $('input:radio[name=bagde]:checked').val(),
+			'notification-sound': true,
+			'sound':'dropbomb',
+			'schedule-bagde': true,
 			'show-schedule': true
 		});
-	}
+		scheduleCounter = 0;
+	};
 
 	//Fix popup styling for Mac users
 	if (navigator.appVersion.indexOf("Mac")!=-1) {
@@ -99,7 +100,7 @@ $(function(){
 			timer.slider('option','value',storage.get('timer'));
 		},
 		stop: function(event,ui){
-			console.log('user dropped the handle');
+			cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
 			storage.set('timer',ui.value);
 			console.log(storage.get('timer'));
 		}
@@ -129,22 +130,39 @@ $(function(){
   		increaseArea: '20%'
   });
 
+	//Save Preferences automatically 
+	$('input').on('ifChecked', function(event){
 
-	//
-	//Save preferences
-	//
-	$('#lb-form-settings').submit(function(e){
-		e.preventDefault();
-		storage.set({
-			'preferences':'user-preference',
-			'notification': $('input:radio[name=notification]:checked').val(),
-			'notification-sound': $('input:radio[name=sound]:checked').val(),
-			'sound':$('input:radio[name=sound-select]:checked').val(),
-			'schedule-bagde': $('input:radio[name=bagde]:checked').val(),
-			'show-schedule':$('input:radio[name=show-schedule]:checked').val()
-		});
-		cfgMessage.fadeIn(700).fadeTo(1000, 1).fadeOut(500);
+		storage.set('preferences','user-preference');
+		cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
 
+  		var a = $(this);
+  		var b = a.context.name;
+  		var c = a.context.value;
+  		var d = ["notification","sound","sound-select",'bagde','show-schedule'];
+  		var e = d.indexOf(b);
+
+  		switch(e){
+  			case 0: 
+  			storage.set('notification',c);
+  			break;
+  			case 1:
+  			storage.set('notification-sound',c); 	
+  			break;
+  			case 2: 
+  			storage.set('sound',c);
+  			break;
+  			case 3: 
+			storage.set('schedule-bagde',c);
+			$('body').trigger('checkBadge');
+  			break;
+  			default: 
+  			storage.set('show-schedule',c);
+  		}
+	});
+
+	//Update schedule badge on change
+	$('body').on('checkBadge',function(){
 		if (storage.get('schedule-bagde') == false && gbLive != true) {
 			chrome.browserAction.setBadgeText({text:''});
 		}
@@ -153,6 +171,7 @@ $(function(){
 			chrome.browserAction.setBadgeText({text:''+scheduleCounter+''});
 		}
 	});
+
 
 	//Set default view
 	buttonLive.toggleClass('active');
@@ -180,7 +199,7 @@ $(function(){
 		getShowImage();
 		statusOnline.show();
 		statusOffline.hide();
-		$('.fa-dot-circle-o').css("color", 'red').addClass("animated swing");
+		$('#button-icon').css("color", 'red').addClass("animated swing");
 		$("#show-name").html(storage.get('title'));
 
 	}
@@ -190,7 +209,7 @@ $(function(){
 		if (statusOffline.is(':visible')) {
 			statusOffline.fadeOut(200,function(){
 				statusOnline.fadeIn(200);
-				$('.fa-dot-circle-o').css("color", 'red').addClass("animated swing");
+				$('#button-icon').css("color", 'red').addClass("animated swing");
 				$("#show-name").html(storage.get('title'));
 			});	
 		}	
@@ -202,7 +221,7 @@ $(function(){
 				statusOnline.show();
 				buttonSchedule.toggleClass('active');
 				buttonLive.toggleClass('active');
-				$('.fa-dot-circle-o').css("color", 'red').addClass("animated swing");
+				$('#button-icon').css("color", 'red').addClass("animated swing");
 				$("#show-name").html(storage.get('title'));
 			});
 		}
@@ -222,7 +241,6 @@ $(function(){
 		}
 	});
 
-	
 	//ClickEvents
 	//Click on Settings
 	buttonSettings.click(function() {
@@ -296,7 +314,7 @@ $(function(){
 			statusOnline.addClass('animated bounceInUp').show();
 			statusOffline.hide();
 			chrome.browserAction.setBadgeText({text:'LIVE'});
-			$('.fa-dot-circle-o').css("color", 'red').addClass("animated swing");
+			$('#button-icon').css("color", 'red').addClass("animated swing");
 			$("#show-name").html(storage.get('title'));
 
 					if (sendMessage == true && storage.get('notification') == true) {
@@ -423,6 +441,10 @@ $(function(){
 
 	$('#lb-play-dropbomb').click(function(){
 		$.ionSound.play('dropbomb');
+	});
+
+	$('#lb-play-bman').click(function(){
+		$.ionSound.play('bman');
 	});
 
 });	

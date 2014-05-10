@@ -18,15 +18,13 @@ if (storage.isSet('show-schedule') == false){
 	storage.set('show-schedule',true);
 }
 
-if (storage.isSet('update')){
-	storage.remove('update');
-}
-	
+
 $.ionSound({
 	sounds: [
 		"bumper",
 		"rapman",
-		"dropbomb"
+		"dropbomb",
+		"bman"
 	],
 	path: "/sounds/",
 	multiPlay: true
@@ -45,7 +43,7 @@ var liveRoutine = function(){
 	title:"Hey duder! GB is live with:",
 	message:""+storage.get('title')+"",	
 	iconUrl:"/images/notificationicon.png"
-}
+	}
 		if (gbLive == true) {
 		
 		chrome.browserAction.setBadgeText({text:'LIVE'});	
@@ -54,13 +52,12 @@ var liveRoutine = function(){
 				sendMessage = false;
 				chrome.notifications.create('notify', options, function(){});
 				if ( storage.get('notification-sound') == true ) {
-						$.ionSound.play(''+storage.get('sound')+'');
-					}				
+					$.ionSound.play(''+storage.get('sound')+'');
+				}				
 			}
 	  } else {
 	  		$('body').trigger('statusNotLive');
-				sendMessage = true;
-				storage.remove('image');
+			sendMessage = true;
 			if ( storage.get('schedule-bagde') == true && scheduleCounter > 0) {
 				chrome.browserAction.setBadgeText({text:''+scheduleCounter+''});
 			} else {
@@ -101,7 +98,6 @@ var scheduleRoutine = function(){
 		 'display': 'visible'
 			});
 		}
-			
 	});
 };
 

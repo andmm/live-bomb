@@ -9,6 +9,7 @@ var buttonRefreshSchedule = $('#lb-refresh-schedule');
 var sendMessage;
 var scheduleCounter;
 
+
 var parseHtml = function(data){
 	return '<body>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') + '</body>';
 }
@@ -64,8 +65,7 @@ var checkLive = function(){
 						gbLive = false;
 						storage.set({
 							'islive': false,
-							'counter':true,
-							'upcoming': checkForTimer
+							'counter':true
 						});
 						console.log('Text is there but video is no longer live or something broke on this end');
 						checkLiveDone.resolve();
@@ -74,8 +74,7 @@ var checkLive = function(){
 					gbLive = false;
 					storage.set({
 						'islive': false,
-						'counter':true,
-						'upcoming': checkForTimer
+						'counter': true
 					});
 					console.log('Counter is up but no live video');
 					checkLiveDone.resolve();
@@ -103,6 +102,8 @@ var getSchedule = function(){
 
 			if (parsedElem.length > 0) {
 				var output = "<ul>";
+				var today = moment().get('date');
+			
 				$.each(parsedElem, function(index, value){
 					var imgCheck = value.style;
 					if (imgCheck != undefined){
@@ -115,27 +116,29 @@ var getSchedule = function(){
 
 					// Parse Event Type and Date/Time
 					if (eventInfo.indexOf('Live Show') == 0) {
-						var eventType = '<i class="fa fa-dot-circle-o fa-lg circle-schedule"></i> Live Show on ';
-						var yqlDate = eventInfo.substring(13);
+						var eventType = '<i class="fa fa-dot-circle-o fa-lg circle-schedule"></i> Live Show ';
+						var eventDate = eventInfo.substring(13);
 					} else if (eventInfo.indexOf('Video') == 0) {
-						var eventType = '<i class="fa fa-play-circle fa-lg circle-schedule"></i> Video on ';
-						var yqlDate = eventInfo.substring(9);
+						var eventType = '<i class="fa fa-play-circle fa-lg circle-schedule"></i> Video ';
+						var eventDate = eventInfo.substring(9);
 					} else if (eventInfo.indexOf('Article') == 0) {
-						var eventType = '<i class="fa fa-file-o fa-lg"></i> Article on ';
-						var yqlDate = eventInfo.substring(11);
+						var eventType = '<i class="fa fa-file-o fa-lg"></i> Article ';
+						var eventDate = eventInfo.substring(11);
 					} else {
-						var eventType = '<i class="fa fa-microphone fa-lg"></i> Podcast on ';
-						var yqlDate = eventInfo.substring(11);
+						var eventType = '<i class="fa fa-microphone fa-lg"></i> Podcast ';
+						var eventDate = eventInfo.substring(11);
 					}
 
-					var m = ['0','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-					var dateString = ''+yqlDate.substring(8,12)+''+'/0'+m.indexOf(''+yqlDate.substring(0,3)+'')+'/'+''+yqlDate.substring(4,6)+''+' '+
-					''+yqlDate.substring(13,18)+' '+''+yqlDate.substring(19)+''+' EDT';
-					var dt = new Date(''+dateString+'');
-					var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-					var eventDate = months[dt.getMonth()]+' '+dt.getDate()+', '+dt.getFullYear()+' '+dt.toLocaleTimeString().replace(/:\d{2}\s/,' ');
+					var dt = new Date(eventDate);
+		
+					if ( today == dt.getDate()) {
+						var scheduleDate = moment(dt).fromNow();
+					} else {
+						var scheduleDate = "- " + moment(dt).calendar();
+					}
+
 					output +=  '<li style="background-image: url('+ imgUrl +')" class="animated fadeInDownBig"><h4>' + eventName +
-					'</h4> <p class="lb-schedule-p">'+eventType+ eventDate+'</p></li>';
+					'</h4> <p class="lb-schedule-p">'+ eventType + scheduleDate +'</p></li>';
 
 					scheduleCounter += 1;
 				});
@@ -145,7 +148,7 @@ var getSchedule = function(){
 				getScheduleDone.resolve();
 
 			} else {
-				$('#lb-schedule-items').html('<h5 id="no-schedule">There are no items on the schedule. Try refreshing</h5>');
+				$('#lb-schedule-items').html('<h5 id="no-schedule" class="animated slideInDown">There are no items on the schedule. Try refreshing</h5>');
 				scheduleCounter = 0;
 				getScheduleDone.resolve();
 			}
@@ -160,13 +163,9 @@ var getSchedule = function(){
 	return getScheduleDone.promise();
 };
 
-
-
 var getShowImage = function(){
 
 	var getShowImageDone = $.Deferred();
-
-	if (storage.isSet('image') == false) {
 
 		$.get(gb_url,function(liveshow){
 
@@ -202,11 +201,6 @@ var getShowImage = function(){
 				}
 			}
 		});
-
-	} else {
-		$('#lb-status-live').css('background-image','url('+storage.get('image')+')');
-		getShowImageDone.resolve();
-	}
 
 	return getShowImageDone.promise();
 };

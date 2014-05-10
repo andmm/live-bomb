@@ -18,8 +18,9 @@
 		<script type="text/javascript" src="js/lib/jquery.storageapi.min.js"></script>
 		<script type="text/javascript" src="js/lib/ion.sound.min.js"></script>
 		<script type="text/javascript" src="js/lib/jquery.slimscroll.min.js"></script>
+		<script type="text/javascript" src="js/lib/moment.min.js"></script>
 
-		
+	
 	</head>
 	<body>
 		<!-- Wrapper -->
@@ -27,7 +28,6 @@
 			<!-- Header -->
 			<div id="header">
 				<a href="http://www.giantbomb.com" target="_blank" alt="Take me to giantbomb!" style="outline:none;"><img id="logo" src="/images/GB_logo_site.png"></a>
-				<!--<h3 id="title">Live Bomb!</h3>-->
 				<img src="images/logotest2.png" id="lb-logo">
 			</div>	
 			<!-- Buttons -->
@@ -37,7 +37,7 @@
 					<i class="fa fa-cogs fa-lg"></i>
 				</button> 	
 				<button type="button" id="lb-live" class="btn btn-inverse control" >
-					<i class="fa fa-dot-circle-o fa-lg"></i>
+					<i id="button-icon" class="fa fa-dot-circle-o fa-lg"></i>
 				</button>
 				<button type="button" id="lb-schedule" class="btn btn-inverse control">
 					<i class="fa fa-calendar-o fa-lg"></i>
@@ -49,7 +49,7 @@
 				<!-- SETTINGS PAGE -->
 				<div id="lb-page-settings">
 					<div class="custom-scroll">
-					<div id="lb-settings-message" data-spy="affix-top"><i class="fa fa-check-circle fa-lg"></i>Settings were saved!</div>
+					<div id="lb-settings-message" data-spy="affix-top"><i class="fa fa-check-circle fa-lg"></i>Settings updated!</div>
 					<h4 id="settings-title">Settings</h4>
 					
 					<form id="lb-form-settings">
@@ -57,7 +57,7 @@
 						<label><input type="radio" name="notification" value="true" id="not-yes" class="icheck" checked> Yes</label>
 						<label><input type="radio" name="notification" value="false" id="not-no" class="icheck"> No</label>
 
-					<label>Check for live video every: <div id="lb-slider-value"></div></label>
+					<label>Check for live video:<div id="lb-slider-value"></div></label>
 						 <div id="lb-slider-time"></div>
 						 
 
@@ -69,9 +69,10 @@
 						<label><input  type="radio" name="sound-select" class="icheck" id="radio-1"  value="rapman"> Rapman<i class="fa fa-volume-up play-sound" id="lb-play-rapman"></i></label>
 						<label><input type="radio" name="sound-select" class="icheck" id="radio-2" value="bumper">  Gb Bumper<i class="fa fa-volume-up play-sound" id="lb-play-bumper"></i></label>
 						<label><input type="radio" name="sound-select" class="icheck" id="radio-3" value="dropbomb" checked>"Drop a bomb on it"<i class="fa fa-volume-up play-sound" id="lb-play-dropbomb"></i></label>
+						<label><input type="radio" name="sound-select" class="icheck" id="radio-4" value="bman" checked> Small Business Man<i class="fa fa-volume-up play-sound" id="lb-play-bman"></i></label>
 				
 					
-
+ 
 					<label>Select the theme:</label>
 						<div class="btn-group" data-toggle="buttons-radio" id="theme-selector">
 							<button type="button" id="dark-theme" class="btn btn-inverse active">Dark Theme</button>
@@ -87,8 +88,6 @@
 						<label><input type="radio" name="show-schedule" value="true" id="show-schedule"  class="icheck" checked> Yes</label>
 						<label><input type="radio" name="show-schedule" value="false" id="show-schedule-no" class="icheck" > No</label>	
 				
-
-					<button id="lb-save-button" type="submit" class="btn btn-inverse"><i class="fa fa-floppy-o fa-lg" id="lb-sabe-icon"></i>Save Settings</button>
 					</form>
 					<div id="settings-about">About <i class="fa fa-info-circle" id="settings-about-icon"></i></div>
 					</div>
@@ -129,10 +128,10 @@
 				<div id="lb-page-schedule">
 					<div class="custom-scroll">
 						<div id="lb-schedule-header" class="span12">
-							<h4 id="schedule-title">Coming up on Giant Bomb: <i id="lb-refresh-schedule" class="fa fa-refresh fa-lg"></i></h4>
+							<img id="schedule-header-image" src="images/upcoming-gb.png"><i id="lb-refresh-schedule" class="fa fa-refresh fa-lg"></i>
 						<i class="fa fa-cog fa-spin" id="lb-schedule-loading"></i>
 						<div id="lb-schedule-items"></div>
-					</div>
+						</div>
 					</div>
 				</div>
 
@@ -143,17 +142,18 @@
 					<div class="custom-scroll">
 						<h4 id="about-page-title">About <i class="fa fa-times" id="offline-about-close"></i><i class="fa fa-times" id="settings-about-close"></i></h4>
 						<img src="/images/128.png" id="about-image" class="animated tada">
-						<h4 id="about-livebomb">LiveBomb v1.2.4</h4>
+						<h4 id="about-livebomb">LiveBomb v1.2.6</h4>
 						<!--<i class="fa fa-times-o " id="about-close-icon"></i>-->
 						<h4 class="about-text-title">Developed by:</h4>
-						<h4 id="author">André Milani</h4>
+						<h4>André Milani</h4>
+						<h4>Chase Pettit</h4>
 						<h4 class="about-text-title">Awesome Ryan fanart by:</h4>
 						<a href="http://www.giantbomb.com/profile/shoddyrobot/" id="image-author">@Shoddy Robot</a>
 						<h4 class="about-text-title">Thanks to:</h4>
-						<p><a href="http://www.giantbomb.com/profile/chaser324/" class="about-item">@Chaser324</a></p>
 						<p><a href="http://www.giantbomb.com/profile/catsakimbo/" class="about-item">@CatsAkimbo</a></p>
 						<p><a href="http://www.giantbomb.com/profile/chance_s/" class="about-item">@Chance_S</a></p>
 						<p><a href="http://www.giantbomb.com/profile/cencen123/" class="about-item">@cencen123</a></p>
+						<p><a href="http://www.giantbomb.com/profile/hamst3r/">@Hamst3r</a></p>
 						<div id="tools">
 							<h4 class="about-text-title" id="lb-about-tools"> Tools used: </h4>		
 							<a href="http://getbootstrap.com/2.3.2/" target="_blank"><h5 class="about-item">Bootstrap 	v2.3.2</h5></a>	
@@ -170,7 +170,7 @@
 						</div>
 						<i class="fa fa-envelope" id="mail-icon"></i>
 						<h5 class="about-custom">Bugs, feedback or feature requests? Send me a message:</h5>
-						<a id="lb-author" href="http://www.giantbomb.com/profile/andmm/" target="_blank"><h5>@andmm</h5></a>
+						<a id="lb-author" href="https://chrome.google.com/webstore/support/foadpaalpoealldkplclbhbebjmpaild?hl#bug" target="_blank"><h5>Feedback</h5></a>
 						<i class="fa fa-coffee" id="coffee"></i>
 						<h5 class="about-custom" id="about-donate">Like the extension and want to buy me a coffee? Go ahead :)</h5>
 						
