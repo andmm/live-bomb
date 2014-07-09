@@ -48,7 +48,7 @@ $(function(){
     }
 
     //GA
-    ga('send','pageview','/popup.html');
+    //ga('send','pageview','/popup.html');
 
     //InterfaceCaching
     var buttonSettings = $('#lb-settings');
@@ -79,10 +79,10 @@ $(function(){
         buttonLightTheme.addClass('active').css('cursor','default');
         $('#theme').attr('href','css/livebomb-light.css');
         $('.control').removeClass('btn-inverse');
-        ga('send','event','theme','light');
+        //ga('send','event','theme','light');
     } else {
         buttonDarkTheme.css('cursor','default');
-        ga('send','event','theme','dark');
+        //ga('send','event','theme','dark');
     }
 
     //Get Preferences
@@ -244,7 +244,7 @@ $('body').on('statusNotLive',function(){
 //ClickEvents
 //Click on Settings
 buttonSettings.click(function() {
-    ga('send','event','button','click','settings');
+    //ga('send','event','button','click','settings');
     if (pageAbout.is(':visible')) {
         pageAbout.hide();
     }
@@ -257,7 +257,7 @@ buttonSettings.click(function() {
 
 //Click on Live
 buttonLive.click(function()		{
-    ga('send','event','button','click','live');
+    //ga('send','event','button','click','live');
 
     if (pageSettings.is(':visible')) {
 
@@ -297,7 +297,7 @@ buttonSchedule.click(function() {
 
 //Status refresh
 buttonRefresh.click(function(){
-    ga('send','event','button','click','status-refresh');
+    //ga('send','event','button','click','status-refresh');
     if (storage.get('theme') == 'dark') {
         buttonRefresh.removeClass('fa-refresh').addClass('fa-cog fa-spin').css('color','#a0a0a0');
     } else {
@@ -336,7 +336,7 @@ buttonRefresh.click(function(){
 
 //Schedule refresh
 buttonRefreshSchedule.click(function(){
-    ga('send','event','button','click','schedule-refresh');
+    //ga('send','event','button','click','schedule-refresh');
     if (storage.get('theme') == 'dark'){
         $(this).removeClass('fa-refresh').addClass('fa-times').css({'color':'#a0a0a0','cursor':'default'});
     } else {
@@ -361,7 +361,7 @@ buttonRefreshSchedule.click(function(){
 
 //About Offline
 buttonAboutOffline.click(function(){
-    ga('send','event','button','click','about-offline');
+    //ga('send','event','button','click','about-offline');
     buttonAboutOfflineClose.show();
     buttonAboutSettingsClose.hide();
     pageStatus.fadeOut(300);
@@ -382,7 +382,7 @@ buttonAboutOfflineClose.click(function(){
 //About Settings
 
 buttonAboutSettings.click(function(){
-    ga('send','event','button','click','about-settings');
+    //ga('send','event','button','click','about-settings');
     pageSettings.fadeOut(300,function(){
         pageAbout.fadeIn(300);
     });
@@ -407,7 +407,7 @@ buttonAboutSettingsClose.click(function(){
 
 //Light Theme
 buttonLightTheme.click(function(){
-    ga('send','event','button','click','light-theme');
+    //ga('send','event','button','click','light-theme');
     storage.set('theme','light');
     $('#theme').attr('href','css/livebomb-light.css');
     buttonRefresh.css('color','#2b2b2b');
@@ -419,7 +419,7 @@ buttonLightTheme.click(function(){
 
 //Dark Theme
 buttonDarkTheme.click(function(){
-    ga('send','event','button','click','dark-theme');
+    //ga('send','event','button','click','dark-theme');
     storage.set('theme','dark');
     $('#theme').attr('href','css/livebomb-dark.css');
     $('.control').addClass('btn-inverse');
@@ -447,4 +447,4 @@ $('#lb-play-bman').click(function(){
     $.ionSound.play('bman');
 });
 
-});	
+});

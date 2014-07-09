@@ -14,7 +14,6 @@ module.exports = (grunt) ->
                             'css/**'
                             'fonts/**'
                             'images/**'
-                            'js/**'
                             'sounds/**'
                             'square/**'
                         ]
@@ -23,6 +22,52 @@ module.exports = (grunt) ->
                         expand: true
                     }
                 ]
+
+        uglify:
+            dist:
+                # options:
+                #     # For debugging/testing
+                #     beautify: true
+                #     preserveComments: true;
+                files:
+                    'dist/js/background.min.js': [
+                        'js/ga.js'
+
+                        'vendor/bower/jquery/dist/jquery.js'
+
+                        'vendor/bower/jQuery-Storage-API/jquery.storageapi.js'
+
+                        'vendor/bower/ion.sound/js/ion.sound.js'
+
+                        'vendor/bower/moment/moment.js'
+
+                        'vendor/bower/moment-timezone/builds/moment-timezone-with-data-2010-2020.js'
+
+                        'js/functions.js'
+                        'js/background.js'
+                    ]
+                    'dist/js/frontend.min.js': [
+                        'vendor/bower/jquery-ui/jquery-ui.js'
+
+                        'vendor/bower/bootstrap/js/transition.js'
+                        'vendor/bower/bootstrap/js/alert.js'
+                        'vendor/bower/bootstrap/js/button.js'
+                        'vendor/bower/bootstrap/js/carousel.js'
+                        'vendor/bower/bootstrap/js/collapse.js'
+                        'vendor/bower/bootstrap/js/dropdown.js'
+                        'vendor/bower/bootstrap/js/modal.js'
+                        'vendor/bower/bootstrap/js/tooltip.js'
+                        'vendor/bower/bootstrap/js/popover.js'
+                        'vendor/bower/bootstrap/js/scrollspy.js'
+                        'vendor/bower/bootstrap/js/tab.js'
+                        'vendor/bower/bootstrap/js/affix.js'
+
+                        'vendor/bower/iCheck/icheck.js'
+
+                        'vendor/bower/jquery.slimscroll/jquery.slimscroll.js'
+
+                        'js/livebomb.js'
+                    ]
 
     # Grunt Contrib Tasks
     grunt.loadNpmTasks "grunt-contrib-clean"
@@ -33,5 +78,5 @@ module.exports = (grunt) ->
 
     # Grunt Tasks
     grunt.registerTask "default", [
-        "clean", "copy"
+        "clean", "copy", "uglify"
     ]

@@ -31,7 +31,7 @@ $.ionSound({
 });
 
 //GA
-ga('send','pageview','/running');
+//ga('send','pageview','/running');
 
 //Routine
 var liveRoutine = function(){
@@ -69,34 +69,39 @@ var liveRoutine = function(){
 
 var scheduleRoutine = function(){
 
-    buttonRefreshSchedule.css({
+    window.buttonRefreshSchedule.css({
         'cursor': 'default',
         'color': '#a0a0a0',
         'display': 'none'
     });
 
     getSchedule().done(function(){
-
-        scheduleLoadingIcon.effect('fadeOut',2000, function(){
-            $(this).fadeOut(300);
-        });
+        if (window.scheduleLoadingIcon.length > 0)
+        {
+            window.scheduleLoadingIcon.effect('fadeOut',2000, function(){
+                $(this).fadeOut(300);
+            });
+        }
 
         if ( storage.get('schedule-bagde') == true && gbLive == false && scheduleCounter > 0) {
             chrome.browserAction.setBadgeText({text:''+scheduleCounter+''});
         }
 
-        if (storage.get('theme') == 'dark') {
-            buttonRefreshSchedule.css({
-                'cursor': 'pointer',
-                'color': '#fff',
-                'display': 'visible'
-            });
-        } else {
-            buttonRefreshSchedule.css({
-                'cursor': 'pointer',
-                'color': '#2b2b2b',
-                'display': 'visible'
-            });
+        if (window.buttonRefreshSchedule.length > 0)
+        {
+            if (storage.get('theme') == 'dark') {
+                window.buttonRefreshSchedule.css({
+                    'cursor': 'pointer',
+                    'color': '#fff',
+                    'display': 'visible'
+                });
+            } else {
+                window.buttonRefreshSchedule.css({
+                    'cursor': 'pointer',
+                    'color': '#2b2b2b',
+                    'display': 'visible'
+                });
+            }
         }
     });
 };
