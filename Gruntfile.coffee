@@ -11,8 +11,7 @@ module.exports = (grunt) ->
                         src: [
                             'manifest.json'
                             'popup.html'
-                            'css/**'
-                            'fonts/**'
+                            'css/*.css'
                             'images/**'
                             'sounds/**'
                         ]
@@ -94,6 +93,18 @@ module.exports = (grunt) ->
                         'js/livebomb.js'
                     ]
 
+        watch:
+            less:
+                files: ['css/*']
+                tasks: ['less']
+            copy:
+                files: ['manifest.json', 'popup.html', 'css/*.css', 'images/*', 'sounds/*']
+                tasks: ['clean', 'copy', 'less', 'uglify']
+            uglify:
+                files: ['js/*']
+                tasks: ['uglify']
+
+
     # Grunt Contrib Tasks
     grunt.loadNpmTasks "grunt-contrib-clean"
     grunt.loadNpmTasks "grunt-contrib-copy"
@@ -104,4 +115,8 @@ module.exports = (grunt) ->
     # Grunt Tasks
     grunt.registerTask "default", [
         "clean", "copy", "less", "uglify"
+    ]
+
+    grunt.registerTask "dev", [
+        "clean", "copy", "less", "uglify", "watch"
     ]
