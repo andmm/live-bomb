@@ -31,7 +31,7 @@ $.ionSound({
 });
 
 //GA
-//ga('send','pageview','/running');
+ga('send','pageview','/running');
 
 //Routine
 var liveRoutine = function(){

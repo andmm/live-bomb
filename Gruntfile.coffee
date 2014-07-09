@@ -31,7 +31,7 @@ module.exports = (grunt) ->
                 #     preserveComments: true;
                 files:
                     'dist/js/background.min.js': [
-                        'js/ga.js'
+                        'js/lib/ga.js'
 
                         'vendor/bower/jquery/dist/jquery.js'
 
