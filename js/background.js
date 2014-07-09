@@ -69,11 +69,7 @@ var liveRoutine = function(){
 
 var scheduleRoutine = function(){
 
-    window.buttonRefreshSchedule.css({
-        'cursor': 'default',
-        'color': '#a0a0a0',
-        'display': 'none'
-    });
+    window.buttonRefreshSchedule.addClass('hidden');
 
     getSchedule().done(function(){
         if (window.scheduleLoadingIcon.length > 0)
@@ -89,19 +85,7 @@ var scheduleRoutine = function(){
 
         if (window.buttonRefreshSchedule.length > 0)
         {
-            if (storage.get('theme') == 'dark') {
-                window.buttonRefreshSchedule.css({
-                    'cursor': 'pointer',
-                    'color': '#fff',
-                    'display': 'visible'
-                });
-            } else {
-                window.buttonRefreshSchedule.css({
-                    'cursor': 'pointer',
-                    'color': '#2b2b2b',
-                    'display': 'visible'
-                });
-            }
+            window.buttonRefreshSchedule.removeClass('hidden');
         }
     });
 };

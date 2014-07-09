@@ -77,8 +77,8 @@ $(function(){
     if ( storage.get('theme') == 'light') {
         buttonDarkTheme.removeClass('active');
         buttonLightTheme.addClass('active').css('cursor','default');
-        $('#theme').attr('href','css/livebomb-light.css');
-        $('.control').removeClass('btn-inverse');
+        $('body').addClass('livebomb-light');
+        $('body').removeClass('livebomb-dark');
         ga('send','event','theme','light');
     } else {
         buttonDarkTheme.css('cursor','default');
@@ -186,22 +186,18 @@ if (storage.get('islive') == false && storage.get('show-schedule') == true) {
     pageSchedule.show();
     buttonLive.removeClass('active');
     buttonSchedule.addClass('active');
-
 }
 
 else if  (storage.get('islive') == false && storage.get('show-schedule') == false) {
     statusOnline.hide();
     statusOffline.show();
-
 } else {
-
     chrome.browserAction.setBadgeText({text:"LIVE"});
     getShowImage();
     statusOnline.show();
     statusOffline.hide();
     $('#button-icon').css("color", 'red').addClass("animated swing");
     $("#show-name").html(storage.get('title'));
-
 }
 
 //Interface refresh for live video event
@@ -260,16 +256,13 @@ buttonLive.click(function()		{
     ga('send','event','button','click','live');
 
     if (pageSettings.is(':visible')) {
-
         pageStatus.effect('slide', {direction: 'right', mode: 'show'},200);
         pageSettings.effect('slide', {direction: 'left', mode:'hide'},200);
         statusOnline.removeClass('animated');
-
     }
 
 
     if (pageSchedule.is(':visible')) {
-
         pageStatus.effect('slide', {direction: 'left', mode: 'show'},200);
         pageSchedule.effect('slide', {direction: 'right', mode:'hide'},200);
         statusOnline.removeClass('animated');
@@ -344,10 +337,10 @@ buttonRefreshSchedule.click(function(){
     }
     scheduleItems.fadeOut(200,function(){
         $(this).html('');
-        scheduleLoadingIcon.fadeIn(300);
+        window.scheduleLoadingIcon.fadeIn(300);
     });
     getSchedule().done(function(){
-        scheduleLoadingIcon.effect('fadeOut',2000, function(){
+        window.scheduleLoadingIcon.effect('fadeOut',2000, function(){
             $(this).fadeOut(300);
             scheduleItems.fadeIn(100);
         });
@@ -409,7 +402,8 @@ buttonAboutSettingsClose.click(function(){
 buttonLightTheme.click(function(){
     ga('send','event','button','click','light-theme');
     storage.set('theme','light');
-    $('#theme').attr('href','css/livebomb-light.css');
+    $('body').removeClass('livebomb-dark');
+    $('body').addClass('livebomb-light');
     buttonRefresh.css('color','#2b2b2b');
     buttonRefreshSchedule.css('color','#2b2b2b');
     $(".slimScrollBar").css('background-color','#2b2b2b');
@@ -421,8 +415,8 @@ buttonLightTheme.click(function(){
 buttonDarkTheme.click(function(){
     ga('send','event','button','click','dark-theme');
     storage.set('theme','dark');
-    $('#theme').attr('href','css/livebomb-dark.css');
-    $('.control').addClass('btn-inverse');
+    $('body').removeClass('livebomb-light');
+    $('body').addClass('livebomb-dark');
     buttonRefresh.css('color','#fff');
     buttonRefreshSchedule.css('color','#fff');
     $(".slimScrollBar").css('background-color','white');

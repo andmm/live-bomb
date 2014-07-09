@@ -95,11 +95,11 @@ module.exports = (grunt) ->
 
         watch:
             less:
-                files: ['css/*']
+                files: ['css/*.less']
                 tasks: ['less']
             copy:
                 files: ['manifest.json', 'popup.html', 'css/*.css', 'images/*', 'sounds/*']
-                tasks: ['clean', 'copy', 'less', 'uglify']
+                tasks: ['copy']
             uglify:
                 files: ['js/*']
                 tasks: ['uglify']

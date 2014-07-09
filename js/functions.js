@@ -11,7 +11,6 @@ var scheduleCounter;
 window.scheduleLoadingIcon = $('#lb-schedule-loading');
 window.buttonRefreshSchedule = $('#lb-refresh-schedule');
 
-
 var parseHtml = function(data){
     return '<body>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') + '</body>';
 }

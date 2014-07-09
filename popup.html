@@ -4,28 +4,34 @@
     <title>Live Bomb!</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="css/style.min.css">
-    <link id="theme" rel="stylesheet" type="text/css" href="css/livebomb-dark.css">
 </head>
-<body>
+<body class="livebomb-dark">
     <!-- Wrapper -->
     <div id="live-bomb">
         <!-- Header -->
-        <div id="header">
-            <a href="http://www.giantbomb.com" target="_blank" alt="Take me to giantbomb!" style="outline:none;"><img id="logo" src="/images/GB_logo_site.png"></a>
-            <img src="images/logotest2.png" id="lb-logo">
+        <div id="header" class="container">
+            <div class="row">
+                <div class="col-xs-4">
+                    <a href="http://www.giantbomb.com" target="_blank" alt="Take me to giantbomb!"><img id="logo" class="img-responsive" src="/images/GB_logo_site.png"></a>
+                </div>
+                <div class="col-xs-8">
+                    <img id="lb-logo" class="img-responsive" src="images/logotest2.png">
+                </div>
+            </div>
         </div>
         <!-- Buttons -->
-        <div id="lb-controls" class="btn-group" data-toggle="buttons-radio">
+        <div id="lb-controls" class="btn-group" data-toggle="buttons">
+            <label id="lb-settings" class="btn btn-default col-xs-4">
+                <input type="radio" id="tab1" name="nav-tabs"> <i class="fa fa-cogs fa-lg"></i>
+            </label>
 
-            <button type="button" id="lb-settings" class="btn btn-inverse control">
-                <i class="fa fa-cogs fa-lg"></i>
-            </button>
-            <button type="button" id="lb-live" class="btn btn-inverse control" >
-                <i id="button-icon" class="fa fa-dot-circle-o fa-lg"></i>
-            </button>
-            <button type="button" id="lb-schedule" class="btn btn-inverse control">
-                <i class="fa fa-calendar-o fa-lg"></i>
-            </button>
+            <label id="lb-live" class="btn btn-default col-xs-4">
+                <input type="radio" id="tab2" name="nav-tabs"> <i class="fa fa-dot-circle-o fa-lg"></i>
+            </label>
+
+            <label id="lb-schedule" class="btn btn-default active col-xs-4">
+                <input type="radio" id="tab2" name="nav-tabs" checked> <i class="fa fa-calendar-o fa-lg"></i>
+            </label>
         </div>
         <!-- Extension Body -->
         <div id="lb-main">
@@ -33,47 +39,63 @@
             <!-- SETTINGS PAGE -->
             <div id="lb-page-settings">
                 <div class="custom-scroll">
-                    <div id="lb-settings-message" data-spy="affix-top"><i class="fa fa-check-circle fa-lg"></i>Settings updated!</div>
-                    <h4 id="settings-title">Settings</h4>
-
-                    <form id="lb-form-settings">
-                        <label>Show chrome notifications:</label>
-                        <label><input type="radio" name="notification" value="true" id="not-yes" class="icheck" checked> Yes</label>
-                        <label><input type="radio" name="notification" value="false" id="not-no" class="icheck"> No</label>
-
-                        <label>Check for live video:<div id="lb-slider-value"></div></label>
-                        <div id="lb-slider-time"></div>
-
-
-                        <label>Play sound for notifications:</label>
-                        <label><input type="radio" name="sound" value="true" id="cfg-ntf-sound" class="icheck" checked> Yes</label>
-                        <label><input type="radio" name="sound" value="false" id="cfg-ntf-sound" class="icheck"> No</label>
-
-                        <label>Select the sound:</label>
-                        <label><input  type="radio" name="sound-select" class="icheck" id="radio-1"  value="rapman"> Rapman<i class="fa fa-volume-up play-sound" id="lb-play-rapman"></i></label>
-                        <label><input type="radio" name="sound-select" class="icheck" id="radio-2" value="bumper">  Gb Bumper<i class="fa fa-volume-up play-sound" id="lb-play-bumper"></i></label>
-                        <label><input type="radio" name="sound-select" class="icheck" id="radio-3" value="dropbomb" checked>"Drop a bomb on it"<i class="fa fa-volume-up play-sound" id="lb-play-dropbomb"></i></label>
-                        <label><input type="radio" name="sound-select" class="icheck" id="radio-4" value="bman" checked> Small Business Man<i class="fa fa-volume-up play-sound" id="lb-play-bman"></i></label>
-
-
-
-                        <label>Select the theme:</label>
-                        <div class="btn-group" data-toggle="buttons-radio" id="theme-selector">
-                            <button type="button" id="dark-theme" class="btn btn-inverse active">Dark Theme</button>
-                            <button type="button" id="light-theme" class="btn">Light Theme</button>
+                    <div class="container">
+                        <div class="row">
+                            <div id="lb-settings-message" data-spy="affix-top"><i class="fa fa-check-circle fa-lg"></i>Settings updated!</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h4 id="settings-title">Settings</h4>
+                            </div>
                         </div>
 
+                        <form id="lb-form-settings">
+                            <div class="form-group">
+                                <label>
+                                    Show chrome notifications:
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="notification" value="true" id="not-yes" class="icheck" checked> Yes
+                                    <input type="radio" name="notification" value="false" id="not-no" class="icheck"> No
+                                </label>
+                            </div>
 
-                        <label>Display number of schedule items on the icon bagde when video is not live:</label>
-                        <label><input type="radio" name="bagde" value="true" id="schedule-bagde"  class="icheck"> Yes</label>
-                        <label><input type="radio" name="bagde" value="false" id="schedule-bagde-no" class="icheck" checked> No</label>
+                            <label>Check for live video:<div id="lb-slider-value"></div></label>
+                            <div id="lb-slider-time"></div>
 
-                        <label>Show schedule page by default if there's no live video:</label>
-                        <label><input type="radio" name="show-schedule" value="true" id="show-schedule"  class="icheck" checked> Yes</label>
-                        <label><input type="radio" name="show-schedule" value="false" id="show-schedule-no" class="icheck" > No</label>
 
-                    </form>
-                    <div id="settings-about">About <i class="fa fa-info-circle" id="settings-about-icon"></i></div>
+                            <label>Play sound for notifications:</label>
+                            <label><input type="radio" name="sound" value="true" id="cfg-ntf-sound" class="icheck" checked> Yes</label>
+                            <label><input type="radio" name="sound" value="false" id="cfg-ntf-sound" class="icheck"> No</label>
+
+                            <label>Select the sound:</label>
+                            <label><input  type="radio" name="sound-select" class="icheck" id="radio-1"  value="rapman"> Rapman<i class="fa fa-volume-up play-sound" id="lb-play-rapman"></i></label>
+                            <label><input type="radio" name="sound-select" class="icheck" id="radio-2" value="bumper">  Gb Bumper<i class="fa fa-volume-up play-sound" id="lb-play-bumper"></i></label>
+                            <label><input type="radio" name="sound-select" class="icheck" id="radio-3" value="dropbomb" checked>"Drop a bomb on it"<i class="fa fa-volume-up play-sound" id="lb-play-dropbomb"></i></label>
+                            <label><input type="radio" name="sound-select" class="icheck" id="radio-4" value="bman" checked> Small Business Man<i class="fa fa-volume-up play-sound" id="lb-play-bman"></i></label>
+
+
+
+                            <label>Select the theme:</label>
+                            <div class="btn-group" data-toggle="buttons-radio" id="theme-selector">
+                                <button type="button" id="dark-theme" class="btn btn-default active">Dark Theme</button>
+                                <button type="button" id="light-theme" class="btn">Light Theme</button>
+                            </div>
+
+
+                            <label>Display number of schedule items on the icon bagde when video is not live:</label>
+                            <label><input type="radio" name="bagde" value="true" id="schedule-bagde"  class="icheck"> Yes</label>
+                            <label><input type="radio" name="bagde" value="false" id="schedule-bagde-no" class="icheck" checked> No</label>
+
+                            <label>Show schedule page by default if there's no live video:</label>
+                            <label><input type="radio" name="show-schedule" value="true" id="show-schedule"  class="icheck" checked> Yes</label>
+                            <label><input type="radio" name="show-schedule" value="false" id="show-schedule-no" class="icheck" > No</label>
+
+                        </form>
+                        <div class="row">
+                            <p id="settings-about" class="text-center">About <i class="fa fa-info-circle"></i></p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- LIVE PAGE -->
@@ -110,11 +132,15 @@
             </div>
             <!-- Schedule Page -->
             <div id="lb-page-schedule">
-                <div class="custom-scroll">
-                    <div id="lb-schedule-header" class="span12">
-                        <img id="schedule-header-image" src="images/upcoming-gb.png"><i id="lb-refresh-schedule" class="fa fa-refresh fa-lg"></i>
-                        <i class="fa fa-cog fa-spin" id="lb-schedule-loading"></i>
-                        <div id="lb-schedule-items"></div>
+                <div class="custom-scroll container">
+                    <div class="row">
+                        <div id="lb-schedule-header" class="col-xs-12">
+                            <img id="schedule-header-image" src="images/upcoming-gb.png"><i id="lb-refresh-schedule" class="fa fa-refresh fa-lg"></i>
+                            <i class="fa fa-cog fa-spin" id="lb-schedule-loading"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="lb-schedule-items" class=""></div>
                     </div>
                 </div>
             </div>
@@ -140,7 +166,7 @@
                 <p><a href="http://www.giantbomb.com/profile/hamst3r/">@Hamst3r</a></p>
                 <div id="tools">
                     <h4 class="about-text-title" id="lb-about-tools"> Tools used: </h4>
-                    <a href="http://getbootstrap.com/2.3.2/" target="_blank"><h5 class="about-item">Bootstrap 	v2.3.2</h5></a>
+                    <a href="http://getbootstrap.com/" target="_blank"><h5 class="about-item">Twitter Bootstrap</h5></a>
                     <a href="http://jquery.com/" target="_blank"><h5 class="about-item">Jquery v2.1.0</h5></a>
                     <a href="http://jqueryui.com" target="_blank"><h5 class="about-item">Jquery Ui v1.10</h5></a>
                     <a href="http://fronteed.com/iCheck/" target="_blank"><h5 class="about-item">iCheck v1.0.1 by Damir Sultanov</h5></a>
@@ -153,12 +179,8 @@
                     <h5 class="about-grey-text">Some art assets from GB website</h5>
                 </div>
                 <i class="fa fa-envelope" id="mail-icon"></i>
-                <h5 class="about-custom">Bugs, feedback or feature requests? Send me a message:</h5>
+                <h5 class="about-custom">Bugs, feedback or feature requests? Post a message:</h5>
                 <a id="lb-author" href="https://chrome.google.com/webstore/support/foadpaalpoealldkplclbhbebjmpaild?hl#bug" target="_blank"><h5>Feedback</h5></a>
-                <i class="fa fa-coffee" id="coffee"></i>
-                <h5 class="about-custom" id="about-donate">Like the extension and want to buy me a coffee? Go ahead :)</h5>
-
-                <a id="donation-link" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=LV9UJRWXFCSJS&lc=US&item_name=Livebomb%20donations&currency_code=USD&bn=PP%2dDonationsBF%3apaypalbutton%2epng%3aNonHosted" target="_blank"><img id="paypal" src="/images/paypal.png">Donate</a>
             </div>
         </div>
     </div>
