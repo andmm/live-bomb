@@ -43,6 +43,7 @@ module.exports = (grunt) ->
         less:
             dist:
                 options:
+                    cleancss: true
                     paths: ['css']
                 files:
                     'dist/css/style.min.css': 'css/app.less'

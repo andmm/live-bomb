@@ -76,12 +76,11 @@ $(function(){
     //Set theme
     if ( storage.get('theme') == 'light') {
         buttonDarkTheme.removeClass('active');
-        buttonLightTheme.addClass('active').css('cursor','default');
+        buttonLightTheme.addClass('active');
         $('body').addClass('livebomb-light');
         $('body').removeClass('livebomb-dark');
         ga('send','event','theme','light');
     } else {
-        buttonDarkTheme.css('cursor','default');
         ga('send','event','theme','dark');
     }
 
@@ -401,27 +400,28 @@ buttonAboutSettingsClose.click(function(){
 //Light Theme
 buttonLightTheme.click(function(){
     ga('send','event','button','click','light-theme');
+
     storage.set('theme','light');
+
     $('body').removeClass('livebomb-dark');
     $('body').addClass('livebomb-light');
+
     buttonRefresh.css('color','#2b2b2b');
     buttonRefreshSchedule.css('color','#2b2b2b');
     $(".slimScrollBar").css('background-color','#2b2b2b');
-    buttonLightTheme.css('cursor','default');
-    buttonDarkTheme.css('cursor','pointer');
 });
 
 //Dark Theme
 buttonDarkTheme.click(function(){
     ga('send','event','button','click','dark-theme');
     storage.set('theme','dark');
+
     $('body').removeClass('livebomb-light');
     $('body').addClass('livebomb-dark');
+
     buttonRefresh.css('color','#fff');
     buttonRefreshSchedule.css('color','#fff');
     $(".slimScrollBar").css('background-color','white');
-    buttonDarkTheme.css('cursor','default');
-    buttonLightTheme.css('cursor','pointer');
 });
 
 //Test Sounds
