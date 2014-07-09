@@ -133,7 +133,7 @@ var getSchedule = function(){
 				}
 
 				var eventName = val.title;
-				var eventImage = val.image;
+				var eventImage = "'" + val.image + "'";
 
 				// Assemble Output
 				output +=  '<li style="background-image: url('+ eventImage +')" class="animated fadeInDownBig"><h4>' + eventName +
