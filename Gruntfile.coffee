@@ -23,6 +23,13 @@ module.exports = (grunt) ->
                     }
                 ]
 
+        less:
+            dist:
+                options:
+                    paths: ['css']
+                files:
+                    'dist/css/style.min.css': 'css/app.less'
+
         uglify:
             dist:
                 # options:
@@ -78,5 +85,5 @@ module.exports = (grunt) ->
 
     # Grunt Tasks
     grunt.registerTask "default", [
-        "clean", "copy", "uglify"
+        "clean", "copy", "less", "uglify"
     ]
