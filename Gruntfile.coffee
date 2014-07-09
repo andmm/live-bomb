@@ -15,12 +15,30 @@ module.exports = (grunt) ->
                             'fonts/**'
                             'images/**'
                             'sounds/**'
-                            'square/**'
                         ]
                         dest: 'dist'
                         filter: 'isFile'
                         expand: true
+                    },
+                    {
+                        src: [
+                            'fonts/**'
+                        ]
+                        cwd: 'vendor/bower/fontawesome/'
+                        dest: 'dist'
+                        filter: 'isFile'
+                        expand: true
+                    },
+                    {
+                        src: [
+                            'grey.png'
+                        ]
+                        cwd: 'vendor/bower/iCheck/skins/square/'
+                        dest: 'dist/css'
+                        filter: 'isFile'
+                        expand: true
                     }
+
                 ]
 
         less:
