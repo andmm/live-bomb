@@ -3,9 +3,8 @@
 
 	"name": "Live Bomb!",
 	"description": "This extension notifies you when GiantBomb is live and you can also check the site schedule.",
-	"version":  "1.2.9",
+	"version":  "1.2.10",
 	"permissions": [
-		"http://www.giantbomb.com/",
 		"background",
 		"notifications"
 	],
