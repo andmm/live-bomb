@@ -10,6 +10,10 @@ var scheduleCounter;
 window.scheduleLoadingIcon = $('#lb-schedule-loading');
 window.buttonRefreshSchedule = $('#lb-refresh-schedule');
 
+chrome_getJSON = function(url, callback) {
+    chrome.runtime.sendMessage({action:'getJSON',url:url}, callback);
+}
+
 //Check for live video
 var checkLive = function(){
     var checkLiveDone = $.Deferred();

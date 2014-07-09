@@ -5,6 +5,7 @@
 	"description": "This extension notifies you when GiantBomb is live and you can also check the site schedule.",
 	"version":  "1.2.10",
 	"permissions": [
+		"http://www.giantbomb.com/",
 		"background",
 		"notifications"
 	],
@@ -27,8 +28,8 @@
 
 	"browser_action": {
 		"default_icon": {
-			"19": "images/giantbomb.png",
-			"38": "images/76.png"
+			"19": "images/livebomb19.png",
+			"38": "images/livebomb38.png"
 		},
 		"default_popup": "popup.html",
 		"default_title": "Live Bomb!"

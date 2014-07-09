@@ -33,6 +33,23 @@ $.ionSound({
 //GA
 ga('send','pageview','/running');
 
+//External Messaging
+// function onRequest(request, sender, callback) {
+//     if (request.action == 'getJSON') {
+//         // $.ajax({
+//         //     type: "GET",
+//         //     dataType: "jsonp",
+//         //     crossDomain: true,
+//         //     jsonp: 'json_callback',
+//         //     url: request.url,
+//         //     success: callback
+//         // });
+//         $.getJSON(request.url, callback);
+//     }
+// }
+//
+// chrome.runtime.onMessage.addListener(onRequest);
+
 //Routine
 var liveRoutine = function(){
 
