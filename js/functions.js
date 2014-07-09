@@ -2,6 +2,7 @@
 //Variables
 
 var gb_url = "http://www.giantbomb.com/";
+var gb_upcoming_url = "http://www.giantbomb.com/upcoming_json";
 var gbLive;
 var storage = $.localStorage;
 var scheduleLoadingIcon = $('#lb-schedule-loading');
@@ -91,69 +92,62 @@ var getSchedule = function(){
 
 	var getScheduleDone = $.Deferred();
 
-	$.get(gb_url, function(data){
+	$.getJSON(gb_upcoming_url, function(data){
 
 		scheduleCounter = 0;
 
-		if (data.length > 0) {
-
-			var parsedHtml = parseHtml(data);
-			var parsedElem = $(parsedHtml).find('dl.promo-upcoming').children('dd');
-
-			if (parsedElem.length > 0) {
-				var output = "<ul>";
-				var today = moment().get('date');
-			
-				$.each(parsedElem, function(index, value){
-					var imgCheck = value.style;
-					if (imgCheck != undefined){
-						var imgUrl = $(value).css('background-image').replace('url(','').replace(')','');
-					} else {
-						var imgUrl = "images/premium-background.png";
-					}
-					var eventName = $(value).find('h4').text().replace(/[<>]/,'');
-					var eventInfo = $(value).find('p').text();
-
-					// Parse Event Type and Date/Time
-					if (eventInfo.indexOf('Live Show') == 0) {
+		if (data.upcoming.length > 0)
+		{
+			var output = "<ul>";
+			$.each(data.upcoming, function(key,val) {
+				// Parse Event Type
+				switch (val.type)
+				{
+					case "Live Show":
 						var eventType = '<i class="fa fa-dot-circle-o fa-lg circle-schedule"></i> Live Show ';
-						var eventDate = eventInfo.substring(13);
-					} else if (eventInfo.indexOf('Video') == 0) {
+						break;
+					case "Video":
 						var eventType = '<i class="fa fa-play-circle fa-lg circle-schedule"></i> Video ';
-						var eventDate = eventInfo.substring(9);
-					} else if (eventInfo.indexOf('Article') == 0) {
+						break;
+					case "Article":
 						var eventType = '<i class="fa fa-file-o fa-lg"></i> Article ';
-						var eventDate = eventInfo.substring(11);
-					} else {
+						break;
+					case "Podcast":
 						var eventType = '<i class="fa fa-microphone fa-lg"></i> Podcast ';
-						var eventDate = eventInfo.substring(11);
-					}
+						break;
+					default:
+						var eventType = '<i class="fa fa-question-circle fa-lg"></i> Something ';
+						break;
+				}
 
-					var dt = new Date(eventDate);
-		
-					if ( today == dt.getDate()) {
-						var scheduleDate = moment(dt).fromNow();
-					} else {
-						var scheduleDate = "- " + moment(dt).calendar();
-					}
+				// Parse Date
+				var dt = moment.tz(moment(new Date(val.date)).format("dddd, MMMM Do YYYY, h:mm:ss a"), "dddd, MMMM Do YYYY, h:mm:ss a", "America/Los_Angeles");
+				var today = moment().get('date');
 
-					output +=  '<li style="background-image: url('+ imgUrl +')" class="animated fadeInDownBig"><h4>' + eventName +
-					'</h4> <p class="lb-schedule-p">'+ eventType + scheduleDate +'</p></li>';
+				dt.zone(moment().zone());
 
-					scheduleCounter += 1;
-				});
+				if (today == dt) {
+					var scheduleDate = dt.fromNow();
+				} else {
+					var scheduleDate = "- " + dt.calendar();
+				}
 
-				output += "</ul>";
-				$('#lb-schedule-items').html(output);
-				getScheduleDone.resolve();
+				var eventName = val.title;
+				var eventImage = val.image;
 
-			} else {
-				$('#lb-schedule-items').html('<h5 id="no-schedule" class="animated slideInDown">There are no items on the schedule. Try refreshing</h5>');
-				scheduleCounter = 0;
-				getScheduleDone.resolve();
-			}
+				// Assemble Output
+				output +=  '<li style="background-image: url('+ eventImage +')" class="animated fadeInDownBig"><h4>' + eventName +
+				'</h4> <p class="lb-schedule-p">'+ eventType + scheduleDate +'</p></li>';
+
+				scheduleCounter += 1;
+			});
+
+			output += "</ul>";
+			$('#lb-schedule-items').html(output);
+			getScheduleDone.resolve();
+
 		} else {
-			$('#lb-schedule-items').html('<h5 id="no-schedule" class="animated slideInDown">There are no items on the schedule or something went wrong. Try refreshing</h5>');
+			$('#lb-schedule-items').html('<h5 id="no-schedule" class="animated slideInDown">There are no items on the schedule. Try refreshing.</h5>');
 			scheduleCounter = 0;
 			getScheduleDone.resolve();
 		}
@@ -167,40 +161,40 @@ var getShowImage = function(){
 
 	var getShowImageDone = $.Deferred();
 
-		$.get(gb_url,function(liveshow){
+	$.get(gb_url,function(liveshow){
 
-			var liveShowElem = null;
-			if ( liveshow != null ) {
-				var parsedHtml = parseHtml(liveshow);
-				var liveShowElem = $(parsedHtml).find('.header-promo.live.show');
-			}
+		var liveShowElem = null;
+		if ( liveshow != null ) {
+			var parsedHtml = parseHtml(liveshow);
+			var liveShowElem = $(parsedHtml).find('.header-promo.live.show');
+		}
 
-			if ( liveShowElem != null && liveShowElem.length < 1 ) {
-				$('#lb-status-live').css('background-image','url(/images/premium-background.png)');
-				getShowImageDone.resolve();
-			} else {
+		if ( liveShowElem != null && liveShowElem.length < 1 ) {
+			$('#lb-status-live').css('background-image','url(/images/premium-background.png)');
+			getShowImageDone.resolve();
+		} else {
 
-				var checkForVideo = $(liveShowElem).find('p a');
+			var checkForVideo = $(liveShowElem).find('p a');
 
-				if (checkForVideo.length > 0) {
-					var parsedElem = $(parsedHtml).find('.kubrick-promo-video');
+			if (checkForVideo.length > 0) {
+				var parsedElem = $(parsedHtml).find('.kubrick-promo-video');
 
-					if ($(parsedElem).css('background-image') != '') {
-						var backgroundImage = $(parsedElem).css('background-image');
-						$('#lb-status-live').css('background-image',backgroundImage);
-						getShowImageDone.resolve();
-					} else {
-						parsedElem = $(parsedHtml).find('#wrapper section.promo-strip div ul li').eq(0);
-						var backgroundImage = $(parsedElem).css('background-image');
-						$('#lb-status-live').css('background-image',backgroundImage);
-						getShowImageDone.resolve();
-					}
+				if ($(parsedElem).css('background-image') != '') {
+					var backgroundImage = $(parsedElem).css('background-image');
+					$('#lb-status-live').css('background-image',backgroundImage);
+					getShowImageDone.resolve();
 				} else {
-					$('#lb-status-live').css('background-image','url(/images/premium-background.png)');
+					parsedElem = $(parsedHtml).find('#wrapper section.promo-strip div ul li').eq(0);
+					var backgroundImage = $(parsedElem).css('background-image');
+					$('#lb-status-live').css('background-image',backgroundImage);
 					getShowImageDone.resolve();
 				}
+			} else {
+				$('#lb-status-live').css('background-image','url(/images/premium-background.png)');
+				getShowImageDone.resolve();
 			}
-		});
+		}
+	});
 
 	return getShowImageDone.promise();
 };
