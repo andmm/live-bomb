@@ -1,8 +1,7 @@
 //Live check query variables.
 //Variables
 
-var gb_url = "http://www.giantbomb.com/";
-var gb_upcoming_url = "http://www.giantbomb.com/upcoming_json";
+var gb_url = "http://www.giantbomb.com/upcoming_json";
 var gbLive;
 var storage = $.localStorage;
 var sendMessage;
@@ -11,76 +10,30 @@ var scheduleCounter;
 window.scheduleLoadingIcon = $('#lb-schedule-loading');
 window.buttonRefreshSchedule = $('#lb-refresh-schedule');
 
-var parseHtml = function(data){
-    return '<body>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') + '</body>';
-}
-
 //Check for live video
 var checkLive = function(){
     var checkLiveDone = $.Deferred();
 
-    $.get(gb_url, function(data){
-        var parsedHtml = parseHtml(data);
-        var parsedElem = $(parsedHtml).find('.header-promo.live.show');
+    $.getJSON(gb_url, function(data){
+        if (data.liveNow != null)
+        {
+            gbLive = true;
+            storage.set({
+                'islive': true,
+                'title': data.liveNow.title,
+                'liveImage': data.liveNow.image,
+                'counter':false
+            });
 
-        if (parsedElem.length == 0) {
+            checkLiveDone.resolve();
+        }
+        else
+        {
             gbLive = false;
-            console.log('No text on frontpage, no live video');
             storage.set({
                 'islive':false,
                 'counter':false
             });
-            checkLiveDone.resolve();
-        } else {
-            var liveLink = $(parsedElem).find('p a');
-            if (liveLink.length > 0) {
-                gbLive = true;
-                var titleName = liveLink.text().replace(/[<>]/,'');
-                storage.set({
-                    'islive': true,
-                    'title': titleName,
-                    'counter':false
-                });
-                getShowImage();
-                console.log('Video is live and link is ok');
-                checkLiveDone.resolve();
-            } else {
-                //Scraping the frontpage for live video promo-header
-                var liveVideo = $(parsedHtml).find('.kubrick-chat-player');
-                if (liveVideo.length > 0) {
-                    var test = $(parsedHtml).find('.kubrick-info a h4').text();
-                    var compare = "Live on Giant Bomb!";
-
-                    if (test === compare){
-                        gbLive = true;
-                        var titleName = $(parsedHtml).find('.kubrick-info a h2').text().replace(/[<>]/,'');
-                        storage.set({
-                            'islive': true,
-                            'title': titleName,
-                            'counter':false
-                        });
-                        getShowImage();
-                        console.log('Video is live but link is disabled');
-                        checkLiveDone.resolve();
-                    } else {
-                        gbLive = false;
-                        storage.set({
-                            'islive': false,
-                            'counter':true
-                        });
-                        console.log('Text is there but video is no longer live or something broke on this end');
-                        checkLiveDone.resolve();
-                    }
-                } else {
-                    gbLive = false;
-                    storage.set({
-                        'islive': false,
-                        'counter': true
-                    });
-                    console.log('Counter is up but no live video');
-                    checkLiveDone.resolve();
-                }
-            }
         }
     });
     return checkLiveDone.promise();
@@ -92,7 +45,7 @@ var getSchedule = function(){
 
     var getScheduleDone = $.Deferred();
 
-    $.getJSON(gb_upcoming_url, function(data){
+    $.getJSON(gb_url, function(data){
 
         scheduleCounter = 0;
 
@@ -154,46 +107,4 @@ var getSchedule = function(){
     });
 
     return getScheduleDone.promise();
-};
-
-var getShowImage = function(){
-
-    var getShowImageDone = $.Deferred();
-
-    $.get(gb_url,function(liveshow){
-
-        var liveShowElem = null;
-        if ( liveshow != null ) {
-            var parsedHtml = parseHtml(liveshow);
-            var liveShowElem = $(parsedHtml).find('.header-promo.live.show');
-        }
-
-        if ( liveShowElem != null && liveShowElem.length < 1 ) {
-            $('#lb-status-live').css('background-image','url(/images/premium-background.png)');
-            getShowImageDone.resolve();
-        } else {
-
-            var checkForVideo = $(liveShowElem).find('p a');
-
-            if (checkForVideo.length > 0) {
-                var parsedElem = $(parsedHtml).find('.kubrick-promo-video');
-
-                if ($(parsedElem).css('background-image') != '') {
-                    var backgroundImage = $(parsedElem).css('background-image');
-                    $('#lb-status-live').css('background-image',backgroundImage);
-                    getShowImageDone.resolve();
-                } else {
-                    parsedElem = $(parsedHtml).find('#wrapper section.promo-strip div ul li').eq(0);
-                    var backgroundImage = $(parsedElem).css('background-image');
-                    $('#lb-status-live').css('background-image',backgroundImage);
-                    getShowImageDone.resolve();
-                }
-            } else {
-                $('#lb-status-live').css('background-image','url(/images/premium-background.png)');
-                getShowImageDone.resolve();
-            }
-        }
-    });
-
-    return getShowImageDone.promise();
 };

@@ -192,7 +192,7 @@ else if  (storage.get('islive') == false && storage.get('show-schedule') == fals
     statusOffline.show();
 } else {
     chrome.browserAction.setBadgeText({text:"LIVE"});
-    getShowImage();
+    $('#lb-status-live').css('background-image', 'url("' + storage.get('liveImage') + '")');
     statusOnline.show();
     statusOffline.hide();
     $('#button-icon').css("color", 'red').addClass("animated swing");
