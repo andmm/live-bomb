@@ -162,11 +162,11 @@ storage.set('show-schedule',c);
 
 //Update schedule badge on change
 $('body').on('checkBadge',function(){
-    if (storage.get('schedule-bagde') == false && storage.get('islive') != true) {
+    if (storage.get('schedule-bagde') == false && gbLive != true) {
         chrome.browserAction.setBadgeText({text:''});
     }
 
-    if (storage.get('schedule-bagde') == true && storage.get('islive') != true && scheduleCounter > 0) {
+    if (storage.get('schedule-bagde') == true && gbLive != true && scheduleCounter > 0) {
         chrome.browserAction.setBadgeText({text:''+scheduleCounter+''});
     }
 });
@@ -292,7 +292,7 @@ buttonRefresh.click(function(){
     checkLive().done(function(){
         buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh');
 
-        if ( storage.get('islive') == true ) {
+        if ( gbLive == true ) {
             statusOnline.addClass('animated bounceInUp').show();
             statusOffline.hide();
             chrome.browserAction.setBadgeText({text:'LIVE'});

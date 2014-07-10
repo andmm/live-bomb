@@ -4,15 +4,11 @@
 var gb_url = "http://www.giantbomb.com/upcoming_json";
 var gbLive;
 var storage = $.localStorage;
-var sendMessage;
+var sendMessage = false;
 var scheduleCounter;
 
-window.scheduleLoadingIcon = $('#lb-schedule-loading');
-window.buttonRefreshSchedule = $('#lb-refresh-schedule');
-
-chrome_getJSON = function(url, callback) {
-    chrome.runtime.sendMessage({action:'getJSON',url:url}, callback);
-}
+var scheduleLoadingIcon = $('#lb-schedule-loading');
+var buttonRefreshSchedule = $('#lb-refresh-schedule');
 
 //Check for live video
 var checkLive = function(){
@@ -38,8 +34,11 @@ var checkLive = function(){
                 'islive':false,
                 'counter':false
             });
+
+            checkLiveDone.resolve();
         }
     });
+
     return checkLiveDone.promise();
 };
 
