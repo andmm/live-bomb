@@ -25,7 +25,7 @@ It is preferred but not required that you [submit an issue][issues] prior to doi
 * Do every bug fix/feature/ehancemnt on its own branch and never on the master branch.
 * If any upstream commits have been made on master, rebase prior to submitting the pull request.
 * Commit often like a responsible developer, but clean up and squash your commits on your pull request.
-* You can find more info on forking and pull requests here: [https://github.com/Chaser324/live-bomb/issues][issues]
+* You can find more info on forking and pull requests [here](https://gist.github.com/Chaser324/ce0505fbed06b947d962).
 
 ### Development Quick Start
 
