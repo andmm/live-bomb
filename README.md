@@ -1,6 +1,8 @@
 # Live Bomb!
 > Live Bomb is a Chrome extension that notifies you when there's a live video on [GiantBomb.com](http://www.giantbomb.com) and lets you keep tabs on the schedule of upcoming videos, articles, podcasts, and streams.
 
+**Please note that [Chaser324/live-bomb][mainrepo] is currently the active main repo for this project. Submit issues and pull requests there.**
+
 ## Features
 * Live Stream Notifications - Optional desktop notifications with customizable audio alerts.
 * Runs in Background - Option to run in the background while the browser is closed.
