@@ -162,11 +162,11 @@ storage.set('show-schedule',c);
 
 //Update schedule badge on change
 $('body').on('checkBadge',function(){
-    if (storage.get('schedule-bagde') == false && gbLive != true) {
+    if (storage.get('schedule-bagde') == false && storage.get('islive') != true) {
         chrome.browserAction.setBadgeText({text:''});
     }
 
-    if (storage.get('schedule-bagde') == true && gbLive != true && scheduleCounter > 0) {
+    if (storage.get('schedule-bagde') == true && storage.get('islive') != true && scheduleCounter > 0) {
         chrome.browserAction.setBadgeText({text:''+scheduleCounter+''});
     }
 });
@@ -292,8 +292,7 @@ buttonRefresh.click(function(){
     checkLive().done(function(){
         buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh');
 
-        if ( gbLive == true ) {
-
+        if ( storage.get('islive') == true ) {
             statusOnline.addClass('animated bounceInUp').show();
             statusOffline.hide();
             chrome.browserAction.setBadgeText({text:'LIVE'});
@@ -404,5 +403,14 @@ $('#lb-play-dropbomb').click(function(){
 $('#lb-play-bman').click(function(){
     $.ionSound.play('bman');
 });
+
+// Windows Hide Scrollbar Hack
+// TODO: I HAVE NO IDEA WHY THIS IS NECESSARY OR WHY IT WORKS!
+setTimeout(function(){
+    $('body').height('379px');
+    setTimeout(function(){
+        $('body').height('');
+    }, 100);
+}, 100);
 
 });

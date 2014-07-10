@@ -1,4 +1,7 @@
-body, html {
+html {
+}
+
+body {
     margin: 0;
     max-width: 300px;
     max-height: 380px;
@@ -6,10 +9,8 @@ body, html {
     height: 380px;
     background-repeat: repeat;
     -webkit-font-smoothing: antialiased;
+    overflow: hidden;
 }
-
-::-webkit-scrollbar { display: none; }
-#live-bomb::-webkit-scrollbar { width: 0 !important; }
 
 #live-bomb {
     position: relative;
@@ -17,6 +18,9 @@ body, html {
     height: 100%;
     width: 100%;
 }
+
+::-webkit-scrollbar { display: none; }
+::-webkit-scrollbar { width: 0 !important; }
 
 /***** HEADER *****/
 
