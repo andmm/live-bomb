@@ -227,11 +227,7 @@ $('body').on('statusNotLive',function(){
     if(statusOnline.is(':visible')) {
         statusOnline.fadeOut(200,function(){
             statusOffline.fadeIn(200);
-            if (storage.get('theme') == 'dark'){
-                $('.fa-dot-circle-o').css("color", '#fff').removeClass("animated swing");
-            } else {
-                $('.fa-dot-circle-o').css("color", '#2b2b2b').removeClass("animated swing");
-            }
+            $('.fa-dot-circle-o').removeClass("animated swing");
         });
     }
 });
@@ -290,17 +286,12 @@ buttonSchedule.click(function() {
 //Status refresh
 buttonRefresh.click(function(){
     ga('send','event','button','click','status-refresh');
-    if (storage.get('theme') == 'dark') {
-        buttonRefresh.removeClass('fa-refresh').addClass('fa-cog fa-spin').css('color','#a0a0a0');
-    } else {
-        buttonRefresh.removeClass('fa-refresh').addClass('fa-cog fa-spin').css('color','#2b2b2b');
-    }
+
+    buttonRefresh.removeClass('fa-refresh').addClass('fa-cog fa-spin');
+
     checkLive().done(function(){
-        if (storage.get('theme') == 'dark') {
-            buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh').css('color','#fff');
-        } else {
-            buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh').css('color','#2b2b2b');
-        }
+        buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh');
+
         if ( gbLive == true ) {
 
             statusOnline.addClass('animated bounceInUp').show();
@@ -329,11 +320,9 @@ buttonRefresh.click(function(){
 //Schedule refresh
 buttonRefreshSchedule.click(function(){
     ga('send','event','button','click','schedule-refresh');
-    if (storage.get('theme') == 'dark'){
-        $(this).removeClass('fa-refresh').addClass('fa-times').css({'color':'#a0a0a0','cursor':'default'});
-    } else {
-        $(this).removeClass('fa-refresh').addClass('fa-times').css({'color':'#646464','cursor':'default'});
-    }
+
+    $(this).removeClass('fa-refresh').addClass('fa-times');
+
     scheduleItems.fadeOut(200,function(){
         $(this).html('');
         window.scheduleLoadingIcon.fadeIn(300);
@@ -343,11 +332,8 @@ buttonRefreshSchedule.click(function(){
             $(this).fadeOut(300);
             scheduleItems.fadeIn(100);
         });
-        if (storage.get('theme') == 'dark') {
-            buttonRefreshSchedule.removeClass('fa-times').addClass('fa-refresh').css({'color':'#fff','cursor':'pointer'});
-        } else {
-            buttonRefreshSchedule.removeClass('fa-times').addClass('fa-refresh').css({'color':'#2b2b2b','cursor':'pointer'});
-        }
+
+        buttonRefreshSchedule.removeClass('fa-times').addClass('fa-refresh');
     })
 });
 
@@ -358,17 +344,11 @@ buttonAboutOffline.click(function(){
     buttonAboutSettingsClose.hide();
     pageStatus.fadeOut(300);
     pageAbout.fadeIn(300);
-    if (storage.get('theme') == 'light') {
-        $('.slimScrollBar').css('background-color','#fff');
-    }
 });
 
 buttonAboutOfflineClose.click(function(){
     pageAbout.fadeOut(300);
     pageStatus.fadeIn(300);
-    if (storage.get('theme') == 'light') {
-        $('.slimScrollBar').css('background-color','#2b2b2b');
-    }
 });
 
 //About Settings
@@ -380,20 +360,12 @@ buttonAboutSettings.click(function(){
     });
     buttonAboutOfflineClose.hide();
     buttonAboutSettingsClose.show();
-    if (storage.get('theme') == 'light') {
-        $('.slimScrollBar').css('background-color','#fff');
-        buttonAboutSettingsClose.css('color','#fff')
-    }
-
 });
 
 buttonAboutSettingsClose.click(function(){
     pageAbout.fadeOut(300, function(){
         pageSettings.fadeIn(300);
     });
-    if (storage.get('theme') == 'light') {
-        $('.slimScrollBar').css('background-color','#2b2b2b');
-    }
 });
 
 
@@ -405,10 +377,6 @@ buttonLightTheme.click(function(){
 
     $('body').removeClass('livebomb-dark');
     $('body').addClass('livebomb-light');
-
-    buttonRefresh.css('color','#2b2b2b');
-    buttonRefreshSchedule.css('color','#2b2b2b');
-    $(".slimScrollBar").css('background-color','#2b2b2b');
 });
 
 //Dark Theme
@@ -418,10 +386,6 @@ buttonDarkTheme.click(function(){
 
     $('body').removeClass('livebomb-light');
     $('body').addClass('livebomb-dark');
-
-    buttonRefresh.css('color','#fff');
-    buttonRefreshSchedule.css('color','#fff');
-    $(".slimScrollBar").css('background-color','white');
 });
 
 //Test Sounds
