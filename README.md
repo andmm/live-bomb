@@ -88,6 +88,8 @@ You can run `grunt dev` at the command line to automatically rebuild as you make
 * **Chase Pettit (Chaser324)** - Current lead Live Bomb developer - [twitter](https://twitter.com/chasepettit), [github](https://github.com/Chaser324)
 
 * **Hamst3r** - Audio contributor - [twitter](https://twitter.com/hamst3r), [youtube](https://www.youtube.com/hamsteralliance)
+* **Shoddy Robot** - Art contributor - [giantbomb](http://www.giantbomb.com/profile/shoddyrobot/)
+
 
 * **CatsAkimbo** - Testing/Development - [giantbomb](http://www.giantbomb.com/profile/catsakimbo/)
 * **Chance_S** - Testing/Development - [giantbomb](http://www.giantbomb.com/profile/chance_s/)

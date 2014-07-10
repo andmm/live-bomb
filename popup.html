@@ -41,11 +41,13 @@
                 <div class="custom-scroll">
                     <div class="container">
                         <div class="row">
-                            <div id="lb-settings-message" data-spy="affix-top"><i class="fa fa-check-circle fa-lg"></i>Settings updated!</div>
+                            <div id="lb-settings-message" class="col-xs-12 text-center" data-spy="affix-top">
+                                <h5><i class="fa fa-check-circle fa-lg"></i> Settings updated!</h5>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                <h4 id="settings-title">Settings</h4>
+                                <h4 id="settings-title" class="text-center">Settings</h4>
                             </div>
                         </div>
 
@@ -133,7 +135,7 @@
                     <div id="lb-status-live" class="animated bounceInUp">
 
                         <img id="image-online" src="images/online.png">
-                        <h3 class="place-holder" id="live-duder">Hey Duder!</h3>
+                        <h3 class="place-holder text-center" id="live-duder">Hey Duder!</h3>
                         <h5 id="live-container">Giant Bomb is live with:</h5>
                         <h4 id="show-name"></h4>
 
@@ -145,8 +147,8 @@
                     <div id="lb-offline-background">
                         <i id="lb-refresh-button" class="fa fa-refresh"></i>
                         <img id="image-offline" src="images/image-offline.png">
-                        <h3 class="place-holder message">Sorry Duder!</h3>
-                        <h4 id="offline-bottom">The guys are busy <br>windjamming :(</h4>
+                        <h3 class="place-holder message text-center">Sorry Duder!</h3>
+                        <h4 id="offline-bottom" class="text-center">The guys are busy <br>windjamming :(</h4>
                         <br>
                     </div>
                     <i class="fa fa-info-circle" id="offline-about-icon"></i>
@@ -173,44 +175,27 @@
         </div>
 
         <!--  About page -->
-        <div id="lb-page-about">
-            <div class="custom-scroll">
-                <h4 id="about-page-title">About <i class="fa fa-times" id="offline-about-close"></i><i class="fa fa-times" id="settings-about-close"></i></h4>
-                <img src="/images/logotest2.png" id="about-image" class="animated tada">
-
-                <h4 id="about-livebomb">LiveBomb v1.2.11</h4>
-
-                <h4 class="about-text-title">Developed by:</h4>
-                <h4><a href="https://twitter.com/andrem_m" target="_blank">André Milani</a></h4>
-                <h4><a href="https://twitter.com/chasepettit" target="_blank">Chase Pettit</a></h4>
-
-                <h4 class="about-text-title"><a href="https://github.com/Chaser324/live-bomb" target="_blank"><i class="fa fa-github-square"></i> Fork on GitHub</a></h4>
-
-                <h4 class="about-text-title">Awesome Ryan fanart by:</h4>
-                <a href="http://www.giantbomb.com/profile/shoddyrobot/" id="image-author" target="_blank">@Shoddy Robot</a>
-
-                <h4 class="about-text-title">Thanks to:</h4>
-                <p><a href="http://www.giantbomb.com/profile/catsakimbo/" class="about-item" target="_blank">@CatsAkimbo</a></p>
-                <p><a href="http://www.giantbomb.com/profile/chance_s/" class="about-item" target="_blank">@Chance_S</a></p>
-                <p><a href="http://www.giantbomb.com/profile/cencen123/" class="about-item" target="_blank">@cencen123</a></p>
-                <p><a href="http://www.giantbomb.com/profile/hamst3r/" target="_blank">@Hamst3r</a></p>
-
-                <div id="tools">
-                    <h4 class="about-text-title" id="lb-about-tools"> Tools used: </h4>
-                    <a href="http://getbootstrap.com/" target="_blank"><h5 class="about-item">Twitter Bootstrap</h5></a>
-                    <a href="http://jquery.com/" target="_blank"><h5 class="about-item">Jquery v2.1.0</h5></a>
-                    <a href="http://jqueryui.com" target="_blank"><h5 class="about-item">Jquery Ui v1.10</h5></a>
-                    <a href="http://fronteed.com/iCheck/" target="_blank"><h5 class="about-item">iCheck v1.0.1 by Damir Sultanov</h5></a>
-                    <a href="http://ionden.com/a/plugins/ion.sound/en.html" target="_blank"><h5 class="about-item">IonSound by Denis Ineshin</h5></a>
-                    <a href="https://github.com/julien-maurel/jQuery-Storage-API" target="_blank"><h5 class="about-item">Jquery Storage API by Julien Muriel</h5></a>
-                    <a href="http://rocha.la/jQuery-slimScroll" target="_blank"><h5 class="about-item">jQuery slimScroll by Piotr Rochala</h5></a>
-                    <a href="http://fontawesome.io/" target="_blank"><h5 class="about-item">Font Awesome 4.0</h5></a>
-                    <a href="https://github.com/daneden/animate.css" target="_blank"><h5 class="about-item">Animate.css by Daniel Eden</h5></a>
-                    <h5 class="about-grey-text">Some art assets from GB website</h5>
+        <div id="lb-page-about" class="text-center">
+            <div class="custom-scroll container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3 id="about-page-title">About <i class="fa fa-times" id="offline-about-close"></i><i class="fa fa-times" id="settings-about-close"></i></h3>
+                    </div>
                 </div>
-                <i class="fa fa-envelope" id="mail-icon"></i>
-                <h5 class="about-custom">Bugs, feedback or feature requests? Post a message:</h5>
-                <a id="lb-author" href="https://chrome.google.com/webstore/support/foadpaalpoealldkplclbhbebjmpaild?hl#bug" target="_blank"><h5>Feedback</h5></a>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <img src="/images/logotest2.png" id="about-image" class="animated tada">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><a href="https://github.com/Chaser324/live-bomb/blob/master/README.md#contributors--thanks" target="_blank"><i class="fa fa-users"></i> Credits &amp; Thanks</a></p>
+                        <p class=""><a href="https://github.com/Chaser324/live-bomb" target="_blank"><i class="fa fa-github-square"></i> Fork on GitHub</a></p>
+                        <p><a id="lb-author" href="https://chrome.google.com/webstore/support/foadpaalpoealldkplclbhbebjmpaild?hl#bug" target="_blank"><i class="fa fa-envelope" id="mail-icon"></i> Feedback, Bug Reports, Feature Requests</a></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

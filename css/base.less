@@ -8,7 +8,9 @@ body, html {
     -webkit-font-smoothing: antialiased;
 }
 
+::-webkit-scrollbar { display: none; }
 #live-bomb::-webkit-scrollbar { width: 0 !important; }
+
 #live-bomb {
     position: relative;
     overflow: hidden;
@@ -21,7 +23,7 @@ body, html {
 #header {
     z-index: 9;
     width: 100%;
-    height: 54px;
+    height: 58px;
     border-bottom: 3px solid #b31919;
     background: transparent url(/images/background.png) repeat;
 
@@ -38,7 +40,7 @@ body, html {
     }
 }
 
-/***** TABS *****/
+/***** TAB BUTTONS *****/
 
 #lb-controls {
     width: 100%;
@@ -51,24 +53,77 @@ body, html {
         margin-bottom: 1px;
         border-bottom: 1px;
         height: 36px;
-        background-repeat: repeat-x;
-        -webkit-font-smoothing: antialiased;
 
-        &:hover {
-            .box-shadow(~'inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05)');
-        }
-
-        &.active {
+        &:hover, .active {
             .box-shadow(~'inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05)');
         }
     }
 }
 
-i {
-    margin-top: 1px;
-    font-size: 30px;
-    -webkit-font-smoothing: antialiased;
+/***** SCHEDULE TAB *****/
+
+#lb-schedule-header {
+    height: 40px;
 }
+
+#lb-refresh-schedule {
+    margin-top: -5px;
+    margin-left: 2px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#schedule-header-image {
+    margin: 2px 0px -2px 20px;
+}
+
+#lb-schedule-loading {
+    margin-top: 65px;
+    margin-left: 128px;
+    font-size: 47px;
+}
+
+#lb-schedule-items {
+    overflow-x: hidden;
+    background-repeat: none;
+    width: 300px;
+
+    ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+            position: relative;
+            display: block;
+            padding-right: 10px;
+            height: 80px;
+            background: transparent no-repeat center center;
+            background-size: cover;
+            list-style: none;
+        }
+
+        h4 {
+            margin-top: 0;
+            margin-bottom: -10px;
+            margin-left: 10px;
+            padding-top: 5px;
+            text-align: left;
+            font-size: 15px;
+        }
+    }
+}
+
+.lb-schedule-p {
+    position:  absolute;
+    bottom: 5px;
+    right: 10px;
+    left: 10px;
+    margin: 0;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/***** LIVE TAB *****/
 
 #lb-refresh-button {
     margin-top: 10px;
@@ -78,35 +133,7 @@ i {
     cursor: pointer;
 }
 
-h4 {
-    text-align: center;
-    -webkit-font-smoothing: antialiased;
-}
-
-h4 i {
-    font-size: 15px;
-}
-
-.message {
-    text-align: center;
-}
-
-.fa-clock-o  {
-    color: #fff;
-}
-
-.lb-schedule-p {
-    position:  absolute;
-    margin-top: 20px;
-    margin-bottom: 0px;
-    margin-left: 10px;
-    font-size: 13px;
-    font-weight: bold
-
-}
-
 .place-holder {
-    text-align: center;
     font-size: 1.8em;
 }
 
@@ -115,24 +142,10 @@ h4 i {
     text-align: center;
     text-decoration: none;
     font-size: 18px;
-
 }
 
 #lb-page-status a  {
     text-decoration: none;
-}
-
-
-#live-text {
-    color: #aaa;
-    text-align: center;
-}
-
-#title {
-    margin-top: -46px;
-    margin-left: 120px;
-    color: #fff;
-    text-shadow: 1px 1px 2px rgba(150, 150, 150, 1);
 }
 
 #image-offline {
@@ -142,7 +155,6 @@ h4 i {
     max-height: 200px;
     width: 130px;
     height: 130px;
-
 }
 
 #image-online {
@@ -156,56 +168,15 @@ h4 i {
     margin-bottom: -95px;
 }
 
-#settings-header {
-    text-align: center;
-}
-
-#lb-settings {
-outline: none;
-border-radius: 0px;
-}
-
-#lb-live {
-    outline: none;
-}
-
-#lb-main {
-    overflow: scroll;
-    max-height:290px;
-    width: 300px;
-    background-repeat: repeat;
-}
-
-#lb-page-status {
-    overflow: hidden;
-    max-width: 300px;
-    width: 300px;
-}
-
 #lb-status-live {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    box-sizing: border-box;
-    margin-top: 0px;
     height: 298px;
-    background: no-repeat center center;
-    -webkit-background-size: cover;
+    background: transparent no-repeat center center;
+    background-size: cover;
     cursor: pointer;
+    text-shadow: 1px 1px 1px #000;
 }
 
 #lb-status-offline {
-    position: absolute;
-    display: block;
-    overflow: hidden;
-    box-sizing: border-box;
-    max-width: 300px;
-    max-height: 280px;
-    width: 300px;
-    height: 280px;
-    background: no-repeat center center;
-    -webkit-background-size: cover;
-
 }
 
 #offline-about-icon {
@@ -215,7 +186,6 @@ border-radius: 0px;
     cursor: pointer;
 }
 
-
 #show-name {
     margin-right: 10px;
     margin-left: 10px;
@@ -223,222 +193,23 @@ border-radius: 0px;
     font-size: 1.1em;
 }
 
-/***** UPCOMING TAB *****/
-
-#lb-page-schedule {
-    width: 300px;
-}
-
-#lb-schedule-header {
-    margin-left: 0px;
-    width: 300px;
-    height: 40px;
-}
-
-#lb-refresh-schedule {
-    margin-top: -5px;
-    margin-left: 2px;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-#schedule-header-image {
-    width: 80%;
-    height: 40px;
-    margin: 2px 0px -2px 20px;
-}
-
-#lb-schedule-items {
-    overflow-x:hidden;
-    background-repeat: none;
-    width: 300px;
-
-    ul {
-        margin: 0;
-        padding: 0;
-
-        li {
-            position: relative;
-            display: block;
-            box-sizing: border-box;
-            padding-right: 10px;
-            width: 100%;
-            height: 80px;
-            background: no-repeat center center;
-            -webkit-background-size: cover;
-            list-style: none;
-            list-style-type: none;
-            list-style-image: none;
-
-            &:first-child {
-                margin-top: 0;
-            }
-        }
-
-        h4 {
-            margin-top: 0;
-            margin-bottom: -10px;
-            margin-left: 10px;
-            padding-top: 5px;
-            text-align: left;
-            font-size: 15.3px;
-        }
-    }
-}
-
-::-webkit-scrollbar              { display: none; }
-::-webkit-scrollbar-button       { display: none; }
-::-webkit-scrollbar-track        { display: none; }
-::-webkit-scrollbar-track-piece  { display: none; }
-::-webkit-scrollbar-thumb        { display: none; }
-::-webkit-scrollbar-corner       { display: none; }
-::-webkit-resizer
-
-#theme-selector {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 50px;
-}
-
-#settings-icon {
-    margin-right: 10px;
-    font-size: 15px;
-}
-
-#lb-save-button {
-    margin-bottom: 10px;
-    margin-left: 80px;
-    width: 140px;
-    outline: none;
-}
-
-.fa-floppy-o {
-    margin-right: 10px;
-    font-size: 15px;
-}
+/***** SETTINGS TAB *****/
 
 #lb-settings-message {
     position:  absolute;
     z-index: 10;
-    padding-top: 5px;
-    width: 300px;
-    height: 26px;
-    text-align: center;
-}
-
-#lb-settings-message i {
-}
-
-.fa-check-circle {
-    margin-right: 10px;
+    background-color: green;
+    .box-shadow(0px 7px 12px 0px rgba(0, 0, 0, 0.75));
     text-shadow: 1px 1px 1px black;
-}
-
-#lb-schedule-loading {
-    margin-top: 65px;
-    margin-left: 128px;
-    font-size: 47px;
-}
-
-#lb-title-loading {
-    margin-top: 6px;
-    margin-left: 142px;
-    font-size: 20px;
-}
-
-#no-schedule {
-    margin-right: 10px;
-    margin-left: 10px;
-}
-
-#lb-page-about {
-    position: relative;
-    overflow: scroll;
-    max-height: 280px;
-    width: 300px;
-    background-image: url(/images/about-background.png);
-    -webkit-background-size: cover;
-    text-align: center;
-    /*box-sizing: border-box;*/
-    display: block;
-}
-
- .about-custom {
-    margin-right: 8px;
-    margin-left: 8px;
-}
-
-#lb-slider-value {
-    margin-bottom: 10px;
-}
-
-#about-close-icon {
-    padding-left: 80px;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-.about-text-title {
-    font-size: 14px;
-}
-
-#about-page-title {
-    margin-bottom: 20px;
-    margin-left: 90px;
-}
-
-#about-livebomb {
-}
-
-#settings-scroll {
-    height: inherit;
-}
-
-#schedule-scroll {
-    height: inherit;
-}
-
-.about-grey-text {
-}
-
-
-#offline-about-close {
-    padding-left: 65px;
-    font-size: 22px;
-    cursor: pointer;
-}
-
-#mail-icon {
-    font-size: 15px;
-}
-
-#author {
-    margin-bottom: 20px;
-}
-
-#about-image {
-    width: 200px;
-    height: auto;
-}
-
-#image-author {
-    font-weight: bold;
-}
-
-/***** SETTINGS TAB *****/
-
-#lb-page-settings {
-    overflow-y:scroll;
-    width: 300px;
-    background-repeat: repeat;
+    color: #f5f5f5;
 }
 
 .ui-slider-horizontal {
     height: 8px;
     border: none;
     border-radius: 20px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(234,234,234,1)), color-stop(100%,rgba(191,191,191,1)));
 }
-
 
 .ui-slider .ui-slider-handle {
     width: 17px;
@@ -448,6 +219,8 @@ border-radius: 0px;
 
     border-radius: 40px;
     cursor: pointer;
+
+    background: #898989;
 }
 
 .play-sound {
@@ -463,64 +236,42 @@ border-radius: 0px;
 }
 
 #settings-about {
-    font-weight: bold;
-    font-size: 17px;
-    cursor: pointer;
     margin: 0;
+    padding: 5px;
+    cursor: pointer;
+    color: #a3a3a3;
+    background-color: #3b3b3b !important;
+    text-shadow: 2px 2px #000;
+}
 
-    i {
-        font-size: 17px;
+/***** ABOUT PAGE *****/
+
+#lb-page-about {
+    background-image: url(/images/about-background.png);
+    background-size: cover;
+    .box-shadow(inset 0px 0px 140px 23px rgba(0,0,0,1));
+    color: #a3a3a3;
+    text-shadow: 1px 1px 1px #000;
+
+    h3 {
+        color: #a0a0a0;
     }
 }
 
-#settings-about-close {
+#settings-about-close,
+#offline-about-close {
     margin-right: 15px;
     padding-left: 70px;
     font-size: 20px;
     cursor: pointer;
 }
 
-/***** SETTINGS TAB *****/
-
-#lb-settings-message {
-    background-color: green;
-    .box-shadow(0px 7px 12px 0px rgba(0, 0, 0, 0.75));
-    text-shadow: 1px 1px 1px black;
-    color: #f5f5f5;
+#about-page-title {
+    margin-bottom: 20px;
+    margin-left: 90px;
 }
 
-.ui-slider-horizontal {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(234,234,234,1)), color-stop(100%,rgba(191,191,191,1)));
-}
-
-.ui-slider .ui-slider-handle {
-    background: #898989;
-}
-
-/***** ABOUT PAGE *****/
-
-#lb-page-about {
-    .box-shadow(inset 0px 0px 140px 23px rgba(0,0,0,1));
-}
-
-.about-text-title {
-    color: #a0a0a0;
-}
-
-.about-grey-text {
-    color: #a3a3a3;
-}
-
-#mail-icon {
-    color: #a3a3a3;
-}
-
-#settings-about {
-    color: #a3a3a3;
-    background-color: #3b3b3b !important;
-    text-shadow: 2px 2px #000;
-
-    i {
-        color: #a3a3a3;
-    }
+#about-image {
+    width: 200px;
+    height: auto;
 }
