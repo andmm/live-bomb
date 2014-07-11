@@ -5,7 +5,6 @@
 	"description": "This extension notifies you when GiantBomb is live and you can also check the site schedule.",
 	"version":  "1.2.13",
 	"permissions": [
-		"http://www.giantbomb.com/",
 		"background",
 		"notifications"
 	],
