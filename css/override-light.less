@@ -1,0 +1,34 @@
+// -------------------------------
+// Variables
+// -------------------------------
+@border-color-base: @gray-lighter;
+@border-color-accent: lighten(@border-color-base, 20%);
+
+@label-font-size: @font-size-small;
+@label-color: @gray-dark;
+
+@btn-theme-color: @gray-darker;
+@btn-theme-bg: @gray-lighter;
+@btn-theme-border: darken(@gray-lighter, 5%);
+
+// -------------------------------
+// Overrides
+// -------------------------------
+
+label {
+	font-weight: normal;
+	font-size: @label-font-size;
+	color: @label-color;
+}
+
+.form-group {
+	margin: 0;
+	border-top: solid 1px @border-color-base;
+	border-bottom: solid 1px @border-color-accent;
+	padding: @padding-large-vertical;
+}
+
+.btn-theme {
+  .button-variant(@btn-theme-color; @btn-theme-bg; @btn-theme-border);
+  #gradient > .vertical(lighten(@btn-theme-bg, 10%), @btn-theme-bg);
+}
