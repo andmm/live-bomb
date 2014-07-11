@@ -87,16 +87,18 @@ You can run `grunt dev` at the command line to automatically rebuild as you make
 * **André Milani Marcos (andmm)** - Creator of Live Bomb - [twitter](https://twitter.com/andrem_m), [github](https://github.com/andmm)
 * **Chase Pettit (Chaser324)** - Current lead Live Bomb developer - [twitter](https://twitter.com/chasepettit), [github](https://github.com/Chaser324)
 
-* **Hamst3r** - Audio contributor - [twitter](https://twitter.com/hamst3r), [youtube](https://www.youtube.com/hamsteralliance)
-* **Shoddy Robot** - Art contributor - [giantbomb](http://www.giantbomb.com/profile/shoddyrobot/)
-
+* **Kjell Iwarson (lightsoda)** - Development - [twitter](https://twitter.com/lightsoda), [github](https://github.com/lightsoda)
 
 * **CatsAkimbo** - Testing/Development - [giantbomb](http://www.giantbomb.com/profile/catsakimbo/)
 * **Chance_S** - Testing/Development - [giantbomb](http://www.giantbomb.com/profile/chance_s/)
 * **cencen123** - Testing/Development - [giantbomb](http://www.giantbomb.com/profile/cencen123/)
 
+* **Hamst3r** - Audio contributor - [twitter](https://twitter.com/hamst3r), [youtube](https://www.youtube.com/hamsteralliance)
+* **Shoddy Robot** - Art contributor - [giantbomb](http://www.giantbomb.com/profile/shoddyrobot/)
+
 * **Danny Chi (mrpibb)** - CBSi engineer - [twitter](https://twitter.com/dannichi)
 * **edgework** - CBSi engineer - [twitter](https://twitter.com/edgework_gb)
+* **Paul Friedman (Laika)** - CBSi engineer - [twitter](https://twitter.com/paulfri), [github](https://github.com/paulfri)
 
 * **[...AND YOU!](http://www.giantbomb.com/thanks-for-playing/3015-4614/)**
 
