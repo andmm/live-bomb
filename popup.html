@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="display: none;">
 <head>
     <title>Live Bomb!</title>
     <meta charset="UTF-8">
@@ -12,7 +12,7 @@
         <div id="header" class="container">
             <div class="row no-gutter">
                 <div class="col-xs-4">
-                    <a href="http://www.giantbomb.com" target="_blank" alt="Take me to giantbomb!"><img id="logo" class="img-responsive" src="/images/GB_logo_site.png"></a>
+                    <a href="http://www.giantbomb.com" target="_blank"><img id="logo" class="img-responsive" src="/images/GB_logo_site.png"></a>
                 </div>
                 <div class="col-xs-8">
                     <img id="lb-logo" class="img-responsive" src="images/logotest2.png">
@@ -20,24 +20,16 @@
             </div>
         </div>
         <!-- Buttons -->
-        <div id="lb-controls" class="btn-group" data-toggle="buttons">
-            <div id="lb-settings" class="btn btn-theme col-xs-4">
-                <input type="radio" id="tab1" name="nav-tabs"> <i class="fa fa-cogs fa-lg"></i>
-            </div>
-
-            <div id="lb-live" class="btn btn-theme col-xs-4">
-                <input type="radio" id="tab2" name="nav-tabs"> <i class="fa fa-dot-circle-o fa-lg"></i>
-            </div>
-
-            <div id="lb-schedule" class="btn btn-theme col-xs-4">
-                <input type="radio" id="tab2" name="nav-tabs" checked> <i class="fa fa-calendar-o fa-lg"></i>
-            </div>
-        </div>
+        <ul id="lb-controls" class="btn-group" role="tablist">
+            <li class="btn btn-theme col-xs-4"><a href="#lb-page-settings" role="tab" data-toggle="tab"><i class="fa fa-cogs fa-lg"></i></a></li>
+            <li class="btn btn-theme col-xs-4 active"><a href="#lb-page-status" role="tab" data-toggle="tab"><i class="fa fa-dot-circle-o fa-lg"></i></a></li>
+            <li class="btn btn-theme col-xs-4"><a href="#lb-page-schedule" role="tab" data-toggle="tab"><i class="fa fa-calendar-o fa-lg"></i></a></li>
+        </ul>
         <!-- Extension Body -->
-        <div id="lb-main">
+        <div id="lb-main" class="tab-content">
 
             <!-- SETTINGS PAGE -->
-            <div id="lb-page-settings">
+            <div id="lb-page-settings" class="tab-pane">
                 <div class="custom-scroll">
                     <div class="container">
                         <div class="row">
@@ -117,18 +109,18 @@
                             </form>
                         </div>
                         <div class="row">
-                            <p id="settings-about" class="text-center">About <i class="fa fa-info-circle"></i></p>
+                            <p id="settings-about" class="text-center"><a href="#lb-page-about" role="tab" data-toggle="tab">About <i class="fa fa-info-circle"></i></a></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- LIVE PAGE -->
 
-            <div id="lb-page-status">
+            <!-- LIVE PAGE -->
+            <div id="lb-page-status" class="tab-pane active">
                 <a href="http://www.giantbomb.com/chat" target="_blank" id="live-link">
 
                     <!-- Online -->
-                    <div id="lb-status-live" class="animated bounceInUp">
+                    <div id="lb-status-live" class="" style="display: none;">
 
                         <img id="image-online" src="images/online.png">
                         <h3 class="place-holder text-center" id="live-duder">Hey Duder!</h3>
@@ -143,18 +135,19 @@
                     <div id="lb-offline-background">
                         <i id="lb-refresh-button" class="fa fa-refresh"></i>
                         <img id="image-offline" src="images/image-offline.png">
-                        <h3 class="place-holder message text-center">Sorry Duder!</h3>
+                        <h3 class="place-holder text-center">Sorry Duder!</h3>
                         <h4 id="offline-bottom" class="text-center">The guys are busy <br>windjamming :(</h4>
                         <br>
                     </div>
-                    <i class="fa fa-info-circle" id="offline-about-icon"></i>
+                    <a href="#lb-page-about" role="tab" data-toggle="tab"><i class="fa fa-info-circle" id="offline-about-icon"></i></a>
                 </div>
 
                 <div id="lb-status-error"></div>
 
             </div>
+
             <!-- Schedule Page -->
-            <div id="lb-page-schedule">
+            <div id="lb-page-schedule" class="tab-pane">
                 <div class="custom-scroll container">
                     <div class="row">
                         <div id="lb-schedule-header" class="col-xs-12">
@@ -168,31 +161,31 @@
                 </div>
             </div>
 
-        </div>
-
-        <!--  About page -->
-        <div id="lb-page-about" class="text-center">
-            <div class="custom-scroll container">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h3 id="about-page-title">About <i class="fa fa-times" id="offline-about-close"></i><i class="fa fa-times" id="settings-about-close"></i></h3>
+            <!--  About page -->
+            <div id="lb-page-about" class="text-center tab-pane">
+                <div class="custom-scroll container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 id="about-page-title">About <i class="fa fa-times" id="offline-about-close"></i></h3>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-xs-12">
-                        <img src="/images/logotest2.png" id="about-image" class="animated tada">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <img src="/images/logotest2.png" id="about-image" class="">
+                        </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p><a href="https://github.com/Chaser324/live-bomb/blob/master/README.md#contributors--thanks" target="_blank"><i class="fa fa-users"></i> Credits &amp; Thanks</a></p>
-                        <p class=""><a href="https://github.com/Chaser324/live-bomb" target="_blank"><i class="fa fa-github-square"></i> Fork on GitHub</a></p>
-                        <p><a id="lb-author" href="https://chrome.google.com/webstore/support/foadpaalpoealldkplclbhbebjmpaild?hl#bug" target="_blank"><i class="fa fa-envelope" id="mail-icon"></i> Feedback, Bug Reports, Feature Requests</a></p>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p><a href="https://github.com/Chaser324/live-bomb/blob/master/README.md#contributors--thanks" target="_blank"><i class="fa fa-users"></i> Credits &amp; Thanks</a></p>
+                            <p class=""><a href="https://github.com/Chaser324/live-bomb" target="_blank"><i class="fa fa-github-square"></i> Fork on GitHub</a></p>
+                            <p><a id="lb-author" href="https://chrome.google.com/webstore/support/foadpaalpoealldkplclbhbebjmpaild?hl#bug" target="_blank"><i class="fa fa-envelope" id="mail-icon"></i> Feedback, Bug Reports, Feature Requests</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

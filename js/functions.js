@@ -86,7 +86,7 @@ var getSchedule = function() {
                 var eventImage = "'" + val.image + "'";
 
                 // Assemble Output
-                output +=  '<li style="background-image: url('+ eventImage +')" class="animated fadeInDownBig"><h4>' + eventName +
+                output +=  '<li style="background-image: url('+ eventImage +')" class=""><h4>' + eventName +
                     '</h4> <p class="lb-schedule-p">'+ eventType + scheduleDate +'</p></li>';
 
                 scheduleCounter += 1;
@@ -96,7 +96,7 @@ var getSchedule = function() {
             $('#lb-schedule-items').html(output);
             getScheduleDone.resolve();
         } else {
-            $('#lb-schedule-items').html('<h5 id="no-schedule" class="animated slideInDown">There are no items on the schedule. Try refreshing.</h5>');
+            $('#lb-schedule-items').html('<h5 id="no-schedule" class="">There are no items on the schedule. Try refreshing.</h5>');
             scheduleCounter = 0;
             getScheduleDone.resolve();
         }
