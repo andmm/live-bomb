@@ -24,7 +24,7 @@ All contributors are welcome. Feel free to fork away and submit pull requests fo
 
 It is preferred but not required that you [submit an issue][issues] prior to doing any development. Also, please try to observe basic pull request etiquette:
 
-* Do every bug fix/feature/ehancemnt on its own branch and never on the master branch.
+* Do every bug fix/feature/enhancement on its own branch and never on the master branch.
 * If any upstream commits have been made on master, rebase prior to submitting the pull request.
 * Commit often like a responsible developer, but clean up and squash your commits on your pull request.
 * You can find more info on forking and pull requests [here](https://gist.github.com/Chaser324/ce0505fbed06b947d962).
@@ -88,17 +88,17 @@ You can run `grunt dev` at the command line to automatically rebuild as you make
 * **Chase Pettit (Chaser324)** - Current lead Live Bomb developer - [twitter](https://twitter.com/chasepettit), [github](https://github.com/Chaser324)
 
 * **Kjell Iwarson (lightsoda)** - Development - [twitter](https://twitter.com/lightsoda), [github](https://github.com/lightsoda)
+* **Paul Friedman (Laika)** - Development/CBSi engineer - [twitter](https://twitter.com/paulfri), [github](https://github.com/paulfri)
 
-* **CatsAkimbo** - Testing/Development - [giantbomb](http://www.giantbomb.com/profile/catsakimbo/)
-* **Chance_S** - Testing/Development - [giantbomb](http://www.giantbomb.com/profile/chance_s/)
-* **cencen123** - Testing/Development - [giantbomb](http://www.giantbomb.com/profile/cencen123/)
+* **CatsAkimbo** - Testing - [giantbomb](http://www.giantbomb.com/profile/catsakimbo/)
+* **Chance_S** - Testing - [giantbomb](http://www.giantbomb.com/profile/chance_s/)
+* **cencen123** - Testing - [giantbomb](http://www.giantbomb.com/profile/cencen123/)
 
 * **Hamst3r** - Audio contributor - [twitter](https://twitter.com/hamst3r), [youtube](https://www.youtube.com/hamsteralliance)
 * **Shoddy Robot** - Art contributor - [giantbomb](http://www.giantbomb.com/profile/shoddyrobot/)
 
 * **Danny Chi (mrpibb)** - CBSi engineer - [twitter](https://twitter.com/dannichi)
 * **edgework** - CBSi engineer - [twitter](https://twitter.com/edgework_gb)
-* **Paul Friedman (Laika)** - CBSi engineer - [twitter](https://twitter.com/paulfri), [github](https://github.com/paulfri)
 
 * **[...AND YOU!](http://www.giantbomb.com/thanks-for-playing/3015-4614/)**
 
