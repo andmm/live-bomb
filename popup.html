@@ -33,7 +33,7 @@
                 <div class="custom-scroll">
                     <div class="container">
                         <div class="row">
-                            <div id="lb-settings-message" class="col-xs-12 text-center" data-spy="affix-top">
+                            <div id="lb-settings-message" class="col-xs-12 text-center">
                                 <h5><i class="fa fa-check-circle fa-lg"></i> Settings updated!</h5>
                             </div>
                         </div>
@@ -42,8 +42,8 @@
                                 <div class="form-group">
                                     <label>Show chrome notifications:</label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="notification" value="true" id="not-yes" class="icheck" checked> Yes
-                                        <input type="radio" name="notification" value="false" id="not-no" class="icheck"> No
+                                        <input type="radio" name="notification" value="true" checked> Yes
+                                        <input type="radio" name="notification" value="false"> No
                                     </label>
                                 </div>
 
@@ -55,24 +55,24 @@
                                 <div class="form-group">
                                     <label>Play sound for notifications:</label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="sound" value="true" id="cfg-ntf-sound" class="icheck" checked> Yes
-                                        <input type="radio" name="sound" value="false" id="cfg-ntf-sound" class="icheck"> No
+                                        <input type="radio" name="sound" value="true" checked> Yes
+                                        <input type="radio" name="sound" value="false"> No
                                     </label>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Select the sound:</label>
                                     <label class="radio">
-                                        <input type="radio" name="sound-select" class="icheck" id="radio-1"  value="rapman"> Rapman<i class="fa fa-volume-up play-sound pull-right" id="lb-play-rapman"></i>
+                                        <input type="radio" name="sound-select" value="rapman"> Rapman<i class="fa fa-volume-up play-sound pull-right" data-playsound="rapman"></i>
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="sound-select" class="icheck" id="radio-2" value="bumper">  Gb Bumper<i class="fa fa-volume-up play-sound pull-right" id="lb-play-bumper"></i>
+                                        <input type="radio" name="sound-select" value="bumper"> Gb Bumper<i class="fa fa-volume-up play-sound pull-right" data-playsound="bumper"></i>
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="sound-select" class="icheck" id="radio-3" value="dropbomb" checked> "Drop a bomb on it"<i class="fa fa-volume-up play-sound pull-right" id="lb-play-dropbomb"></i>
+                                        <input type="radio" name="sound-select" value="dropbomb" checked> "Drop a bomb on it"<i class="fa fa-volume-up play-sound pull-right" data-playsound="dropbomb"></i>
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="sound-select" class="icheck" id="radio-4" value="bman" checked> Small Business Man<i class="fa fa-volume-up play-sound pull-right" id="lb-play-bman"></i>
+                                        <input type="radio" name="sound-select" value="bman" checked> Small Business Man<i class="fa fa-volume-up play-sound pull-right" data-playsound="bman"></i>
                                     </label>
                                 </div>
 
@@ -80,29 +80,27 @@
                                     <label>Select the theme:</label>
                                     <div class="btn-group" data-toggle="buttons" id="theme-selector">
                                         <div id="dark-theme" class="btn btn-sm btn-theme active">
-                                            <input type="radio" name="nav-tabs"> Dark Theme
+                                            <input type="radio" name="theme" value="dark"> Dark Theme
                                         </div>
                                         <div id="light-theme" class="btn btn-sm btn-theme">
-                                            <input type="radio" name="nav-tabs"> Light Theme
+                                            <input type="radio" name="theme" value="light"> Light Theme
                                         </div>
-                                        <!-- <button type="button" id="dark-theme" class="btn btn-default active">Dark Theme</button>
-                                        <button type="button" id="light-theme" class="btn btn-default">Light Theme</button> -->
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Display number of schedule items on the icon bagde when video is not live:</label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="bagde" value="true" id="schedule-bagde"  class="icheck"> Yes
-                                        <input type="radio" name="bagde" value="false" id="schedule-bagde-no" class="icheck" checked> No
+                                        <input type="radio" name="bagde" value="true"> Yes
+                                        <input type="radio" name="bagde" value="false" checked> No
                                     </label>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Show schedule page by default if there's no live video:</label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="show-schedule" value="true" id="show-schedule"  class="icheck" checked> Yes
-                                        <input type="radio" name="show-schedule" value="false" id="show-schedule-no" class="icheck" > No
+                                        <input type="radio" name="show-schedule" value="true" checked> Yes
+                                        <input type="radio" name="show-schedule" value="false"> No
                                     </label>
                                 </div>
 

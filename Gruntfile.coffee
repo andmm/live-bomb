@@ -27,17 +27,7 @@ module.exports = (grunt) ->
                         dest: 'dist'
                         filter: 'isFile'
                         expand: true
-                    },
-                    {
-                        src: [
-                            'grey.png'
-                        ]
-                        cwd: 'vendor/bower/iCheck/skins/square/'
-                        dest: 'dist/css'
-                        filter: 'isFile'
-                        expand: true
                     }
-
                 ]
 
         less:
@@ -62,8 +52,6 @@ module.exports = (grunt) ->
 
                         'vendor/bower/jQuery-Storage-API/jquery.storageapi.js'
 
-                        'vendor/bower/ion.sound/js/ion.sound.js'
-
                         'vendor/bower/moment/moment.js'
 
                         'vendor/bower/moment-timezone/builds/moment-timezone-with-data-2010-2020.js'
@@ -74,20 +62,8 @@ module.exports = (grunt) ->
                     'dist/js/frontend.min.js': [
                         'vendor/bower/jquery-ui/jquery-ui.js'
 
-                        'vendor/bower/bootstrap/js/transition.js'
-                        'vendor/bower/bootstrap/js/alert.js'
                         'vendor/bower/bootstrap/js/button.js'
-                        'vendor/bower/bootstrap/js/carousel.js'
-                        'vendor/bower/bootstrap/js/collapse.js'
-                        'vendor/bower/bootstrap/js/dropdown.js'
-                        'vendor/bower/bootstrap/js/modal.js'
-                        'vendor/bower/bootstrap/js/tooltip.js'
-                        'vendor/bower/bootstrap/js/popover.js'
-                        'vendor/bower/bootstrap/js/scrollspy.js'
                         'vendor/bower/bootstrap/js/tab.js'
-                        'vendor/bower/bootstrap/js/affix.js'
-
-                        'vendor/bower/iCheck/icheck.js'
 
                         'vendor/bower/jquery.slimscroll/jquery.slimscroll.js'
 

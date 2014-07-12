@@ -19,17 +19,6 @@ if (storage.isSet('show-schedule') === false){
     storage.set('show-schedule', true);
 }
 
-$.ionSound({
-    sounds: [
-        'bumper',
-        'rapman',
-        'dropbomb',
-        'bman'
-    ],
-    path: '/sounds/',
-    multiPlay: true
-});
-
 //GA
 ga('send', 'pageview', '/running');
 
@@ -53,7 +42,7 @@ var liveRoutine = function() {
                 chrome.notifications.create('notify', options, function(){});
 
                 if (storage.get('notification-sound') === true) {
-                    $.ionSound.play('' + storage.get('sound') + '');
+                    audio.playSound(storage.get('sound'));
                 }
             }
         } else {
@@ -95,7 +84,7 @@ scheduleRoutine();
 
 // Click on notification
 chrome.notifications.onClicked.addListener(function(notify) {
-    $.ionSound.stop('' + storage.get('sound') + '');
+    audio.stopSound();
     chrome.tabs.create({
         url: 'http://www.giantbomb.com/chat'
     });
@@ -103,7 +92,7 @@ chrome.notifications.onClicked.addListener(function(notify) {
 
 // Close notifications
 chrome.notifications.onClosed.addListener(function(notify) {
-    $.ionSound.stop('' + storage.get('sound') + '');
+    audio.stopSound();
 });
 
 setInterval(scheduleRoutine, 600000);

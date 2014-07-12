@@ -212,7 +212,10 @@ body {
 /***** SETTINGS TAB *****/
 
 #lb-settings-message {
-    position:  absolute;
+    position:  fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 10;
     background-color: green;
     .box-shadow(0px 7px 12px 0px rgba(0, 0, 0, 0.75));
@@ -248,6 +251,7 @@ body {
 #lb-form-settings {
     .radio-inline {
         padding-left: 0;
+        cursor: default;
     }
 }
 
@@ -264,6 +268,30 @@ body {
             text-decoration: none;
         }
     }
+}
+
+#lb-form-settings input[type="radio"] {
+    position: relative;
+    margin: -3px 0 0 3px;
+    display: inline-block;
+    vertical-align: middle;
+    outline: 0;
+
+    border-radius: 10px;
+    border: 1px solid #ddd;
+
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    -webkit-appearance: none;
+
+    &:checked {
+        background-color: #ddd;
+    }
+}
+
+#lb-form-settings .btn input[type="radio"] {
+    display: none;
 }
 
 /***** ABOUT PAGE *****/
