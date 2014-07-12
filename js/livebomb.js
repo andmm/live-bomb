@@ -1,6 +1,13 @@
 //Live Bomb UI
 $(function() {
 
+    $(".custom-scroll").slimScroll({
+        height: '280px',
+        distance:'6px',
+        size: '8px',
+        railOpacity: 0,
+    });
+
     //Default Settings
     if (storage.isSet('preferences') === false) {
         storage.set({
@@ -51,21 +58,19 @@ $(function() {
     ga('send', 'pageview', '/popup.html');
 
     //InterfaceCaching
-    var buttonSettings = $('#lb-settings');
     var buttonLive = $('#lb-live');
     var buttonSchedule = $('#lb-schedule');
+
     var buttonRefresh = $('#lb-refresh-button');
     var buttonRefreshSchedule = $('#lb-refresh-schedule');
+
     var buttonLightTheme = $('#light-theme');
     var buttonDarkTheme = $('#dark-theme');
-    var buttonAboutOffline = $('#offline-about-icon');
     var buttonAboutOfflineClose = $('#offline-about-close');
-    var buttonAboutSettingsClose = $('#settings-about-close');
-    var buttonAboutSettings = $('#settings-about');
     var pageStatus = $('#lb-page-status');
-    var pageSettings = $('#lb-page-settings');
     var pageAbout =  $('#lb-page-about');
     var pageSchedule = $('#lb-page-schedule');
+
     var timer = $('#lb-slider-time');
     var timerValue = $('#lb-slider-value');
     var statusOnline = $('#lb-status-live');
@@ -86,7 +91,6 @@ $(function() {
 
     //Get Preferences
     //Notification
-
     timer.slider({
         step: 60000,
         min: 60000,
@@ -158,7 +162,7 @@ $(function() {
         }
     });
 
-//Update schedule badge on change
+    //Update schedule badge on change
     $('body').on('checkBadge',function() {
         if (storage.get('schedule-bagde') === false && gbLive !== true) {
             chrome.browserAction.setBadgeText({text: ''});
@@ -170,27 +174,17 @@ $(function() {
     });
 
     //Set default view
-    buttonLive.toggleClass('active');
-    pageSettings.hide();
-    pageAbout.hide();
-    pageSchedule.hide();
     cfgMessage.hide();
 
     if (storage.get('islive') === false && storage.get('show-schedule') === true) {
-        statusOnline.hide();
-        pageStatus.hide();
-        pageSchedule.show();
-        buttonLive.removeClass('active');
-        buttonSchedule.addClass('active');
+        $('[href="#lb-page-schedule"]').tab('show');
     } else if (storage.get('islive') === false && storage.get('show-schedule') === false) {
-        statusOnline.hide();
-        statusOffline.show();
     } else {
         chrome.browserAction.setBadgeText({text: 'LIVE'});
         $('#lb-status-live').css('background-image', 'url("' + storage.get('liveImage') + '")');
         statusOnline.show();
         statusOffline.hide();
-        $('#button-icon').css('color', 'red').addClass('animated swing');
+        $('#button-icon').css('color', 'red');
         $('#show-name').html(storage.get('title'));
     }
 
@@ -199,7 +193,7 @@ $(function() {
         if (statusOffline.is(':visible')) {
             statusOffline.fadeOut(200, function() {
                 statusOnline.fadeIn(200);
-                $('#button-icon').css('color', 'red').addClass('animated swing');
+                $('#button-icon').css('color', 'red');
                 $('#show-name').html(storage.get('title'));
             });
         }
@@ -211,7 +205,7 @@ $(function() {
                 statusOnline.show();
                 buttonSchedule.toggleClass('active');
                 buttonLive.toggleClass('active');
-                $('#button-icon').css('color', 'red').addClass('animated swing');
+                $('#button-icon').css('color', 'red');
                 $('#show-name').html(storage.get('title'));
             });
         }
@@ -222,58 +216,8 @@ $(function() {
         if (statusOnline.is(':visible')) {
             statusOnline.fadeOut(200,function() {
                 statusOffline.fadeIn(200);
-                $('.fa-dot-circle-o').removeClass('animated swing');
             });
         }
-    });
-
-    //ClickEvents
-    //Click on Settings
-    buttonSettings.click(function() {
-        ga('send', 'event', 'button', 'click', 'settings');
-
-        if (pageAbout.is(':visible')) {
-            pageAbout.hide();
-        }
-
-        pageStatus.effect('slide', { direction: 'right', mode: 'hide' }, 200);
-        pageSchedule.effect('slide', { direction:'right', mode: 'hide' }, 200);
-        pageSettings.effect('slide', { direction: 'left', mode: 'show' }, 200);
-    });
-
-    //Click on Live
-    buttonLive.click(function() {
-        ga('send', 'event', 'button', 'click', 'live');
-
-        if (pageSettings.is(':visible')) {
-            pageStatus.effect('slide', { direction: 'right', mode: 'show' }, 200);
-            pageSettings.effect('slide', { direction: 'left', mode: 'hide' }, 200);
-            statusOnline.removeClass('animated');
-        }
-
-        if (pageSchedule.is(':visible')) {
-            pageStatus.effect('slide', { direction: 'left', mode: 'show' }, 200);
-            pageSchedule.effect('slide', { direction: 'right', mode: 'hide' }, 200);
-            statusOnline.removeClass('animated');
-        }
-
-        if (pageAbout.is(':visible')) {
-            pageAbout.fadeOut(300, function() {
-                pageStatus.fadeIn(300);
-            });
-        }
-    });
-
-
-    //Schedule click
-    buttonSchedule.click(function() {
-        if (pageAbout.is(':visible')) {
-            pageAbout.hide();
-        }
-
-        pageSchedule.effect('slide',{ direction: 'right', mode: 'show' }, 200);
-        pageSettings.effect('slide', { direction: 'left', mode: 'hide' }, 200);
-        pageStatus.effect('slide', { direction: 'left', mode: 'hide' }, 200);
     });
 
     //Status refresh
@@ -286,12 +230,12 @@ $(function() {
             buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh');
 
             if (gbLive === true) {
-                statusOnline.addClass('animated bounceInUp').show();
+                statusOnline.show();
                 statusOffline.hide();
 
                 chrome.browserAction.setBadgeText({ text: 'LIVE' });
 
-                $('#button-icon').css('color', 'red').addClass('animated swing');
+                $('#button-icon').css('color', 'red');
                 $('#show-name').html(storage.get('title'));
 
                 if (sendMessage === true && storage.get('notification') === true) {
@@ -333,36 +277,11 @@ $(function() {
         });
     });
 
-    //About Offline
-    buttonAboutOffline.click(function() {
-        ga('send', 'event', 'button', 'click', 'about-offline');
-        buttonAboutOfflineClose.show();
-        buttonAboutSettingsClose.hide();
-        pageStatus.fadeOut(300);
-        pageAbout.fadeIn(300);
-    });
-
+    // About Close Button
     buttonAboutOfflineClose.click(function() {
-        pageAbout.fadeOut(300);
-        pageStatus.fadeIn(300);
-    });
-
-    //About Settings
-    buttonAboutSettings.click(function(){
-        ga('send', 'event', 'button', 'click', 'about-settings');
-
-        pageSettings.fadeOut(300,function() {
-            pageAbout.fadeIn(300);
-        });
-
-        buttonAboutOfflineClose.hide();
-        buttonAboutSettingsClose.show();
-    });
-
-    buttonAboutSettingsClose.click(function() {
-        pageAbout.fadeOut(300, function() {
-            pageSettings.fadeIn(300);
-        });
+        pageAbout.removeClass('active');
+        var lastPageID = $('#lb-controls li.active a').attr('href');
+        $(lastPageID).addClass('active');
     });
 
     //Light Theme
@@ -408,5 +327,8 @@ $(function() {
             $('body').height('');
         }, 100);
     }, 100);
+
+    // Prevent flash of unstyled content
+    $('html').show();
 
 });
