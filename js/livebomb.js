@@ -32,22 +32,22 @@ $(function() {
     //Update settings value
     if (storage.get('preferences') === 'user-preference') {
         if (storage.get('notification') === false ) {
-            $('input:radio[name=notification]').iCheck('check');
+            $('input:radio[name=notification]').prop('checked', true);;
         }
 
         if (storage.get('notification-sound') === false ) {
-            $('input:radio[name=sound]').iCheck('check');
+            $('input:radio[name=sound]').prop('checked', true);;
         }
 
         if (storage.get('schedule-bagde')) {
-            $('input:radio[id=schedule-bagde]').iCheck('check');
+            $('input:radio[id=schedule-bagde]').prop('checked', true);;
         }
 
         if (storage.get('show-schedule') === false){
-            $('input:radio[id=show-schedule-no]').iCheck('check');
+            $('input:radio[id=show-schedule-no]').prop('checked', true);;
         }
 
-        $('input:radio[value=' + storage.get('sound') + ']').iCheck('check');
+        $('input:radio[value=' + storage.get('sound') + ']').prop('checked', true);;
     }
 
     if (storage.isSet('islive') === false) {
@@ -129,36 +129,18 @@ $(function() {
 
     $('.custom-scroll').slimScroll(scrollOptions);
 
-    $('.icheck').iCheck({
-        checkboxClass: 'icheckbox_square',
-        radioClass: 'iradio_square-grey',
-        increaseArea: '20%'
-    });
-
     //Save Preferences automatically
-    $('input').on('ifChecked', function(event) {
-        storage.set('preferences','user-preference');
-        cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
+    $('input').change(function() {
+        if (this.checked) {
+            //Display "Saved" message.
+            storage.set('preferences','user-preference');
+            cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
 
-        var a = $(this);
-        var b = a.context.name;
-        var c = a.context.value;
-        var d = ['notification', 'sound', 'sound-select', 'bagde', 'show-schedule'];
-        var e = d.indexOf(b);
+            //Save the new value.
+            storage.set(this.name, this.value);
 
-        switch(e) {
-        case 0:
-            storage.set('notification', c); break;
-        case 1:
-            storage.set('notification-sound', c); break;
-        case 2:
-            storage.set('sound', c); break;
-        case 3:
-            storage.set('schedule-bagde', c);
+            //Trigger the icon badge to update.
             $('body').trigger('checkBadge');
-            break;
-        default:
-            storage.set('show-schedule',c);
         }
     });
 
@@ -255,7 +237,6 @@ $(function() {
         });
     });
 
-
     //Schedule refresh
     buttonRefreshSchedule.click(function() {
         ga('send', 'event', 'button', 'click', 'schedule-refresh');
@@ -287,35 +268,18 @@ $(function() {
     //Light Theme
     buttonLightTheme.click(function(){
         ga('send', 'event', 'button', 'click', 'light-theme');
-
-        storage.set('theme', 'light');
-
         $('body').removeClass('livebomb-dark').addClass('livebomb-light');
     });
 
     //Dark Theme
     buttonDarkTheme.click(function() {
         ga('send', 'event', 'button', 'click', 'dark-theme');
-        storage.set('theme','dark');
-
         $('body').removeClass('livebomb-light').addClass('livebomb-dark');
     });
 
     //Test Sounds
-    $('#lb-play-rapman').click(function() {
-        $.ionSound.play('rapman');
-    });
-
-    $('#lb-play-bumper').click(function() {
-        $.ionSound.play('bumper');
-    });
-
-    $('#lb-play-dropbomb').click(function() {
-        $.ionSound.play('dropbomb');
-    });
-
-    $('#lb-play-bman').click(function() {
-        $.ionSound.play('bman');
+    $('[data-playsound]').click(function() {
+        audio.playSound($(this).attr('data-playsound'));
     });
 
     // Windows Hide Scrollbar Hack

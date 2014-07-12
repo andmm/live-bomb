@@ -10,6 +10,31 @@ var scheduleCounter;
 var scheduleLoadingIcon = $('#lb-schedule-loading');
 var buttonRefreshSchedule = $('#lb-refresh-schedule');
 
+//Initialize audio handler object.
+var audio = {};
+audio.currentAudio = null;
+audio.playSound = function(sound) {
+    //Stop any current sound.
+    if (this.currentAudio) {
+        this.currentAudio.pause();
+        document.body.removeChild(this.currentAudio);
+        this.currentAudio = null;
+    }
+
+    //Add and init new sound.
+    this.currentAudio = document.createElement('audio');
+    document.body.appendChild(this.currentAudio);
+    this.currentAudio.autoplay = true;
+    this.currentAudio.volume = 1.0;
+    this.currentAudio.src = 'sounds/' + sound + '.ogg';
+};
+audio.stopSound = function() {
+    //Stop any current sound.
+    if (this.currentAudio) {
+        this.currentAudio.pause();
+    }
+}
+
 //Check for live video
 var checkLive = function() {
     var checkLiveDone = $.Deferred();
