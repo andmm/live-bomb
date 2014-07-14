@@ -33,7 +33,7 @@
                 <div class="custom-scroll">
                     <div class="container">
                         <div class="row">
-                            <div id="lb-settings-message" class="col-xs-12 text-center">
+                            <div id="lb-settings-message" class="col-xs-12 text-center" style="display: none;">
                                 <h5><i class="fa fa-check-circle fa-lg"></i> Settings updated!</h5>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Check for live video: Every <span id="lb-slider-value"></span> min</label>
+                                    <label>Check for live video: Every <span id="rangeval-timer"></span> min</label>
                                     <input type="range" name="timer" min="60000" max="1800000" step="60000">
                                 </div>
 
@@ -89,10 +89,10 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Display number of schedule items on the icon bagde when video is not live:</label>
+                                    <label>Display number of schedule items on the icon badge when video is not live:</label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="schedule-bagde" value="true"> Yes
-                                        <input type="radio" name="schedule-bagde" value="false" checked> No
+                                        <input type="radio" name="schedule-badge" value="true"> Yes
+                                        <input type="radio" name="schedule-badge" value="false" checked> No
                                     </label>
                                 </div>
 
@@ -187,7 +187,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="js/background.min.js"></script>
+<script type="text/javascript" src="js/common.min.js"></script>
 <script type="text/javascript" src="js/frontend.min.js"></script>
 </body>
 </html>

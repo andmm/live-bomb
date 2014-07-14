@@ -1,18 +1,12 @@
 
-//Default Settings
-if (storage.isSet('preferences') === false) {
-    storage.set({
-        'preferences': 'default',
-        'notification': true,
-        'timer': 300000,
-        'theme': 'dark',
-        'notification-sound': true,
-        'sound':'dropbomb',
-        'schedule-bagde': true,
-        'show-schedule': true
+//Initialize settings if none present or if out of date (in case new setting introduced)
+if (storage.isSet('preferences') === false || storage.get('preferences') != preferences.preferences.default) {
+    storage.set('preferences', preferences.preferences.default);
+    $.each(preferences, function(name, val) {
+        if (storage.isSet(name) === false) {
+            storage.set(name, val.default);
+        }
     });
-
-    scheduleCounter = 0;
 }
 
 if (storage.isSet('show-schedule') === false){
@@ -49,7 +43,7 @@ var liveRoutine = function() {
             $('body').trigger('statusNotLive');
 
             sendMessage = true;
-            if (storage.get('schedule-bagde') === true && scheduleCounter > 0) {
+            if (storage.get('schedule-badge') === true && scheduleCounter > 0) {
                 chrome.browserAction.setBadgeText({text: '' + scheduleCounter + ''});
             } else {
                 chrome.browserAction.setBadgeText({text: ''});
@@ -59,20 +53,9 @@ var liveRoutine = function() {
 };
 
 var scheduleRoutine = function() {
-    window.buttonRefreshSchedule.addClass('hidden');
-
     getSchedule().done(function() {
-        if (window.scheduleLoadingIcon.length > 0) {
-            window.scheduleLoadingIcon.fadeOut(300);
-        }
-
-        if (storage.get('schedule-bagde') === true && gbLive === false && scheduleCounter > 0) {
+        if (storage.get('schedule-badge') === true && gbLive === false && scheduleCounter > 0) {
             chrome.browserAction.setBadgeText({text: '' + scheduleCounter + ''});
-        }
-
-        if (window.buttonRefreshSchedule.length > 0)
-        {
-            window.buttonRefreshSchedule.removeClass('hidden');
         }
     });
 };
