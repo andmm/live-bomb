@@ -49,19 +49,15 @@ module.exports = (grunt) ->
                         'js/lib/ga.js'
 
                         'vendor/bower/jquery/dist/jquery.js'
-
                         'vendor/bower/jQuery-Storage-API/jquery.storageapi.js'
 
                         'vendor/bower/moment/moment.js'
-
                         'vendor/bower/moment-timezone/builds/moment-timezone-with-data-2010-2020.js'
 
                         'js/functions.js'
                         'js/background.js'
                     ]
                     'dist/js/frontend.min.js': [
-                        'vendor/bower/jquery-ui/jquery-ui.js'
-
                         'vendor/bower/bootstrap/js/button.js'
                         'vendor/bower/bootstrap/js/tab.js'
 

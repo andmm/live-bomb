@@ -63,9 +63,7 @@ var scheduleRoutine = function() {
 
     getSchedule().done(function() {
         if (window.scheduleLoadingIcon.length > 0) {
-            window.scheduleLoadingIcon.effect('fadeOut', 2000, function() {
-                $(this).fadeOut(300);
-            });
+            window.scheduleLoadingIcon.fadeOut(300);
         }
 
         if (storage.get('schedule-bagde') === true && gbLive === false && scheduleCounter > 0) {

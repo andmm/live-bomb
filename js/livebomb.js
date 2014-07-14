@@ -31,23 +31,14 @@ $(function() {
 
     //Update settings value
     if (storage.get('preferences') === 'user-preference') {
-        if (storage.get('notification') === false ) {
-            $('input:radio[name=notification]').prop('checked', true);;
-        }
+        $('input:radio[name="notification"][value=' + storage.get('notification') + ']').prop('checked', true);
+        $('input:radio[name="notification-sound"][value=' + storage.get('notification-sound') + ']').prop('checked', true);
+        $('input:radio[name="schedule-bagde"][value=' + storage.get('schedule-bagde') + ']').prop('checked', true);
+        $('input:radio[name="show-schedule"][value=' + storage.get('show-schedule') + ']').prop('checked', true);
+        $('input:radio[name="sound"][value="' + storage.get('sound') + '"]').prop('checked', true);
 
-        if (storage.get('notification-sound') === false ) {
-            $('input:radio[name=sound]').prop('checked', true);;
-        }
-
-        if (storage.get('schedule-bagde')) {
-            $('input:radio[id=schedule-bagde]').prop('checked', true);;
-        }
-
-        if (storage.get('show-schedule') === false){
-            $('input:radio[id=show-schedule-no]').prop('checked', true);;
-        }
-
-        $('input:radio[value=' + storage.get('sound') + ']').prop('checked', true);;
+        $('input[type="range"][name="timer"]').val(storage.get('timer'));
+        $('#lb-slider-value').html(storage.get('timer')/60000);
     }
 
     if (storage.isSet('islive') === false) {
@@ -89,25 +80,6 @@ $(function() {
         ga('send', 'event', 'theme', 'dark');
     }
 
-    //Get Preferences
-    //Notification
-    timer.slider({
-        step: 60000,
-        min: 60000,
-        max: 1800000,
-        slide: function(event, ui) {
-            timerValue.text('Every ' + ui.value / 60000 + ' min');
-        },
-        create: function(event, ui) {
-            timerValue.text('Every ' + storage.get('timer') / 60000 + ' min');
-            timer.slider('option', 'value', storage.get('timer'));
-        },
-        stop: function(event,ui) {
-            cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
-            storage.set('timer', ui.value);
-        }
-    });
-
     var scrollOptions;
 
     if (storage.get('theme') === 'dark') {
@@ -131,17 +103,25 @@ $(function() {
 
     //Save Preferences automatically
     $('input').change(function() {
-        if (this.checked) {
-            //Display "Saved" message.
-            storage.set('preferences','user-preference');
-            cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
+        //Display "Saved" message.
+        storage.set('preferences','user-preference');
+        cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
 
-            //Save the new value.
+        if (this.type == "radio" && this.checked) {
             storage.set(this.name, this.value);
-
-            //Trigger the icon badge to update.
+            console.log('saved: ' + this.name + ' = ' + this.value);
             $('body').trigger('checkBadge');
+        } else if(this.type == "checkbox") {
+            storage.set(this.name, this.checked);
+            $('body').trigger('checkBadge');
+        } else if (this.type == "range") {
+            storage.set(this.name, this.value);
         }
+    });
+
+    //Update range value display during input
+    $('input[type="range"][name="timer"]').on('input', function() {
+        $('#lb-slider-value').html(this.value/60000);
     });
 
     //Update schedule badge on change
@@ -243,16 +223,12 @@ $(function() {
 
         $(this).removeClass('fa-refresh').addClass('fa-times');
 
-        scheduleItems.fadeOut(200, function() {
-            $(this).html('');
-            window.scheduleLoadingIcon.fadeIn(300);
-        });
+        scheduleItems.html('').hide();
+        window.scheduleLoadingIcon.show();
 
         getSchedule().done(function() {
-            window.scheduleLoadingIcon.effect('fadeOut', 2000, function() {
-                $(this).fadeOut(300);
-                scheduleItems.fadeIn(100);
-            });
+            window.scheduleLoadingIcon.hide();
+            scheduleItems.show();
 
             buttonRefreshSchedule.removeClass('fa-times').addClass('fa-refresh');
         });
