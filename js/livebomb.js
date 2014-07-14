@@ -1,6 +1,7 @@
 //Live Bomb UI
 $(function() {
 
+    //Initialize slimscroll
     $(".custom-scroll").slimScroll({
         height: '280px',
         distance:'6px',
@@ -8,42 +9,24 @@ $(function() {
         railOpacity: 0,
     });
 
-    //Default Settings
-    if (storage.isSet('preferences') === false) {
-        storage.set({
-            'preferences': 'default',
-            'notification': true,
-            'timer': 300000,
-            'theme': 'dark',
-            'notification-sound': true,
-            'sound': 'dropbomb',
-            'schedule-bagde': true,
-            'show-schedule': true
-        });
-
-        scheduleCounter = 0;
-    }
-
     //Fix popup styling for Mac users
     if (navigator.appVersion.indexOf('Mac') !== -1) {
         $('body').css('border','1.5px solid');
     }
 
-    //Update settings value
-    if (storage.get('preferences') === 'user-preference') {
-        $('input:radio[name="notification"][value=' + storage.get('notification') + ']').prop('checked', true);
-        $('input:radio[name="notification-sound"][value=' + storage.get('notification-sound') + ']').prop('checked', true);
-        $('input:radio[name="schedule-bagde"][value=' + storage.get('schedule-bagde') + ']').prop('checked', true);
-        $('input:radio[name="show-schedule"][value=' + storage.get('show-schedule') + ']').prop('checked', true);
-        $('input:radio[name="sound"][value="' + storage.get('sound') + '"]').prop('checked', true);
-
-        $('input[type="range"][name="timer"]').val(storage.get('timer'));
-        $('#lb-slider-value').html(storage.get('timer')/60000);
-    }
-
-    if (storage.isSet('islive') === false) {
-        storage.set('islive', false);
-    }
+    //Initialize settings display
+    $.each(preferences, function(name, val) {
+        switch (val.type) {
+        case 'radio':
+            $('input:radio[name="' + name + '"][value=' + storage.get(name) + ']').prop('checked', true);
+            break;
+        case 'range':
+            var rangeinput = $('input[type="range"][name="' + name + '"]');
+            rangeinput.val(storage.get(name));
+            $('#rangeval-' + name).html(storage.get(name) / rangeinput.attr('step'));
+            break;
+        }
+    });
 
     //GA
     ga('send', 'pageview', '/popup.html');
@@ -54,16 +37,14 @@ $(function() {
 
     var buttonRefresh = $('#lb-refresh-button');
     var buttonRefreshSchedule = $('#lb-refresh-schedule');
+    var scheduleLoadingIcon = $('#lb-schedule-loading');
 
     var buttonLightTheme = $('#light-theme');
     var buttonDarkTheme = $('#dark-theme');
-    var buttonAboutOfflineClose = $('#offline-about-close');
     var pageStatus = $('#lb-page-status');
     var pageAbout =  $('#lb-page-about');
     var pageSchedule = $('#lb-page-schedule');
 
-    var timer = $('#lb-slider-time');
-    var timerValue = $('#lb-slider-value');
     var statusOnline = $('#lb-status-live');
     var statusOffline = $('#lb-status-offline');
     var cfgMessage = $('#lb-settings-message');
@@ -79,27 +60,6 @@ $(function() {
     } else {
         ga('send', 'event', 'theme', 'dark');
     }
-
-    var scrollOptions;
-
-    if (storage.get('theme') === 'dark') {
-        scrollOptions = {
-            height: '280px',
-            color: '#fff',
-            distance:'6px',
-            size: '8px',
-        };
-    } else {
-        scrollOptions = {
-            height: '280px',
-            color: 'black',
-            distance:'6px',
-            size: '8px',
-            railOpacity: 0,
-        };
-    }
-
-    $('.custom-scroll').slimScroll(scrollOptions);
 
     //Save Preferences automatically
     $('input').change(function() {
@@ -120,23 +80,20 @@ $(function() {
     });
 
     //Update range value display during input
-    $('input[type="range"][name="timer"]').on('input', function() {
-        $('#lb-slider-value').html(this.value/60000);
+    $('input[type="range"]').on('input', function() {
+        $('#rangeval-' + this.name).html(this.value / this.step);
     });
 
     //Update schedule badge on change
     $('body').on('checkBadge',function() {
-        if (storage.get('schedule-bagde') === false && gbLive !== true) {
+        if (storage.get('schedule-badge') === false && gbLive !== true) {
             chrome.browserAction.setBadgeText({text: ''});
         }
 
-        if (storage.get('schedule-bagde') === true && gbLive !== true && scheduleCounter > 0) {
+        if (storage.get('schedule-badge') === true && gbLive !== true && scheduleCounter > 0) {
             chrome.browserAction.setBadgeText({text:'' + scheduleCounter + ''});
         }
     });
-
-    //Set default view
-    cfgMessage.hide();
 
     if (storage.get('islive') === false && storage.get('show-schedule') === true) {
         $('[href="#lb-page-schedule"]').tab('show');
@@ -224,10 +181,10 @@ $(function() {
         $(this).removeClass('fa-refresh').addClass('fa-times');
 
         scheduleItems.html('').hide();
-        window.scheduleLoadingIcon.show();
+        scheduleLoadingIcon.show();
 
         getSchedule().done(function() {
-            window.scheduleLoadingIcon.hide();
+            scheduleLoadingIcon.hide();
             scheduleItems.show();
 
             buttonRefreshSchedule.removeClass('fa-times').addClass('fa-refresh');
@@ -235,7 +192,7 @@ $(function() {
     });
 
     // About Close Button
-    buttonAboutOfflineClose.click(function() {
+    $('#offline-about-close').click(function() {
         pageAbout.removeClass('active');
         var lastPageID = $('#lb-controls li.active a').attr('href');
         $(lastPageID).addClass('active');
@@ -270,5 +227,8 @@ $(function() {
 
     // Prevent flash of unstyled content
     $('html').show();
+
+    buttonRefresh.click();
+    buttonRefreshSchedule.click();
 
 });

@@ -2,13 +2,24 @@
 //Variables
 
 var gb_url = "http://www.giantbomb.com/upcoming_json";
-var gbLive;
+var gbLive = false;
 var storage = $.localStorage;
 var sendMessage = false;
-var scheduleCounter;
+var scheduleCounter = 0;
 
-var scheduleLoadingIcon = $('#lb-schedule-loading');
-var buttonRefreshSchedule = $('#lb-refresh-schedule');
+var preferences = {
+    //Internal settings
+    'preferences': {default: chrome.runtime.getManifest().version, type: null},
+    'islive': {default: false, type: null},
+    //User settings
+    'notification': {default: true, type: 'radio'},
+    'timer': {default: 300000, type: 'range'},
+    'theme': {default: 'dark', type: 'radio'},
+    'notification-sound': {default: true, type: 'radio'},
+    'sound': {default: 'dropbomb', type: 'radio'},
+    'schedule-badge': {default: true, type: 'radio'},
+    'show-schedule': {default: true, type: 'radio'},
+};
 
 //Initialize audio handler object.
 var audio = {};
@@ -46,8 +57,7 @@ var checkLive = function() {
             storage.set({
                 'islive': true,
                 'title': data.liveNow.title,
-                'liveImage': data.liveNow.image,
-                'counter': false
+                'liveImage': data.liveNow.image
             });
 
             checkLiveDone.resolve();
@@ -55,8 +65,7 @@ var checkLive = function() {
             gbLive = false;
 
             storage.set({
-                'islive': false,
-                'counter': false
+                'islive': false
             });
 
             checkLiveDone.resolve();

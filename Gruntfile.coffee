@@ -45,7 +45,7 @@ module.exports = (grunt) ->
                 #     beautify: true
                 #     preserveComments: true;
                 files:
-                    'dist/js/background.min.js': [
+                    'dist/js/common.min.js': [
                         'js/lib/ga.js'
 
                         'vendor/bower/jquery/dist/jquery.js'
@@ -55,6 +55,8 @@ module.exports = (grunt) ->
                         'vendor/bower/moment-timezone/builds/moment-timezone-with-data-2010-2020.js'
 
                         'js/functions.js'
+                    ]
+                    'dist/js/background.min.js': [
                         'js/background.js'
                     ]
                     'dist/js/frontend.min.js': [

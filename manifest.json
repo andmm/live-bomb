@@ -21,7 +21,7 @@
 	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; img-src *; object-src 'self'",
 
 	"background": {
-		"scripts": ["js/background.min.js"],
+		"scripts": ["js/common.min.js", "js/background.min.js"],
 		"persistent": true
 	},
 
