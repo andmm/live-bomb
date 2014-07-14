@@ -48,31 +48,31 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Check for live video: <span id="lb-slider-value"></span></label>
-                                    <div id="lb-slider-time"></div>
+                                    <label>Check for live video: Every <span id="lb-slider-value"></span> min</label>
+                                    <input type="range" name="timer" min="60000" max="1800000" step="60000">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Play sound for notifications:</label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="sound" value="true" checked> Yes
-                                        <input type="radio" name="sound" value="false"> No
+                                        <input type="radio" name="notification-sound" value="true" checked> Yes
+                                        <input type="radio" name="notification-sound" value="false"> No
                                     </label>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Select the sound:</label>
                                     <label class="radio">
-                                        <input type="radio" name="sound-select" value="rapman"> Rapman<i class="fa fa-volume-up play-sound pull-right" data-playsound="rapman"></i>
+                                        <input type="radio" name="sound" value="rapman"> Rapman<i class="fa fa-volume-up play-sound pull-right" data-playsound="rapman"></i>
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="sound-select" value="bumper"> Gb Bumper<i class="fa fa-volume-up play-sound pull-right" data-playsound="bumper"></i>
+                                        <input type="radio" name="sound" value="bumper"> Gb Bumper<i class="fa fa-volume-up play-sound pull-right" data-playsound="bumper"></i>
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="sound-select" value="dropbomb" checked> "Drop a bomb on it"<i class="fa fa-volume-up play-sound pull-right" data-playsound="dropbomb"></i>
+                                        <input type="radio" name="sound" value="dropbomb"> "Drop a bomb on it"<i class="fa fa-volume-up play-sound pull-right" data-playsound="dropbomb"></i>
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="sound-select" value="bman" checked> Small Business Man<i class="fa fa-volume-up play-sound pull-right" data-playsound="bman"></i>
+                                        <input type="radio" name="sound" value="bman" checked> Small Business Man<i class="fa fa-volume-up play-sound pull-right" data-playsound="bman"></i>
                                     </label>
                                 </div>
 
@@ -91,8 +91,8 @@
                                 <div class="form-group">
                                     <label>Display number of schedule items on the icon bagde when video is not live:</label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="bagde" value="true"> Yes
-                                        <input type="radio" name="bagde" value="false" checked> No
+                                        <input type="radio" name="schedule-bagde" value="true"> Yes
+                                        <input type="radio" name="schedule-bagde" value="false" checked> No
                                     </label>
                                 </div>
 
