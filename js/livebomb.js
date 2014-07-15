@@ -1,33 +1,5 @@
 //Live Bomb UI
 $(function() {
-
-    //Initialize slimscroll
-    $(".custom-scroll").slimScroll({
-        height: '280px',
-        distance:'6px',
-        size: '8px',
-        railOpacity: 0,
-    });
-
-    //Fix popup styling for Mac users
-    if (navigator.appVersion.indexOf('Mac') !== -1) {
-        $('body').css('border','1.5px solid');
-    }
-
-    //Initialize settings display
-    $.each(preferences, function(name, val) {
-        switch (val.type) {
-        case 'radio':
-            $('input:radio[name="' + name + '"][value=' + storage.get(name) + ']').prop('checked', true);
-            break;
-        case 'range':
-            var rangeinput = $('input[type="range"][name="' + name + '"]');
-            rangeinput.val(storage.get(name));
-            $('#rangeval-' + name).html(storage.get(name) / rangeinput.attr('step'));
-            break;
-        }
-    });
-
     //GA
     ga('send', 'pageview', '/popup.html');
 
@@ -51,6 +23,59 @@ $(function() {
     var cfgMessage = $('#lb-settings-message');
     var scheduleItems = $('#lb-schedule-items');
 
+    var setCountdown = function(date) {
+        console.log(date);
+        $('#lb-status-timer').countdown({
+            date: new Date(date),
+            render: function(data) {
+                var output = '';
+
+                if (data.days > 0) {
+                    output += data.days + ' days, ';
+                }
+
+                output += pluralize(data.hours, ' hour') + ', ';
+                output += pluralize(data.min, ' minute') + ', and ';
+                output += pluralize(data.sec, ' second');
+
+                $(this.el).html(output);
+            }
+        });
+    };
+
+    var pluralize = function(number, string) {
+        return '' + number + string + (number !== 1 ? 's' : '');
+    };
+
+    //Initialize slimscroll
+    $(".custom-scroll").slimScroll({
+        height: '280px',
+        distance:'6px',
+        size: '8px',
+        railOpacity: 0,
+    });
+
+    //Fix popup styling for Mac users
+    if (navigator.appVersion.indexOf('Mac') !== -1) {
+        $('body').css('border','1.5px solid');
+    }
+
+    //Initialize settings display
+    $.each(preferences, function(name, val) {
+        switch (val.type) {
+        case 'radio':
+            $('input:radio[name="' + name + '"][value=' + storage.get(name) + ']').prop('checked', true);
+            break;
+        case 'checkbox':
+            $('input:checkbox[name="' + name + '"]').prop('checked', storage.get(name));
+        case 'range':
+            var rangeinput = $('input[type="range"][name="' + name + '"]');
+            rangeinput.val(storage.get(name));
+            $('#rangeval-' + name).html(storage.get(name) / rangeinput.attr('step'));
+            break;
+        }
+    });
+
     //Set theme
     if (storage.get('theme') === 'light') {
         buttonDarkTheme.removeClass('active');
@@ -70,7 +95,6 @@ $(function() {
 
         if (this.type == "radio" && this.checked) {
             storage.set(this.name, this.value);
-            console.log('saved: ' + this.name + ' = ' + this.value);
             $('body').trigger('checkBadge');
         } else if(this.type == "checkbox") {
             storage.set(this.name, this.checked);
@@ -87,63 +111,12 @@ $(function() {
 
     //Update schedule badge on change
     $('body').on('checkBadge',function() {
-        if (storage.get('schedule-badge') === false && gbLive !== true) {
-            chrome.browserAction.setBadgeText({text: ''});
-        }
-
-        if (storage.get('schedule-badge') === true && gbLive !== true && scheduleCounter > 0) {
-            chrome.browserAction.setBadgeText({text:'' + scheduleCounter + ''});
-        }
+        chrome.runtime.sendMessage({action: "live"});
     });
 
-    if (storage.get('islive') === false && storage.get('countdown') !== false) {
-        setCountdown(storage.get('countdown'));
-
-        statusOnline.hide();
-        statusOffline.hide();
-        statusCountdown.show();
-    }
-
-    if (storage.get('islive') === false && storage.get('show-schedule') === true) {
+    if (storage.get('show-schedule') === true) {
         $('[href="#lb-page-schedule"]').tab('show');
-    } else if (storage.get('islive') === false && storage.get('show-schedule') === false) {
-        // here be dragons
-    } else {
-        chrome.browserAction.setBadgeText({text: 'LIVE'});
-        $('#lb-status-live').css('background-image', 'url("' + storage.get('liveImage') + '")');
-
-        statusOnline.show();
-        statusOffline.hide();
-        statusCountdown.hide();
-
-        $('#button-icon').css('color', 'red');
-        $('#show-name').html(storage.get('title'));
     }
-
-    // Interface refresh for live video event
-    $('body').on('statusLive',function() {
-        statusOnline.show();
-        statusOffline.hide();
-        statusCountdown.hide();
-
-        $('#button-icon').css('color', 'red');
-        $('#show-name').html(storage.get('title'));
-
-        pageSchedule.hide();
-        pageStatus.show();
-
-        buttonSchedule.toggleClass('active');
-        buttonLive.toggleClass('active');
-        $('#button-icon').css('color', 'red');
-        $('#show-name').html(storage.get('title'));
-    });
-
-    // Refresh for offline video
-    $('body').on('statusNotLive',function() {
-        statusOnline.hide();
-        statusOffline.show();
-        statusCountdown.hide();
-    });
 
     //Status refresh
     buttonRefresh.click(function() {
@@ -151,15 +124,15 @@ $(function() {
 
         buttonRefresh.removeClass('fa-refresh').addClass('fa-cog fa-spin');
 
-        checkLive().done(function() {
+        chrome.runtime.sendMessage({action: "live"}, function(siteData) {
             buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh');
 
-            if (gbLive === true) {
+            //Handle general live status
+            if (siteData.isLive) {
                 statusOnline.show();
                 statusOffline.hide();
                 statusCountdown.hide();
-
-                chrome.browserAction.setBadgeText({ text: 'LIVE' });
+                $('[href="#lb-page-status"]').tab('show');
 
                 $('#button-icon').css('color', 'red');
                 $('#show-name').html(storage.get('title'));
@@ -169,18 +142,22 @@ $(function() {
                         sendMessage = false;
                     });
                 }
-            } else if (storage.get('countdown')) {
-                setCountdown(storage.get('countdown'));
+            } else if (siteData.countdown) {
+                setCountdown(siteData.countdown);
+
+                statusCountdown.show();
+                statusOffline.hide();
+                statusOnline.hide();
             } else {
-                sendMessage = true;
                 statusOffline.show();
                 statusOnline.hide();
                 statusCountdown.hide();
-
-                if (storage.get('notification') === false) {
-                    chrome.browserAction.setBadgeText({text: ''});
-                }
             }
+
+            //Handle live status of individual sites
+            $.each(siteData.sites, function(key, site) {
+                //Display name/image for live site(s)
+            });
         });
     });
 
@@ -188,14 +165,32 @@ $(function() {
     buttonRefreshSchedule.click(function() {
         ga('send', 'event', 'button', 'click', 'schedule-refresh');
 
-        $(this).removeClass('fa-refresh').addClass('fa-times');
+        buttonRefreshSchedule.removeClass('fa-refresh').addClass('fa-times');
 
-        scheduleItems.html('').hide();
+        scheduleItems.html('<ul></ul>').hide();
         scheduleLoadingIcon.show();
 
-        getSchedule().done(function() {
+        chrome.runtime.sendMessage({action: "schedule"}, function(response) {
+            var siteData = response;
+
+            $('#lb-schedule-items ul').append(siteData.output);
+
             scheduleLoadingIcon.hide();
             scheduleItems.show();
+
+            if (siteData.isLive === false) {
+                if (siteData.countdown) {
+                    setCountdown(siteData.countdown);
+
+                    statusCountdown.show();
+                    statusOffline.hide();
+                    statusOnline.hide();
+                } else {
+                    statusOffline.show();
+                    statusOnline.hide();
+                    statusCountdown.hide();
+                }
+            }
 
             buttonRefreshSchedule.removeClass('fa-times').addClass('fa-refresh');
         });
@@ -240,5 +235,4 @@ $(function() {
 
     buttonRefresh.click();
     buttonRefreshSchedule.click();
-
 });
