@@ -47,6 +47,7 @@ $(function() {
 
     var statusOnline = $('#lb-status-live');
     var statusOffline = $('#lb-status-offline');
+    var statusCountdown = $('#lb-status-countdown');
     var cfgMessage = $('#lb-settings-message');
     var scheduleItems = $('#lb-schedule-items');
 
@@ -95,49 +96,53 @@ $(function() {
         }
     });
 
+    if (storage.get('islive') === false && storage.get('countdown') !== false) {
+        setCountdown(storage.get('countdown'));
+
+        statusOnline.hide();
+        statusOffline.hide();
+        statusCountdown.show();
+    }
+
     if (storage.get('islive') === false && storage.get('show-schedule') === true) {
         $('[href="#lb-page-schedule"]').tab('show');
     } else if (storage.get('islive') === false && storage.get('show-schedule') === false) {
-        // here be dragons?
+        // here be dragons
     } else {
         chrome.browserAction.setBadgeText({text: 'LIVE'});
         $('#lb-status-live').css('background-image', 'url("' + storage.get('liveImage') + '")');
+
         statusOnline.show();
         statusOffline.hide();
+        statusCountdown.hide();
+
         $('#button-icon').css('color', 'red');
         $('#show-name').html(storage.get('title'));
     }
 
-    //Interface refresh for live video event
+    // Interface refresh for live video event
     $('body').on('statusLive',function() {
-        if (statusOffline.is(':visible')) {
-            statusOffline.fadeOut(200, function() {
-                statusOnline.fadeIn(200);
-                $('#button-icon').css('color', 'red');
-                $('#show-name').html(storage.get('title'));
-            });
-        }
+        statusOnline.show();
+        statusOffline.hide();
+        statusCountdown.hide();
 
-        if (pageSchedule.is(':visible')) {
-            pageSchedule.fadeOut(300, function() {
-                pageStatus.fadeIn(300);
-                statusOffline.hide();
-                statusOnline.show();
-                buttonSchedule.toggleClass('active');
-                buttonLive.toggleClass('active');
-                $('#button-icon').css('color', 'red');
-                $('#show-name').html(storage.get('title'));
-            });
-        }
+        $('#button-icon').css('color', 'red');
+        $('#show-name').html(storage.get('title'));
+
+        pageSchedule.hide();
+        pageStatus.show();
+
+        buttonSchedule.toggleClass('active');
+        buttonLive.toggleClass('active');
+        $('#button-icon').css('color', 'red');
+        $('#show-name').html(storage.get('title'));
     });
 
-    //Refresh for offline video
+    // Refresh for offline video
     $('body').on('statusNotLive',function() {
-        if (statusOnline.is(':visible')) {
-            statusOnline.fadeOut(200,function() {
-                statusOffline.fadeIn(200);
-            });
-        }
+        statusOnline.hide();
+        statusOffline.show();
+        statusCountdown.hide();
     });
 
     //Status refresh
@@ -152,6 +157,7 @@ $(function() {
             if (gbLive === true) {
                 statusOnline.show();
                 statusOffline.hide();
+                statusCountdown.hide();
 
                 chrome.browserAction.setBadgeText({ text: 'LIVE' });
 
@@ -163,10 +169,13 @@ $(function() {
                         sendMessage = false;
                     });
                 }
+            } else if (storage.get('countdown')) {
+                setCountdown(storage.get('countdown'));
             } else {
                 sendMessage = true;
                 statusOffline.show();
                 statusOnline.hide();
+                statusCountdown.hide();
 
                 if (storage.get('notification') === false) {
                     chrome.browserAction.setBadgeText({text: ''});

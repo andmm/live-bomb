@@ -57,7 +57,8 @@ var checkLive = function() {
             storage.set({
                 'islive': true,
                 'title': data.liveNow.title,
-                'liveImage': data.liveNow.image
+                'liveImage': data.liveNow.image,
+                'countdown': false
             });
 
             checkLiveDone.resolve();
@@ -133,16 +134,20 @@ var getSchedule = function() {
                 scheduleCounter += 1;
             });
 
-            var nextShow;
-
             if (liveShows.length > 0) {
                 // Find the earliest live show date
-                nextShow = moment.min.apply(null, $.map(liveShows, function(show) {
+                var nextShow = moment.min.apply(null, $.map(liveShows, function(show) {
                     return show.dt;
                 })).toDate();
-            }
 
-            $('#lb-status-countdown').data('countdown', nextShow);
+                storage.set({
+                    countdown: nextShow
+                });
+            } else {
+                storage.set({
+                    countdown: false
+                });
+            }
 
             output += '</ul>';
             $('#lb-schedule-items').html(output);
@@ -155,4 +160,27 @@ var getSchedule = function() {
     });
 
     return getScheduleDone.promise();
+};
+
+var setCountdown = function(date) {
+    $('#lb-status-timer').countdown({
+        date: date,
+        render: function(data) {
+            var output = '';
+
+            if (data.days > 0) {
+                output += data.days + ' days, ';
+            }
+
+            output += pluralize(data.hours, ' hour') + ', ';
+            output += pluralize(data.min, ' minute') + ', and ';
+            output += pluralize(data.sec, ' second');
+
+            $(this.el).html(output);
+        }
+    });
+};
+
+var pluralize = function(number, string) {
+    return '' + number + string + (number !== 1 ? 's' : '');
 };
