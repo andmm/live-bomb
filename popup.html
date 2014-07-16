@@ -115,18 +115,16 @@
 
             <!-- LIVE PAGE -->
             <div id="lb-page-status" class="tab-pane active">
-                <a href="http://www.giantbomb.com/chat" target="_blank" id="live-link">
 
-                    <!-- Online -->
-                    <div id="lb-status-live" class="" style="display: none;">
+                <!-- Online -->
+                <div id="lb-status-live" style="display: none;">
 
-                        <img id="image-online" src="images/online.png">
-                        <h3 class="place-holder text-center" id="live-duder">Hey Duder!</h3>
-                        <h5 id="live-container">Giant Bomb is live with:</h5>
-                        <h4 id="show-name"></h4>
+                    <img id="image-online" src="images/online.png">
+                    <h3 class="place-holder text-center" id="live-duder">Hey Duder!</h3>
+                    <h5 id="live-container">Giant Bomb is live with:</h5>
+                    <a href="http://www.giantbomb.com/chat/" target="_blank" id="live-link"><h4 id="show-name"></h4></a>
 
-                    </div>
-                </a>
+                </div>
 
                 <!-- Offline -->
                 <div id="lb-status-offline">
@@ -140,8 +138,15 @@
                     <a href="#lb-page-about" role="tab" data-toggle="tab"><i class="fa fa-info-circle" id="offline-about-icon"></i></a>
                 </div>
 
-                <div id="lb-status-error"></div>
+                <!-- Countdown -->
+                <div id="lb-status-countdown" style="display: none;">
+                    <h3 class="place-holder text-center">Börk börk börk!</h3>
+                    <h4 id="countdown-bottom" class="text-center">Zee next shoo is schedooled tu stert in...</h4>
+                    <h4 id="lb-status-timer" class="text-center"></h4>
+                    <a href="#lb-page-about" role="tab" data-toggle="tab"><i class="fa fa-info-circle" id="offline-about-icon"></i></a>
+                </div>
 
+                <div id="lb-status-error"></div>
             </div>
 
             <!-- Schedule Page -->

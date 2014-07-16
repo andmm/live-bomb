@@ -49,6 +49,7 @@ module.exports = (grunt) ->
                         'js/lib/ga.js'
 
                         'vendor/bower/jquery/dist/jquery.js'
+                        'vendor/bower/countdown/jquery.countdown.js'
                         'vendor/bower/jQuery-Storage-API/jquery.storageapi.js'
 
                         'vendor/bower/moment/moment.js'
