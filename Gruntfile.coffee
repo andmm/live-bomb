@@ -52,13 +52,14 @@ module.exports = (grunt) ->
                         'vendor/bower/countdown/jquery.countdown.js'
                         'vendor/bower/jQuery-Storage-API/jquery.storageapi.js'
 
-                        'vendor/bower/moment/moment.js'
-                        'vendor/bower/moment-timezone/builds/moment-timezone-with-data-2010-2020.js'
-
                         'js/functions.js'
                     ]
                     'dist/js/background.min.js': [
-                        'js/background.js'
+                        'vendor/bower/moment/moment.js'
+                        'vendor/bower/moment-timezone/builds/moment-timezone-with-data-2010-2020.js'
+
+                        'js/background-functions.js'
+                        'js/background-main.js'
                     ]
                     'dist/js/frontend.min.js': [
                         'vendor/bower/bootstrap/js/button.js'

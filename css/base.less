@@ -128,15 +128,15 @@ body {
             text-align: left;
             font-size: 15px;
         }
-    }
-}
 
-.lb-schedule-p {
-    position:  absolute;
-    bottom: 0px;
-    left: 10px;
-    font-size: 13px;
-    font-weight: bold;
+        p {
+            position: absolute;
+            bottom: 0px;
+            left: 10px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+    }
 }
 
 /***** LIVE TAB *****/
@@ -192,9 +192,6 @@ body {
     text-shadow: 1px 1px 1px #000;
 }
 
-#lb-status-offline {
-}
-
 #offline-about-icon {
     margin-top: 87px;
     margin-left: 10px;
@@ -219,7 +216,7 @@ body {
 /***** SETTINGS TAB *****/
 
 #lb-settings-message {
-    position:  fixed;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -230,16 +227,41 @@ body {
     color: #f5f5f5;
 }
 
-.play-sound {
-    margin-right: 5px;
-    font-size: 15px;
-    cursor: pointer;
-}
-
 #lb-form-settings {
     .radio-inline {
         padding-left: 0;
         cursor: default;
+    }
+
+    .checkbox-inline {
+        padding-left: 0;
+        margin: 2px 0;
+
+        label {
+            margin-left: 30px;
+        }
+    }
+
+    .play-sound {
+        margin-right: 5px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    label {
+        margin-bottom: 0;
+    }
+
+    .radio+.radio {
+        margin-top: 3px;
+    }
+
+    h5 {
+        margin: 10px 0 3px;
+    }
+
+    .row:first-child h5 {
+        margin-top: 0px;
     }
 }
 
@@ -258,28 +280,57 @@ body {
     }
 }
 
-#lb-form-settings input[type="radio"] {
+#lb-form-settings input[type="radio"],
+#lb-form-settings input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
     position: relative;
-    margin: -3px 0 0 3px;
-    display: inline-block;
-    vertical-align: middle;
-    outline: 0;
-
-    border-radius: 10px;
     border: 1px solid #ddd;
-
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
     -webkit-appearance: none;
+    cursor: pointer;
+    outline: 0;
 
     &:checked {
         background-color: #ddd;
     }
+
+    &:after {
+        content: '';
+        width: 9px;
+        height: 5px;
+        position: absolute;
+        top: 6px;
+        left: 4px;
+        border: 3px solid #ddd;
+        border-top: none;
+        border-right: none;
+        background: transparent;
+        .opacity( 0.3 );
+        -webkit-transform: rotate(-45deg);
+        pointer-events: none;
+    }
+
+    &:checked::after {
+        border-color: #333;
+        .opacity( 1 );
+    }
+}
+
+#lb-form-settings input[type="radio"] {
+    margin: -3px 7px 0 0px;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 10px;
 }
 
 #lb-form-settings .btn input[type="radio"] {
     display: none;
+}
+
+#lb-form-settings input[type=checkbox] {
+    float: left;
+    margin: 0 -30px 0 0;
+    border-radius: 4px;
 }
 
 /***** ABOUT PAGE *****/
@@ -296,7 +347,6 @@ body {
     }
 }
 
-#settings-about-close,
 #offline-about-close {
     margin-right: 15px;
     padding-left: 70px;
