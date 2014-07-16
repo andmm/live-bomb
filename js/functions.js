@@ -44,7 +44,7 @@ audio.stopSound = function() {
     if (this.currentAudio) {
         this.currentAudio.pause();
     }
-}
+};
 
 //Check for live video
 var checkLive = function() {
@@ -87,13 +87,24 @@ var getSchedule = function() {
         if (data.upcoming.length > 0) {
             var output = "<ul>",
                 eventType,
-                scheduleDate;
+                scheduleDate,
+                liveShows = [];
 
             $.each(data.upcoming, function(key, val) {
+                // Parse Date
+                var date  = new Date(val.date),
+                    formatted = moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a'),
+                    dt    = moment.tz(formatted, 'dddd, MMMM Do YYYY, h:mm:ss a', 'America/Los_Angeles'),
+                    today = moment().get('date');
+
+                val.dt = dt;
+
                 // Parse Event Type
                 switch (val.type) {
                 case 'Live Show':
-                    eventType = '<i class="fa fa-dot-circle-o fa-lg circle-schedule"></i> Live Show '; break;
+                    eventType = '<i class="fa fa-dot-circle-o fa-lg circle-schedule"></i> Live Show ';
+                    liveShows.push(val);
+                    break;
                 case 'Video':
                     eventType = '<i class="fa fa-play-circle fa-lg circle-schedule"></i> Video '; break;
                 case 'Article':
@@ -104,10 +115,6 @@ var getSchedule = function() {
                     eventType = '<i class="fa fa-question-circle fa-lg"></i> Something ';
                 }
 
-                // Parse Date
-                var dt = moment.tz(moment(new Date(val.date)).format('dddd, MMMM Do YYYY, h:mm:ss a'), 'dddd, MMMM Do YYYY, h:mm:ss a', 'America/Los_Angeles');
-                var today = moment().get('date');
-
                 dt.zone(moment().zone());
 
                 if (today == dt) {
@@ -116,8 +123,8 @@ var getSchedule = function() {
                     scheduleDate = '- ' + dt.calendar();
                 }
 
-                var eventName = val.title;
-                var eventImage = "'" + val.image + "'";
+                var eventName = val.title,
+                    eventImage = "'" + val.image + "'";
 
                 // Assemble Output
                 output +=  '<li style="background-image: url('+ eventImage +')" class=""><h4>' + eventName +
@@ -125,6 +132,17 @@ var getSchedule = function() {
 
                 scheduleCounter += 1;
             });
+
+            var nextShow;
+
+            if (liveShows.length > 0) {
+                // Find the earliest live show date
+                nextShow = moment.min.apply(null, $.map(liveShows, function(show) {
+                    return show.dt;
+                })).toDate();
+            }
+
+            $('#lb-status-countdown').data('countdown', nextShow);
 
             output += '</ul>';
             $('#lb-schedule-items').html(output);

@@ -98,6 +98,7 @@ $(function() {
     if (storage.get('islive') === false && storage.get('show-schedule') === true) {
         $('[href="#lb-page-schedule"]').tab('show');
     } else if (storage.get('islive') === false && storage.get('show-schedule') === false) {
+        // here be dragons?
     } else {
         chrome.browserAction.setBadgeText({text: 'LIVE'});
         $('#lb-status-live').css('background-image', 'url("' + storage.get('liveImage') + '")');
