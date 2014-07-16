@@ -1,6 +1,7 @@
 {
-  "name": "backbone-boilerplate",
+  "name": "Live Bomb",
   "dependencies": {
+    "countdown": "*",
     "fontawesome": "~4.1.0",
     "jquery": "~2.1.1",
     "jQuery-Storage-API": "https://github.com/julien-maurel/jQuery-Storage-API.git#~1.7.2",
