@@ -13,9 +13,6 @@ if (storage.isSet('show-schedule') === false){
     storage.set('show-schedule', true);
 }
 
-//GA
-ga('send', 'pageview', '/running');
-
 liveRoutine();
 scheduleRoutine();
 

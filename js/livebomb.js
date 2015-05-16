@@ -1,8 +1,5 @@
 //Live Bomb UI
 $(function() {
-    //GA
-    ga('send', 'pageview', '/popup.html');
-
     //InterfaceCaching
     var buttonLive = $('#lb-live');
     var buttonSchedule = $('#lb-schedule');
@@ -82,9 +79,9 @@ $(function() {
         buttonLightTheme.addClass('active');
         $('body').addClass('livebomb-light');
         $('body').removeClass('livebomb-dark');
-        ga('send', 'event', 'theme', 'light');
+        _gaq.push(['_trackEvent', 'theme', 'light']);
     } else {
-        ga('send', 'event', 'theme', 'dark');
+        _gaq.push(['_trackEvent', 'theme', 'dark']);
     }
 
     //Save Preferences automatically
@@ -120,7 +117,7 @@ $(function() {
 
     //Status refresh
     buttonRefresh.click(function() {
-        ga('send', 'event', 'button', 'click', 'status-refresh');
+        _gaq.push(['_trackEvent', 'button', 'click', 'status-refresh']);
 
         buttonRefresh.removeClass('fa-refresh').addClass('fa-cog fa-spin');
 
@@ -163,7 +160,7 @@ $(function() {
 
     //Schedule refresh
     buttonRefreshSchedule.click(function() {
-        ga('send', 'event', 'button', 'click', 'schedule-refresh');
+        _gaq.push(['_trackEvent', 'button', 'click', 'schedule-refresh']);
 
         buttonRefreshSchedule.removeClass('fa-refresh').addClass('fa-times');
 
@@ -205,13 +202,13 @@ $(function() {
 
     //Light Theme
     buttonLightTheme.click(function(){
-        ga('send', 'event', 'button', 'click', 'light-theme');
+        _gaq.push(['_trackEvent', 'button', 'click', 'light-theme']);
         $('body').removeClass('livebomb-dark').addClass('livebomb-light');
     });
 
     //Dark Theme
     buttonDarkTheme.click(function() {
-        ga('send', 'event', 'button', 'click', 'dark-theme');
+        _gaq.push(['_trackEvent', 'button', 'click', 'dark-theme']);
         $('body').removeClass('livebomb-light').addClass('livebomb-dark');
     });
 

@@ -14,28 +14,28 @@ siteData.sites.gb = {
     'liveTitle': '',
     'liveImage': ''
 };
-siteData.sites.gs = {
-    'name': 'GameSpot',
-    'upcomingSetting': 'gs-upcoming',
-    'liveSetting': 'gs-live',
-    'dataUrl': 'http://www.gamespot.com/upcoming_json',
-    'chatUrl': 'http://www.gamespot.com/chat',
-    'isLive': false,
-    'sendMessage': false,
-    'liveTitle': '',
-    'liveImage': ''
-};
-siteData.sites.cv = {
-    'name': 'Comic Vine',
-    'upcomingSetting': 'cv-upcoming',
-    'liveSetting': 'cv-live',
-    'dataUrl': 'http://www.comicvine.com/upcoming_json',
-    'chatUrl': 'http://www.comicvine.com/chat',
-    'isLive': false,
-    'sendMessage': false,
-    'liveTitle': '',
-    'liveImage': ''
-};
+// siteData.sites.gs = {
+//     'name': 'GameSpot',
+//     'upcomingSetting': 'gs-upcoming',
+//     'liveSetting': 'gs-live',
+//     'dataUrl': 'http://www.gamespot.com/upcoming_json',
+//     'chatUrl': 'http://www.gamespot.com/chat',
+//     'isLive': false,
+//     'sendMessage': false,
+//     'liveTitle': '',
+//     'liveImage': ''
+// };
+// siteData.sites.cv = {
+//     'name': 'Comic Vine',
+//     'upcomingSetting': 'cv-upcoming',
+//     'liveSetting': 'cv-live',
+//     'dataUrl': 'http://www.comicvine.com/upcoming_json',
+//     'chatUrl': 'http://www.comicvine.com/chat',
+//     'isLive': false,
+//     'sendMessage': false,
+//     'liveTitle': '',
+//     'liveImage': ''
+// };
 siteData.isLive = false;
 siteData.output = '';
 siteData.countdown = false;
