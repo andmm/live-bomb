@@ -1,0 +1,57 @@
+color: #f5f5f5;
+background-image:url(/images/dark-noise.png);
+//text-shadow:1px 0px 3px #333;
+
+/***** TAB BUTTONS *****/
+
+#lb-controls {
+    box-shadow-bottom: 10px 0 10px -10px black;
+
+    a {
+        color: #f5f5f5;
+    }
+}
+
+/***** SCHEDULE TAB *****/
+
+#lb-schedule-header {
+    background-image: url(/images/tweed.png);
+}
+
+#lb-schedule-loading {
+    color: #a0a0a0;
+}
+
+#lb-page-schedule {
+    li {
+        .box-shadow(inset 0px 0px 140px 3px rgba(0,0,0,0.75));
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+}
+
+/***** LIVE TAB *****/
+
+#lb-status-live {
+    box-shadow: inset 0px 0px 256px 25px rgba(0,0,0,1);
+}
+
+#offline-about-icon {
+    color: #a3a3a3;
+}
+
+/***** SETTINGS TAB *****/
+
+#settings-about {
+    margin: 0;
+    padding: 5px;
+    background-color: @gray-darker !important;
+    text-shadow: 1px 1px black;
+
+    a {
+        color: #a3a3a3;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

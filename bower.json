@@ -1,0 +1,27 @@
+{
+  "name": "Live Bomb",
+  "dependencies": {
+    "countdown": "*",
+    "fontawesome": "~4.1.0",
+    "jquery": "~2.1.1",
+    "jQuery-Storage-API": "https://github.com/julien-maurel/jQuery-Storage-API.git#~1.7.2",
+    "moment": "~2.7.0",
+    "moment-timezone": "~0.1.0",
+    "jquery.slimscroll": "~1.3.1",
+    "bootstrap": "~3.2.0"
+  },
+  "version": "0.0.0",
+  "homepage": "https://github.com/Chaser324/live-bomb",
+  "authors": [
+    "Chase Pettit <chasepettit@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower",
+    "test",
+    "tests"
+  ]
+}

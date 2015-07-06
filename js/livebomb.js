@@ -1,450 +1,243 @@
-//Live Bomb UI 
-$(function(){
+//Live Bomb UI
+$(function() {
+    //InterfaceCaching
+    var buttonLive = $('#lb-live');
+    var buttonSchedule = $('#lb-schedule');
 
-	//Default Settings
-	if (storage.isSet('preferences') == false) {
-		storage.set({
-			'preferences':'default',
-			'notification': true,
-			'timer': 300000, 
-			'theme': 'dark',
-			'notification-sound': true,
-			'sound':'dropbomb',
-			'schedule-bagde': true,
-			'show-schedule': true
-		});
-		scheduleCounter = 0;
-	};
+    var buttonRefresh = $('#lb-refresh-button');
+    var buttonRefreshSchedule = $('#lb-refresh-schedule');
+    var scheduleLoadingIcon = $('#lb-schedule-loading');
 
-	//Fix popup styling for Mac users
-	if (navigator.appVersion.indexOf("Mac")!=-1) {
-		$('body').css('border','1.5px solid');
-	}	
+    var buttonLightTheme = $('#light-theme');
+    var buttonDarkTheme = $('#dark-theme');
+    var pageStatus = $('#lb-page-status');
+    var pageAbout =  $('#lb-page-about');
+    var pageSchedule = $('#lb-page-schedule');
 
-	//Update settings value
-	if (storage.get('preferences') == 'user-preference') {
+    var statusOnline = $('#lb-status-live');
+    var statusOffline = $('#lb-status-offline');
+    var statusCountdown = $('#lb-status-countdown');
+    var cfgMessage = $('#lb-settings-message');
+    var scheduleItems = $('#lb-schedule-items');
 
-		if (storage.get('notification') == false ) {
-			$('input:radio[name=notification]').iCheck('check');
-		} 
+    var setCountdown = function(date) {
+        console.log(date);
+        $('#lb-status-timer').countdown({
+            date: new Date(date),
+            render: function(data) {
+                var output = '';
 
-		if (storage.get('notification-sound') == false ) {
-			$('input:radio[name=sound]').iCheck('check');
-		}
+                if (data.days > 0) {
+                    output += data.days + ' days, ';
+                }
 
-		if (storage.get('schedule-bagde')) {
-			$('input:radio[id=schedule-bagde]').iCheck('check');
-		} 
+                output += pluralize(data.hours, ' hour') + ', ';
+                output += pluralize(data.min, ' minute') + ', and ';
+                output += pluralize(data.sec, ' second');
 
-		if (storage.get('show-schedule') == false){
-			$('input:radio[id=show-schedule-no]').iCheck('check');
-		}
+                $(this.el).html(output);
+            }
+        });
+    };
 
-		$('input:radio[value='+storage.get('sound')+']').iCheck('check');
-	};
+    var pluralize = function(number, string) {
+        return '' + number + string + (number !== 1 ? 's' : '');
+    };
 
-	if (storage.isSet('islive') == false){
-		storage.set('islive',false);
-	}
+    //Initialize slimscroll
+    $(".custom-scroll").slimScroll({
+        height: '280px',
+        distance:'6px',
+        size: '8px',
+        railOpacity: 0,
+    });
 
-	//GA
-	ga('send','pageview','/popup.html');
+    //Fix popup styling for Mac users
+    if (navigator.appVersion.indexOf('Mac') !== -1) {
+        $('body').css('border','1.5px solid');
+    }
 
-	//InterfaceCaching
-	var buttonSettings = $('#lb-settings');
-	var buttonLive = $('#lb-live');
-	var buttonSchedule = $('#lb-schedule');
-	var buttonRefresh = $('#lb-refresh-button');
-	var buttonRefreshSchedule = $('#lb-refresh-schedule');
-	var buttonLightTheme = $('#light-theme');
-	var buttonDarkTheme = $('#dark-theme');
-	var buttonAboutOffline = $('#offline-about-icon');
-	var buttonAboutOfflineClose = $('#offline-about-close');
-	var buttonAboutSettingsClose = $('#settings-about-close');
-	var buttonAboutSettings = $('#settings-about');
-	var pageStatus = $('#lb-page-status');
-	var pageSettings = $('#lb-page-settings');
-	var pageAbout =  $('#lb-page-about'); 
-	var pageSchedule = $('#lb-page-schedule');
-	var timer = $('#lb-slider-time');
-	var timerValue = $('#lb-slider-value');
-	var statusOnline = $('#lb-status-live');
-	var statusOffline = $('#lb-status-offline');
-	var cfgMessage = $('#lb-settings-message');
-	var scheduleItems = $('#lb-schedule-items');
+    //Initialize settings display
+    $.each(preferences, function(name, val) {
+        switch (val.type) {
+        case 'radio':
+            $('input:radio[name="' + name + '"][value=' + storage.get(name) + ']').prop('checked', true);
+            break;
+        case 'checkbox':
+            $('input:checkbox[name="' + name + '"]').prop('checked', storage.get(name));
+        case 'range':
+            var rangeinput = $('input[type="range"][name="' + name + '"]');
+            rangeinput.val(storage.get(name));
+            $('#rangeval-' + name).html(storage.get(name) / rangeinput.attr('step'));
+            break;
+        }
+    });
 
-	//Set theme
-	if ( storage.get('theme') == 'light') {
-		buttonDarkTheme.removeClass('active');
-		buttonLightTheme.addClass('active').css('cursor','default');
-		$('#theme').attr('href','css/livebomb-light.css');
-		$('.control').removeClass('btn-inverse');
-		ga('send','event','theme','light');
-	} else {
-		buttonDarkTheme.css('cursor','default');
-		ga('send','event','theme','dark');
-	}
+    //Set theme
+    if (storage.get('theme') === 'light') {
+        buttonDarkTheme.removeClass('active');
+        buttonLightTheme.addClass('active');
+        $('body').addClass('livebomb-light');
+        $('body').removeClass('livebomb-dark');
+        _gaq.push(['_trackEvent', 'theme', 'light']);
+    } else {
+        _gaq.push(['_trackEvent', 'theme', 'dark']);
+    }
 
-	//Get Preferences
-	//Notification  
+    //Save Preferences automatically
+    $('input').change(function() {
+        //Display "Saved" message.
+        storage.set('preferences','user-preference');
+        cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
 
-	timer.slider({
-		step: 60000,
-		min: 60000,
-		max: 1800000,  
-		slide: function(event,ui){
-			timerValue.text("Every "+ui.value/60000+" min");
-		},
-		create: function(event,ui){
-			timerValue.text("Every "+storage.get('timer')/60000+" min");
-			timer.slider('option','value',storage.get('timer'));
-		},
-		stop: function(event,ui){
-			cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
-			storage.set('timer',ui.value);
-			console.log(storage.get('timer'));
-		}
-	});	
+        if (this.type == "radio" && this.checked) {
+            storage.set(this.name, this.value);
+            $('body').trigger('checkBadge');
+        } else if(this.type == "checkbox") {
+            storage.set(this.name, this.checked);
+            $('body').trigger('checkBadge');
+        } else if (this.type == "range") {
+            storage.set(this.name, this.value);
+        }
+    });
 
-		if (storage.get('theme') == 'dark') {
-	$(".custom-scroll").slimScroll({
-		height: '280px',
-		color: '#fff',
-		distance:'6px',
-		size: '8px',
-		});
-		} else {
-	$(".custom-scroll").slimScroll({
-		height: '280px',
-		color: 'black',
-		distance:'6px',
-		size: '8px',
-		railOpacity: 0,
-		});
-	}
+    //Update range value display during input
+    $('input[type="range"]').on('input', function() {
+        $('#rangeval-' + this.name).html(this.value / this.step);
+    });
 
-	
-	$('.icheck').iCheck({
-   		checkboxClass: 'icheckbox_square',
-    	radioClass: 'iradio_square-grey',
-  		increaseArea: '20%'
-  });
+    //Update schedule badge on change
+    $('body').on('checkBadge',function() {
+        chrome.runtime.sendMessage({action: "live"});
+    });
 
-	//Save Preferences automatically 
-	$('input').on('ifChecked', function(event){
+    if (storage.get('show-schedule') === true) {
+        $('[href="#lb-page-schedule"]').tab('show');
+    }
 
-		storage.set('preferences','user-preference');
-		cfgMessage.fadeIn(700).fadeTo(350, 1).fadeOut(400);
+    //Status refresh
+    buttonRefresh.click(function() {
+        _gaq.push(['_trackEvent', 'button', 'click', 'status-refresh']);
 
-  		var a = $(this);
-  		var b = a.context.name;
-  		var c = a.context.value;
-  		var d = ["notification","sound","sound-select",'bagde','show-schedule'];
-  		var e = d.indexOf(b);
+        buttonRefresh.removeClass('fa-refresh').addClass('fa-cog fa-spin');
 
-  		switch(e){
-  			case 0: 
-  			storage.set('notification',c);
-  			break;
-  			case 1:
-  			storage.set('notification-sound',c); 	
-  			break;
-  			case 2: 
-  			storage.set('sound',c);
-  			break;
-  			case 3: 
-			storage.set('schedule-bagde',c);
-			$('body').trigger('checkBadge');
-  			break;
-  			default: 
-  			storage.set('show-schedule',c);
-  		}
-	});
+        chrome.runtime.sendMessage({action: "live"}, function(siteData) {
+            buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh');
 
-	//Update schedule badge on change
-	$('body').on('checkBadge',function(){
-		if (storage.get('schedule-bagde') == false && gbLive != true) {
-			chrome.browserAction.setBadgeText({text:''});
-		}
+            //Handle general live status
+            if (siteData.isLive) {
+                statusOnline.show();
+                statusOffline.hide();
+                statusCountdown.hide();
+                $('[href="#lb-page-status"]').tab('show');
 
-		if (storage.get('schedule-bagde') == true && gbLive != true && scheduleCounter > 0) {
-			chrome.browserAction.setBadgeText({text:''+scheduleCounter+''});
-		}
-	});
+                $('#button-icon').css('color', 'red');
 
+                $.each(siteData.sites, function(key, site) {
+                    if (site.isLive) {
+                        $('#show-name').html(site.liveTitle);
+                        $('#lb-status-live').css('background-image', 'url(' + site.liveImage + ')');
+                    }
+                });
 
-	//Set default view
-	buttonLive.toggleClass('active');
-	pageSettings.hide();
-	pageAbout.hide();
-	pageSchedule.hide();
-	cfgMessage.hide();
+                $.each(siteData.sites, function(key, site) {
+                    if (storage.get('notification') && site.isLive && site.sendMessage) {
+                        chrome.notifications.create('notify', options, function() {
+                            site.sendMessage = false;
+                        });
+                    }
+                });
+            } else if (siteData.countdown) {
+                setCountdown(siteData.countdown);
 
-	if (storage.get('islive') == false && storage.get('show-schedule') == true) {
-		statusOnline.hide();
-		pageStatus.hide();
-		pageSchedule.show();
-		buttonLive.removeClass('active');
-		buttonSchedule.addClass('active');
-	
-	}
-	
-	else if  (storage.get('islive') == false && storage.get('show-schedule') == false) {
-		statusOnline.hide();
-		statusOffline.show();
+                statusCountdown.show();
+                statusOffline.hide();
+                statusOnline.hide();
+            } else {
+                statusOffline.show();
+                statusOnline.hide();
+                statusCountdown.hide();
+            }
 
-	} else {
-		
-		chrome.browserAction.setBadgeText({text:"LIVE"});
-		getShowImage();
-		statusOnline.show();
-		statusOffline.hide();
-		$('#button-icon').css("color", 'red').addClass("animated swing");
-		$("#show-name").html(storage.get('title'));
+            //Handle live status of individual sites
+            $.each(siteData.sites, function(key, site) {
+                //Display name/image for live site(s)
+            });
+        });
+    });
 
-	}
+    //Schedule refresh
+    buttonRefreshSchedule.click(function() {
+        _gaq.push(['_trackEvent', 'button', 'click', 'schedule-refresh']);
 
-	//Interface refresh for live video event
-	$('body').on('statusLive',function(){
-		if (statusOffline.is(':visible')) {
-			statusOffline.fadeOut(200,function(){
-				statusOnline.fadeIn(200);
-				$('#button-icon').css("color", 'red').addClass("animated swing");
-				$("#show-name").html(storage.get('title'));
-			});	
-		}	
+        buttonRefreshSchedule.removeClass('fa-refresh').addClass('fa-times');
 
-		if (pageSchedule.is(':visible')) {
-			pageSchedule.fadeOut(300,function(){
-				pageStatus.fadeIn(300);
-				statusOffline.hide();
-				statusOnline.show();
-				buttonSchedule.toggleClass('active');
-				buttonLive.toggleClass('active');
-				$('#button-icon').css("color", 'red').addClass("animated swing");
-				$("#show-name").html(storage.get('title'));
-			});
-		}
-	});
+        scheduleItems.html('<ul></ul>').hide();
+        scheduleLoadingIcon.show();
 
-	//Refresh for offline video
-	$('body').on('statusNotLive',function(){
-		if(statusOnline.is(':visible')) {
-			statusOnline.fadeOut(200,function(){
-				statusOffline.fadeIn(200);	
-				if (storage.get('theme') == 'dark'){
-				$('.fa-dot-circle-o').css("color", '#fff').removeClass("animated swing");
-				} else {
-				$('.fa-dot-circle-o').css("color", '#2b2b2b').removeClass("animated swing");
-				}
-			});
-		}
-	});
+        chrome.runtime.sendMessage({action: "schedule"}, function(response) {
+            var siteData = response;
 
-	//ClickEvents
-	//Click on Settings
-	buttonSettings.click(function() {
-		ga('send','event','button','click','settings');	
-		if (pageAbout.is(':visible')) {
-		pageAbout.hide();
-		}
+            $('#lb-schedule-items ul').append(siteData.output);
 
-	    pageStatus.effect('slide', {direction:'right', mode:'hide'}, 200);
-	    pageSchedule.effect('slide', {direction:'right', mode:'hide'}, 200);
-		pageSettings.effect('slide', {direction: 'left', mode:'show'},200);		
+            scheduleLoadingIcon.hide();
+            scheduleItems.show();
 
-	});
+            if (siteData.isLive === false) {
+                if (siteData.countdown) {
+                    setCountdown(siteData.countdown);
 
-	//Click on Live
-	buttonLive.click(function()		{
-		ga('send','event','button','click','live');
+                    statusCountdown.show();
+                    statusOffline.hide();
+                    statusOnline.hide();
+                } else {
+                    statusOffline.show();
+                    statusOnline.hide();
+                    statusCountdown.hide();
+                }
+            }
 
-		if (pageSettings.is(':visible')) {
-			
-			pageStatus.effect('slide', {direction: 'right', mode: 'show'},200);
-			pageSettings.effect('slide', {direction: 'left', mode:'hide'},200);
-			statusOnline.removeClass('animated');
+            buttonRefreshSchedule.removeClass('fa-times').addClass('fa-refresh');
+        });
+    });
 
-		} 
+    // About Close Button
+    $('#offline-about-close').click(function() {
+        pageAbout.removeClass('active');
+        var lastPageID = $('#lb-controls li.active a').attr('href');
+        $(lastPageID).addClass('active');
+    });
 
+    //Light Theme
+    buttonLightTheme.click(function(){
+        _gaq.push(['_trackEvent', 'button', 'click', 'light-theme']);
+        $('body').removeClass('livebomb-dark').addClass('livebomb-light');
+    });
 
-		if (pageSchedule.is(':visible')) {
-			
-			pageStatus.effect('slide', {direction: 'left', mode: 'show'},200);
-			pageSchedule.effect('slide', {direction: 'right', mode:'hide'},200);
-			statusOnline.removeClass('animated');
-   		}
+    //Dark Theme
+    buttonDarkTheme.click(function() {
+        _gaq.push(['_trackEvent', 'button', 'click', 'dark-theme']);
+        $('body').removeClass('livebomb-light').addClass('livebomb-dark');
+    });
 
-		if (pageAbout.is(':visible')){
-			pageAbout.fadeOut(300,function(){
-			pageStatus.fadeIn(300);
-		});
-		}
-	}); 
+    //Test Sounds
+    $('[data-playsound]').click(function() {
+        audio.playSound($(this).attr('data-playsound'));
+    });
 
+    // Windows Hide Scrollbar Hack
+    // TODO: I HAVE NO IDEA WHY THIS IS NECESSARY OR WHY IT WORKS!
+    setTimeout(function() {
+        $('body').height('379px');
 
-	//Schedule click
-	buttonSchedule.click(function() {
-		if (pageAbout.is(':visible')) {
-		pageAbout.hide();
-		}
-		
-		pageSchedule.effect('slide',{direction: 'right', mode:'show'}, 200);
-		pageSettings.effect('slide', {direction: 'left', mode:'hide'}, 200);
-		pageStatus.effect('slide', {direction: 'left', mode:'hide'}, 200);
+        setTimeout(function() {
+            $('body').height('');
+        }, 100);
+    }, 100);
 
-	});	
+    // Prevent flash of unstyled content
+    $('html').show();
 
-	//Status refresh
-	buttonRefresh.click(function(){
-		ga('send','event','button','click','status-refresh');
-		if (storage.get('theme') == 'dark') {
-		buttonRefresh.removeClass('fa-refresh').addClass('fa-cog fa-spin').css('color','#a0a0a0');
-	} else {
-		buttonRefresh.removeClass('fa-refresh').addClass('fa-cog fa-spin').css('color','#2b2b2b');
-	}
-		checkLive().done(function(){
-			if (storage.get('theme') == 'dark') {
-			buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh').css('color','#fff');	
-		} else {
-			buttonRefresh.removeClass('fa-cog fa-spin').addClass('fa-refresh').css('color','#2b2b2b');		
-		}
-			if ( gbLive == true ) {
-			
-			statusOnline.addClass('animated bounceInUp').show();
-			statusOffline.hide();
-			chrome.browserAction.setBadgeText({text:'LIVE'});
-			$('#button-icon').css("color", 'red').addClass("animated swing");
-			$("#show-name").html(storage.get('title'));
-
-					if (sendMessage == true && storage.get('notification') == true) {
-							chrome.notifications.create('notify', options, function(){
-						sendMessage = false;
-					});
-				}
-			} else {
-			sendMessage = true;
-			statusOffline.show();
-			statusOnline.hide();
-				if (storage.get('notification') == false) {
-				chrome.browserAction.setBadgeText({text:''});
-				};
-			};
-		});
-	});	
-
-
-	//Schedule refresh
-	buttonRefreshSchedule.click(function(){
-		ga('send','event','button','click','schedule-refresh');
-		if (storage.get('theme') == 'dark'){
-		$(this).removeClass('fa-refresh').addClass('fa-times').css({'color':'#a0a0a0','cursor':'default'});
-		} else {
-		$(this).removeClass('fa-refresh').addClass('fa-times').css({'color':'#646464','cursor':'default'});	
-		} 
-		scheduleItems.fadeOut(200,function(){
-			$(this).html('');
-			scheduleLoadingIcon.fadeIn(300);
-		});
-		getSchedule().done(function(){
-			scheduleLoadingIcon.effect('fadeOut',2000, function(){
-			$(this).fadeOut(300);
-			scheduleItems.fadeIn(100);
-		});
-			if (storage.get('theme') == 'dark') {
-			buttonRefreshSchedule.removeClass('fa-times').addClass('fa-refresh').css({'color':'#fff','cursor':'pointer'});
-			} else {
-			buttonRefreshSchedule.removeClass('fa-times').addClass('fa-refresh').css({'color':'#2b2b2b','cursor':'pointer'});	
-			} 
-		})
-	});	
-
-	//About Offline
-	buttonAboutOffline.click(function(){
-		ga('send','event','button','click','about-offline');
-		buttonAboutOfflineClose.show();
-		buttonAboutSettingsClose.hide();
-		pageStatus.fadeOut(300);
-		pageAbout.fadeIn(300);
-		if (storage.get('theme') == 'light') {
-			$('.slimScrollBar').css('background-color','#fff');	
-		}
-	});
-
-	buttonAboutOfflineClose.click(function(){
-		pageAbout.fadeOut(300);
-		pageStatus.fadeIn(300);
-		if (storage.get('theme') == 'light') {
-			$('.slimScrollBar').css('background-color','#2b2b2b');
-		}
-	});
-
-	//About Settings 
-
-	buttonAboutSettings.click(function(){
-		ga('send','event','button','click','about-settings');
-		pageSettings.fadeOut(300,function(){
-			pageAbout.fadeIn(300);	
-		});
-		buttonAboutOfflineClose.hide();
-		buttonAboutSettingsClose.show();
-		if (storage.get('theme') == 'light') {
-			$('.slimScrollBar').css('background-color','#fff');	
-			buttonAboutSettingsClose.css('color','#fff')
-		}
-		
-	});
-
-	buttonAboutSettingsClose.click(function(){
-		pageAbout.fadeOut(300, function(){
-			pageSettings.fadeIn(300);	
-		});
-		if (storage.get('theme') == 'light') {
-			$('.slimScrollBar').css('background-color','#2b2b2b');
-		}
-	});
-
-
-	//Light Theme
-	buttonLightTheme.click(function(){
-		ga('send','event','button','click','light-theme');
-		storage.set('theme','light');
-		$('#theme').attr('href','css/livebomb-light.css');
-		buttonRefresh.css('color','#2b2b2b');
-		buttonRefreshSchedule.css('color','#2b2b2b');
-		$(".slimScrollBar").css('background-color','#2b2b2b');
-		buttonLightTheme.css('cursor','default');
-		buttonDarkTheme.css('cursor','pointer');
-	});
-
-	//Dark Theme
-	buttonDarkTheme.click(function(){
-		ga('send','event','button','click','dark-theme');
-		storage.set('theme','dark');
-		$('#theme').attr('href','css/livebomb-dark.css');
-		$('.control').addClass('btn-inverse');
-		buttonRefresh.css('color','#fff');
-		buttonRefreshSchedule.css('color','#fff');
-		$(".slimScrollBar").css('background-color','white');
-		buttonDarkTheme.css('cursor','default');
-		buttonLightTheme.css('cursor','pointer');
-	});
-
-	//Test Sounds
-	$('#lb-play-rapman').click(function(){
-		$.ionSound.play('rapman');
-	});
-	
-	$('#lb-play-bumper').click(function(){
-		$.ionSound.play('bumper');
-	});
-
-	$('#lb-play-dropbomb').click(function(){
-		$.ionSound.play('dropbomb');
-	});
-
-	$('#lb-play-bman').click(function(){
-		$.ionSound.play('bman');
-	});
-
-});	
+    buttonRefresh.click();
+    buttonRefreshSchedule.click();
+});

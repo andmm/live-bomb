@@ -1,0 +1,76 @@
+color: #2b2b2b;
+//background-image:url(/images/light-noise.png);
+text-shadow: 0px 1px 1px #fff;
+
+/***** TAB BUTTONS *****/
+
+#lb-controls {
+    background: black;
+    box-shadow-bottom: 10px 0 10px -10px black;
+
+    a {
+        color: #2b2b2b;
+    }
+}
+
+/***** SCHEDULE TAB *****/
+
+#lb-schedule-header {
+    background-image: url(/images/tweed.png);
+    i { color: white; }
+}
+
+#lb-schedule-loading {
+    color: #4b4b4b;
+}
+
+#lb-page-schedule {
+    li {
+        border-top: 1px solid rgba(255,255,255,0.75);
+        border-bottom: 1px solid rgba(190,190,190,0.75);
+        .box-shadow(inset 0px 0 200px 23px rgba(255,255,255,0.9));
+    }
+}
+
+#lb-schedule-items {
+    ul {
+        h4 {
+            font-weight: bold;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+/***** LIVE TAB *****/
+
+#lb-status-live {
+    box-shadow: inset 0px 0px 256px 25px rgba(0,0,0,1);
+}
+
+#offline-about-icon {
+    color: #2b2b2b;
+}
+
+#lb-status-countdown {
+    .box-shadow(inset 0px 0 300px 100px rgba(255,255,255,0.9));
+    h1, h2, h3, h4, h5, h6 {
+        text-shadow: 1px 1px @gray-lighter;
+    }
+}
+
+/***** SETTINGS TAB *****/
+
+#settings-about {
+    margin: 0;
+    padding: 5px;
+    background-color: darken(@gray-lighter, 5%) !important;
+    text-shadow: 1px 1px white;
+
+    a {
+        color: @gray-dark;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
